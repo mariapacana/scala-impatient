@@ -1,5 +1,4 @@
 import java.io.IOException
-import org.junit.Test
 import scala.annotation.{tailrec, varargs}
 import scala.io.Source
 

@@ -3,7 +3,6 @@ import java.awt.image.BufferedImage
 import java.io.{File, IOException}
 import java.util
 import javax.imageio.ImageIO
-import scala.actors._
 import scala.collection.JavaConverters.mapAsScalaMapConverter
 import scala.collection.immutable.Seq
 import scala.collection.mutable
