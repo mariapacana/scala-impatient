@@ -4,28 +4,25 @@ import org.scalatest.{FlatSpec, Matchers}
 class Chapter05Spec extends FlatSpec with Matchers {
 
   "Counter01" should "not turn negative at Int.MaxValue" in {
-//    //when
-//    val counter = new Counter01(Int.MaxValue - 1)
-//
-//    //then
-//    counter.current shouldBe (Int.MaxValue - 1)
-//    counter.increment() shouldBe Int.MaxValue
-//    a [IllegalStateException] should be thrownBy {
-//      counter.increment()
-//    }
+    //when
+    val counter = new Counter01(Int.MaxValue - 1)
+
+    //then
+    counter.current shouldBe (Int.MaxValue - 1)
+    counter.increment() shouldBe Int.MaxValue
   }
 
-//  "BankAccount02" should "deposit, withdraw and check balance" in {
-//    val account = new BankAccount02
-//    account.balance shouldBe 0
-//
-//    account.deposit(10)
-//    account.balance shouldBe 10
-//
-//    account.withdraw(7)
-//    account.balance shouldBe 3
-//  }
-//
+  "BankAccount02" should "deposit, withdraw and check balance" in {
+    val account = new BankAccount02
+    account.balance shouldBe 0
+
+    account.deposit(10)
+    account.balance shouldBe 10
+
+    account.withdraw(7)
+    account.balance shouldBe 3
+  }
+
 //  "Time03" should "check before" in {
 //    new Time03(0, 0).before(new Time03(0, 0)) shouldBe false
 //    new Time03(1, 1).before(new Time03(1, 1)) shouldBe false

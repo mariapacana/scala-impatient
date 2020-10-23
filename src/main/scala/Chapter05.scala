@@ -8,11 +8,28 @@ object Chapter05 {
    *  on page 51 so that it doesn't turn negative at Int.MaxValue
    */
 
-  /**
+  class Counter01(private var value: Int) {
+    def increment(): Int = {
+      if (value == Int.MaxValue) {
+        value = 0
+      } else {
+        value += 1
+      }
+      value
+    }
+    def current = value
+    def isLess(other : Counter01) = value < other.value
+  }
+
+  /*
    * Task 2:
    *  Write a class BankAccount with methods deposit and withdraw,
    *  and a read-only property balance.
    */
+  class BankAccount02 {
+    private var balance: Int = 0
+
+  }
 
   /**
    * Task 3:
