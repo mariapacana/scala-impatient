@@ -29,6 +29,18 @@ object Chapter05 {
   class BankAccount02 {
     private var balance: Int = 0
 
+    def currentBalance: Int = balance
+
+    def deposit(amount: Int): Int = {
+      balance += amount
+      balance
+    }
+
+    def withdraw(amount: Int): Int = {
+      balance -= amount
+      balance
+    }
+
   }
 
   /**
@@ -42,6 +54,25 @@ object Chapter05 {
    *  A Time object should be constructed as new Time(hrs, min), where hrs is in
    *  military time format (between 0 and 23).
    */
+  class Time03 {
+
+    private var _hours = 0
+    private var _minutes = 0
+
+    // Set hrs and mins to a sentinel value if they are outside the range.
+    def this(hrs: Int, min: Int) {
+      this()
+      this._hours = if (hrs <= 23 && hrs >=0) hrs else -1
+      this._minutes = if (min <= 60 && min >=0) min else -1
+    }
+
+    def hours = this._hours
+    def minutes = this._minutes
+
+    def before(other: Time03): Boolean = {
+      this._hours < other._hours || (this._hours == other._hours && this._minutes < other._minutes)
+    }
+  }
 
   /**
    * Task 4:
@@ -49,6 +80,30 @@ object Chapter05 {
    *  representation is the number of minutes since midnight (between 0 and 24 × 60 – 1).
    *  Do not change the public interface. That is, client code should be unaffected by your change.
    */
+  class Time04 {
+    private var _hours = 0
+    private var _minutes = 0
+    private var minSinceMidnight = 0
+    private val minPerHour = 60
+
+    // Set hrs and mins to a sentinel value if they are outside the range.
+    def this(hrs: Int, min: Int) {
+      this()
+
+      this._hours = if (hrs <= 23 && hrs >=0) hrs else -1
+      this._minutes = if (min <= 60 && min >=0) min else -1
+      if (this._hours != -1 && this._minutes != -1) {
+        this.minSinceMidnight = this._hours*this.minPerHour+this._minutes
+      } else {
+        this.minSinceMidnight = -1
+      }
+    }
+
+    def before(other: Time04): Boolean = {
+      this.minSinceMidnight < other.minSinceMidnight
+    }
+  }
+
 
   /**
    * Task 5:
@@ -62,6 +117,9 @@ object Chapter05 {
    *  In the Person class of Section 5.1, "Simple Classes and Parameterless Methods,"
    *  on page 51, provide a primary constructor that turns negative ages to 0.
    */
+  class Person06(var age: Int) {
+    if (age < 0) age = 0
+  }
 
   /**
    * Task 7:
@@ -69,7 +127,15 @@ object Chapter05 {
    *  a first name, a space, and a last name, such as new Person("Fred Smith").
    *  Supply read-only properties firstName and lastName.
    *  Should the primary constructor parameter be a var, a val, or a plain parameter? Why?
+   *
+   *  I'd go with a plain parameter, since a plain parameter is object-private and no other
+   *  object of this class needs to know about it.
    */
+  class Person07(name: String) {
+    private[this] val nameList = name.split(" ")
+    val firstName: String = nameList(0)
+    val lastName: String = nameList(1)
+  }
 
   /**
    * Task 8:
@@ -80,6 +146,27 @@ object Chapter05 {
    *  If not, the model year is set to -1 and the license plate to the empty string.
    *  Which constructor are you choosing as the primary constructor? Why?
    */
+class Car08(val manufacturer: String, val modelName: String) {
+    private var _modelYear: Int = -1
+    var licensePlate: String = ""
+
+    def modelYear = _modelYear
+
+    def this(_manufacturer: String, _modelName: String, __modelYear: Int) {
+      this(_manufacturer, _modelName)
+      this._modelYear = __modelYear
+    }
+
+    def this(_manufacturer: String, _modelName: String, _licensePlate: String) {
+      this(_manufacturer, _modelName)
+      this.licensePlate = _licensePlate
+    }
+
+    def this(_manufacturer: String, _modelName: String, __modelYear: Int, _licensePlate: String) {
+      this(_manufacturer, _modelName, __modelYear)
+      this.licensePlate = _licensePlate
+    }
+}
 
   /**
    * Task 9:
@@ -99,5 +186,10 @@ object Chapter05 {
    *  Rewrite it to use explicit fields and a default primary constructor.
    *  Which form do you prefer? Why?
    */
+
+  class Employee10 {
+    val name: String = "John Q. Public"
+    var salary: Double = 0.0
+  }
 
 }
