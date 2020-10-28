@@ -1,18 +1,21 @@
-package com.horstmann.impatient
-
-/**
- * Solution A for Task 1:
- *
- * <p><code>FromCom</code> and <code>FromHorstmann</code> are not accessible from here.
- * They require additional imports:
- * <blockquote><code>
- *   import com.FromCom <br/>
- *   import com.horstmann.FromHorstmann <br/>
- * </code></blockquote>
+/*
+ Chapter0701a can't access the `greeting` object. It can access objects defined in
+ com.horstmann.impatient, but not objects in intermediate packages com or com.horstmann.
  */
-object Chapter0701a {
-
-  //println(FromCom.value)
-  //println(FromHorstmann.value)
-  println(FromImpatient.value)
+package com.horstmann {
+  object greeting {
+    def sayHello = println("Hello!")
+  }
 }
+
+package com.horstmann.impatient {
+  object innerGreeting {
+    def sayHello = println("Hello! (inner)")
+  }
+
+  object Chapter0701a {
+//    def sayHello = greeting.sayHello()
+    def sayHello = innerGreeting.sayHello
+  }
+}
+

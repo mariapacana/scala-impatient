@@ -1,9 +1,16 @@
-//import org.scalatest.{FlatSpec, Matchers}
-//
-//import scala.collection.mutable
-//
-//class Chapter07Spec extends FlatSpec with Matchers {
-//
+import com.horstmann.impatient.{Chapter0701a, Chapter0701b}
+import org.scalatest.{FlatSpec, Matchers}
+
+import scala.collection.mutable
+
+class Chapter07Spec extends FlatSpec with Matchers {
+
+    "Chapter0701b" should "not be able to access Chapter0701a" in {
+      Chapter0701b.sayHello // Uses the greeting object from the same package
+      Chapter0701a.sayHello // Uses a greeting object from an intermediate package
+    }
+
+
 //  "puzzler" should "use a package com that isn’t at the top level" in {
 //    com.FromCom.value shouldBe 1
 //
@@ -60,4 +67,4 @@
 //    out.contains("Welcome " + System.getProperty("user.name")) shouldBe true
 //    err shouldBe ""
 //  }
-//}
+}

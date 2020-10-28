@@ -8,10 +8,10 @@ import scala.io.Source
  */
 object TestUtils {
 
-  val ClassPath = "./target/scala-2.11/classes"
+  val ClassPath = "./target/scala-2.12/classes"
 
   // should be the same as in build script
-  private val ScalaVersion = "2.11.7"
+  private val ScalaVersion = "2.12.8"
 
   def runApp(mainObj: String, args: String*): (Int, String, String) = {
     runAppWithInput("", mainObj, args: _*)
