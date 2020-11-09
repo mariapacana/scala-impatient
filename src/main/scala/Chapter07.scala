@@ -23,6 +23,14 @@
  * <p>Write a puzzler that baffles your Scala friends, using a package <code>com</code>
  * that isn’t at the top level.
  */
+package puzzler {
+  package com {
+    object Secret {
+      val greeting = "hello"
+    }
+  }
+}
+
 
 /**
  * Task 3:
@@ -36,13 +44,31 @@
  * next = previous × a + b mod 2n,
  * where a = 1664525, b = 1013904223, and n = 32.
  */
+package object random {
+  private var seed = 0
+  private val a = 1664525
+  private val b = 1013904223
+  private val n = 32
 
+  def nextInt(): Int = {
+    seed = (seed*a + b) % Math.pow(2,n).toInt
+    seed
+  }
+
+  def nextDouble(): Double = nextInt() / (Int.MaxValue.toDouble + 1.0)
+
+  def setSeed(seed: Int): Unit = {
+    this.seed = seed
+  }
+}
 
 /**
  * Task 4:
  *
  * <p>Why do you think the Scala language designers provided the package object syntax instead
  * of simply letting you add functions and variables to a package?
+ *
+ * Because of JVM limitations?
  */
 
 /**
@@ -50,6 +76,9 @@
  *
  * <p>What is the meaning of <code>private[com] def giveRaise(rate: Double)</code>?
  * Is it useful?
+ *
+ * It means that this function is visible outside its class to other classes within its package,
+ * or its enclosing package.
  */
 
 
@@ -59,12 +88,24 @@
  * <p>Write a program that copies all elements from a Java hash map into a Scala hash map.
  * Use imports to rename both classes.
  */
+import java.util.{HashMap => JavaHashMap}
+import scala.collection.mutable.{HashMap => ScalaHashMap}
 
-  /**
-   * Task 7:
-   *
-   * <p>In the preceding exercise, move all imports into the innermost scope possible.
-   */
+package object JavaToScalaConverter {
+  def toHashMap[A,B](jHashMap: JavaHashMap[A,B]): ScalaHashMap[A,B] = {
+    val emptyMap = ScalaHashMap.empty[A,B]
+    jHashMap.forEach((k: A, v: B) => {
+      emptyMap.put(k,v)
+    })
+    emptyMap
+  }
+}
+
+/**
+ * Task 7:
+ *
+ * <p>In the preceding exercise, move all imports into the innermost scope possible.
+ */
 
 /**
  * Task 8:
