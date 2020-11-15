@@ -1,3 +1,4 @@
+import scala.io.StdIn
 
 /**
  * Task 1:
@@ -88,10 +89,16 @@ package object random {
  * <p>Write a program that copies all elements from a Java hash map into a Scala hash map.
  * Use imports to rename both classes.
  */
-import java.util.{HashMap => JavaHashMap}
-import scala.collection.mutable.{HashMap => ScalaHashMap}
+
+/**
+ * Task 7:
+ *
+ * <p>In the preceding exercise, move all imports into the innermost scope possible.
+ */
 
 package object JavaToScalaConverter {
+  import java.util.{HashMap => JavaHashMap}
+  import scala.collection.mutable.{HashMap => ScalaHashMap}
   def toHashMap[A,B](jHashMap: JavaHashMap[A,B]): ScalaHashMap[A,B] = {
     val emptyMap = ScalaHashMap.empty[A,B]
     jHashMap.forEach((k: A, v: B) => {
@@ -101,11 +108,6 @@ package object JavaToScalaConverter {
   }
 }
 
-/**
- * Task 7:
- *
- * <p>In the preceding exercise, move all imports into the innermost scope possible.
- */
 
 /**
  * Task 8:
@@ -116,6 +118,9 @@ package object JavaToScalaConverter {
  *   import javax._ <br/>
  * </code></blockquote>
  * Is this a good idea?
+ *
+ * This imports EVERYTHING from standard Java and the Java extensions.
+ * Seems likely that there will be name collisions between Scala & Java.
  */
 
 
@@ -129,6 +134,19 @@ package object JavaToScalaConverter {
  * Otherwise, print a greeting to the standard output stream.
  * Do not use any other imports, and do not use any qualified names (with dots).
  */
+object Chapter0709 extends App {
+  import java.lang.System
+  val username: String = System.getProperty("user.name")
+  // You can't use the Console code object for reading values, only StdIn.
+  val password: String = StdIn.readLine()
+  if (password != "secret") {
+    System.err.println("Wrong password!")
+    System.exit(1)
+  } else {
+    System.out.println(s"Welcome ${username}")
+    System.exit(0)
+  }
+}
 
 /**
  * Task 10:
