@@ -16,7 +16,7 @@ class Chapter07Spec extends FlatSpec with Matchers {
     com.Secret.greeting shouldBe("hello")
   }
 
-  "random" should "has nextInt, nextDouble, and setSeed functions" in {
+  "random" should "have nextInt, nextDouble, and setSeed functions" in {
       random.nextInt() shouldBe 1013904223
       random.nextDouble() shouldBe 0.557133817113936
 

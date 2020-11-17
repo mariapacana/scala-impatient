@@ -1,30 +1,30 @@
-//import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.{FlatSpec, Matchers}
 //import task0804.{Bundle, Item, SimpleItem}
 //import task0805.{LabeledPoint, Point}
 //import task0806.{Circle, Rectangle, Shape}
 //import task0807.Square
 //import task0808.{Person, SecretAgent}
-//
-//class Chapter08Spec extends FlatSpec with Matchers {
-//
-//  "CheckingAccount" should "charge $1 for every deposit and withdrawal" in {
-//    val account = new CheckingAccount(100)
-//    account.deposit(5) shouldBe 104
-//    account.withdraw(5) shouldBe 98
-//  }
-//
-//  "SavingsAccount" should "earn interest every month" in {
-//    val account = new SavingsAccount(100)
-//    account.deposit(5) shouldBe 105
-//    account.withdraw(5) shouldBe 100
-//    account.deposit(3) shouldBe 103
-//    account.withdraw(3) shouldBe 99
-//    account.deposit(2) shouldBe 100
-//    account.earnMonthlyInterest()
-//    account.getBalance shouldBe 101
-//    account.withdraw(5) shouldBe 96
-//  }
-//
+
+class Chapter08Spec extends FlatSpec with Matchers {
+
+  "CheckingAccount" should "charge $1 for every deposit and withdrawal" in {
+    val account = new CheckingAccount(100)
+    account.deposit(5) shouldBe 104
+    account.withdraw(5) shouldBe 98
+  }
+
+  "SavingsAccount" should "earn interest every month" in {
+    val account = new SavingsAccount(100.0)
+    account.deposit(5) shouldBe 105.0
+    account.withdraw(5) shouldBe 100.0
+    account.deposit(3) shouldBe 103.0
+    account.withdraw(3) shouldBe 99.0
+    account.deposit(2) shouldBe 100.0
+    account.earnMonthlyInterest()
+    account.getBalance shouldBe 101.0
+    account.withdraw(5) shouldBe 96.0
+  }
+
 //  "Item" should "has SimpleItem and Bundle implementations" in {
 //    val item: Item = new SimpleItem(500, "iPhone 5s")
 //    item.price shouldBe 500
@@ -88,4 +88,4 @@
 //    person.name shouldBe "secret"
 //    person.toString shouldBe "secret"
 //  }
-//}
+}

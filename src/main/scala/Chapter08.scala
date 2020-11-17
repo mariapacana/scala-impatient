@@ -13,6 +13,29 @@ import scala.collection.mutable.ListBuffer
  * }
  * }}}
  */
+class BankAccount(initialBalance: Double) {
+  protected var balance: Double = initialBalance
+
+  def deposit(amount: Double): Double = {
+    balance += amount; balance
+  }
+
+  def withdraw(amount: Double): Double = {
+    balance -= amount; balance
+  }
+}
+
+class CheckingAccount(initialBalance: Double) extends BankAccount(initialBalance) {
+  val transactionCharge: Double = 1.0
+
+  override def deposit(amount: Double): Double = {
+    super.deposit(amount - transactionCharge)
+  }
+
+  override def withdraw(amount: Double): Double = {
+    super.withdraw(amount + transactionCharge)
+  }
+}
 
 /**
  * Task 2:
@@ -22,6 +45,33 @@ import scala.collection.mutable.ListBuffer
  * and has three free deposits or withdrawals every month. Reset the transaction
  * count in the `earnMonthlyInterest` method.
  */
+class SavingsAccount(initialBalance: Double) extends BankAccount(initialBalance) {
+
+  private var freeTransactions = 3
+  val transactionCharge: Double = 1.0
+  val monthlyInterest: Double = 0.01
+
+  def earnMonthlyInterest(): Double = {
+    freeTransactions = 3
+    balance = balance*(1 + monthlyInterest)
+    balance
+  }
+
+  def getBalance: Double = balance
+
+  override def deposit(amount: Double): Double = {
+    val _transactionCharge = if (freeTransactions > 0) 0 else transactionCharge
+    freeTransactions -= 1
+    super.deposit(amount - _transactionCharge)
+  }
+
+  override def withdraw(amount: Double): Double = {
+    val _transactionCharge = if (freeTransactions > 0) 0 else transactionCharge
+    freeTransactions -= 1
+    super.withdraw(amount + _transactionCharge)
+  }
+}
+
 
 /**
  * Task 3:
