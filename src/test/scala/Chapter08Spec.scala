@@ -25,20 +25,27 @@ class Chapter08Spec extends FlatSpec with Matchers {
     account.withdraw(5) shouldBe 96.0
   }
 
-//  "Item" should "has SimpleItem and Bundle implementations" in {
-//    val item: Item = new SimpleItem(500, "iPhone 5s")
-//    item.price shouldBe 500
-//    item.description shouldBe "iPhone 5s"
-//
-//    val bundle: Bundle = new Bundle
-//    bundle.isInstanceOf[Item] shouldBe true
-//    bundle.price shouldBe 0
-//    bundle.description shouldBe ""
-//
-//    bundle.addItem(item).addItem(new SimpleItem(700, "iPhone 6"))
-//    bundle.price shouldBe 1200
-//    bundle.description shouldBe "iPhone 5s\n\niPhone 6"
-//  }
+  "Car" should "print brand and model name" in {
+    val myCar = Car("Camry", "Toyota")
+    myCar.honk()
+    myCar.modelName shouldBe("Camry")
+    myCar.getBrand shouldBe("Toyota")
+  }
+
+  "Item" should "have SimpleItem and Bundle implementations" in {
+    val item: Item = new SimpleItem(500, "iPhone 5s")
+    item.price shouldBe 500
+    item.description shouldBe "iPhone 5s"
+
+    val bundle: Bundle = new Bundle
+    bundle.isInstanceOf[Item] shouldBe true
+    bundle.price shouldBe 0
+    bundle.description shouldBe ""
+
+    bundle.addItem(item).addItem(new SimpleItem(700, "iPhone 6"))
+    bundle.price shouldBe 1200
+    bundle.description shouldBe "iPhone 5s, iPhone 6"
+  }
 //
 //  "Point" should "has LabeledPoint subclass" in {
 //    val point: LabeledPoint = new LabeledPoint("Black Thursday", 1929, 230.07)

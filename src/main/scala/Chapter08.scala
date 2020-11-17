@@ -72,7 +72,6 @@ class SavingsAccount(initialBalance: Double) extends BankAccount(initialBalance)
   }
 }
 
-
 /**
  * Task 3:
  *
@@ -80,6 +79,19 @@ class SavingsAccount(initialBalance: Double) extends BankAccount(initialBalance)
  * of a toy inheritance hierarchy, perhaps involving employees, pets, graphical
  * shapes, or the like. Implement the example in Scala.
  */
+class Vehicle(protected val brand: String) {
+  def honk(): Unit = {
+    println("Toot!")
+  }
+}
+
+class Car(val modelName: String, brand: String) extends Vehicle(brand) {
+  def getBrand: String = brand
+}
+
+object Car {
+  def apply(modelName: String, brand: String): Car = new Car(modelName, brand)
+}
 
 /**
  * Task 4:
@@ -91,7 +103,31 @@ class SavingsAccount(initialBalance: Double) extends BankAccount(initialBalance)
  * to the bundle and a suitable description method.
  */
 
+abstract class Item {
+  def price: Double
+
+  def description: String
+}
+
+class SimpleItem(val price: Double, val description: String) extends Item
+
+class Bundle extends Item {
+
+  var items: ListBuffer[Item] = ListBuffer()
+
+  def price: Double = items.map(_.price).sum
+
+  def description: String = items.map(_.description).mkString(", ")
+
+  def addItem(item: Item): Bundle = {
+    items += item
+    this
+  }
+}
+
+
 /**
+ *
  * Task 5:
  *
  * Design a class `Point` whose x and y coordinate values can be provided in a constructor.
