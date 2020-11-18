@@ -125,7 +125,6 @@ class Bundle extends Item {
   }
 }
 
-
 /**
  *
  * Task 5:
@@ -137,6 +136,15 @@ class Bundle extends Item {
  *   new LabeledPoint("Black Thursday", 1929, 230.07)
  * }}}
  */
+package task0805 {
+  class Point(val x: Double, val y: Double)
+  
+  object Point {
+    def apply(x: Double, y: Double): Point = new Point(x, y)
+  }
+
+  class LabeledPoint(val label: String, x: Double, y: Double) extends Point(x, y)
+}
 
 /**
  * Task 6:
@@ -145,6 +153,23 @@ class Bundle extends Item {
  * `Rectangle` and `Circle`. Provide appropriate constructors for the subclasses and
  * override the `centerPoint` method in each subclass.
  */
+package task0806 {
+  import task0805._
+
+  abstract class Shape {
+    def centerPoint: Point
+  }
+
+  class Circle(val radius: Double, val centerPoint: Point) extends Shape
+
+  class Rectangle(val width: Double, val height: Double, val centerPoint: Point) extends Shape {
+    val topLeft = Point(centerPoint.x - width/2, centerPoint.y + height/2)
+    val bottomLeft = Point(centerPoint.x - width/2, centerPoint.y - height/2)
+    val topRight = Point(centerPoint.x + width/2, centerPoint.y + height/2)
+    val bottomRight = Point(centerPoint.x + width/2, centerPoint.y - height/2)
+  }
+}
+
 
 /**
  * Task 7:
@@ -154,6 +179,17 @@ class Bundle extends Item {
  * one that constructs a square with corner (0, 0) and a given width,
  * and one that constructs a square with corner (0, 0) and width 0.
  */
+class Square(val cornerX: Int, val cornerY: Int, val squareWidth: Int)
+  extends java.awt.Rectangle(cornerX, cornerY, squareWidth, squareWidth) {
+
+  def this(width: Int) {
+    this(0, 0, width)
+  }
+
+  def this() {
+    this(0)
+  }
+}
 
 /**
  * Task 8:
@@ -165,6 +201,14 @@ class Bundle extends Item {
  * What do they get?
  * (Hint: Use the -c and -private options.)
  */
+class Person(val name: String) {
+  override def toString = s"${getClass.getName}[name=$name]"
+}
+
+class SecretAgent(codename: String) extends Person(codename) {
+  override val name = "secret"
+  override val toString = "secret"
+}
 
 /**
  * Task 9:
@@ -173,8 +217,17 @@ class Bundle extends Item {
  * on page 94, replace `val range` with a `def`. What happens when you also use a
  * `def` in the `Ant` subclass? What happens when you use a `val` in the subclass?
  * Why?
+ *
+ *
  */
+class Creature {
+  def range: Int = 10
+  val env: Array[Int] = new Array[Int](range)
+}
 
+class Ant extends Creature {
+  override val range = 2
+}
 
 /**
  * Task 10:
