@@ -280,3 +280,15 @@ class Ant2 extends Creature2 {
  * primary constructor can call this protected primary constructor, and you can't
  * just use the 'new' keyword when creating a Stack.
  */
+
+/**
+ * Task 11:
+ *
+ * Define a value class Point that packs integer x and y coordinates into a Long (which you
+ * should make private).
+ */
+class Point(private val coordinates: Long) extends AnyVal {
+  def x: Int = ???
+  def y: Int = ???
+  override def toString = ???
+}
