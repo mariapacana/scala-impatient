@@ -102,6 +102,16 @@ class Chapter08Spec extends FlatSpec with Matchers {
     square3.height shouldBe 0
   }
 
+  "Creature and Ant with def" should "do stuff" in {
+    new Ant1().env.length shouldBe 2
+    new Ant1().range shouldBe 2
+  }
+
+  "Creature with def and Ant with val" should "do stuff" in {
+    new Ant2().env.length shouldBe 0
+    new Ant2().range shouldBe 2
+  }
+
   "SecretAgent" should "extend Person and hide name" in {
     val person: Person = new SecretAgent("Bond")
     person.name shouldBe "secret"

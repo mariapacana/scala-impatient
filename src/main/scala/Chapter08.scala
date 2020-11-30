@@ -199,12 +199,29 @@ class Square(val cornerX: Int, val cornerY: Int, val squareWidth: Int)
  * How many name fields are there?
  * How many name getter methods are there?
  * What do they get?
- * (Hint: Use the -c and -private options.)
+ *
+ *
+ * There are two name fields, one in Person and one in SecretAgent.
+ * These fields are 'private final' in both cases.
+ * Final means that the two name fields can only be assigned once.
+ * Because of Java name hiding, SecretAgent will only use its own name field, and not Person's name field.
+ * There are two name() getter methods, one in each class.
+ * SecretAgent's name() getter method will get its name field, which has been permanently set to 'secret'.
  */
+// Person
+// javap -private /Users/maria.pacana/Documents/PDP/scala-impatient/target/scala-2.12/classes/Person.class
+// - name() getter method and name private variable
+// - toString() method - parens because it's being executed
 class Person(val name: String) {
   override def toString = s"${getClass.getName}[name=$name]"
 }
 
+// SecretAgent
+//javap -private /Users/maria.pacana/Documents/PDP/scala-impatient/target/scala-2.12/classes/SecretAgent.class
+// - no codename object-private field, because it's not used in any methods
+// - name getter overrides Person getter
+// - private toString field
+// - toString getter overrides Person getter
 class SecretAgent(codename: String) extends Person(codename) {
   override val name = "secret"
   override val toString = "secret"
@@ -218,14 +235,31 @@ class SecretAgent(codename: String) extends Person(codename) {
  * `def` in the `Ant` subclass? What happens when you use a `val` in the subclass?
  * Why?
  *
+ * When both Creature and Ant use def, env's length is 2 and the range is 2 because
+ * Ant overrides the `range` method.
+ *
+ * When Ant uses val and Creature uses Def, env's length is 0. Ant overrides range
+ * with a val, but the underlying field hasn't been initialized.
+ * - Creature's (the superclass's) constructor runs first
+ * - Creature initializes the env array using range from Ant (not initialized)
+ * - Ant's constructor runs and sets range = 2
  *
  */
-class Creature {
+class Creature1 {
   def range: Int = 10
   val env: Array[Int] = new Array[Int](range)
 }
 
-class Ant extends Creature {
+class Ant1 extends Creature1 {
+  override def range = 2
+}
+
+class Creature2 {
+  def range: Int = 10
+  val env: Array[Int] = new Array[Int](range)
+}
+
+class Ant2 extends Creature2 {
   override val range = 2
 }
 
@@ -238,4 +272,11 @@ class Ant extends Creature {
  * }}}
  * Explain the meanings of the `protected` keywords. (Hint: Review the discussion
  * of private constructors in Chapter 5.)
+ *
+ * The 'elems' property is protected, meaning that only members
+ * of the Stack class or subclasses can access it.
+ *
+ * The constructor itself is protected. Only an auxiliary constructor or a subclass
+ * primary constructor can call this protected primary constructor, and you can't
+ * just use the 'new' keyword when creating a Stack.
  */
