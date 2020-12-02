@@ -154,19 +154,19 @@ package task0805 {
  * override the `centerPoint` method in each subclass.
  */
 package task0806 {
-  import task0805._
+  import task0805.{Point => MyPoint}
 
   abstract class Shape {
-    def centerPoint: Point
+    def centerPoint: MyPoint
   }
 
-  class Circle(val radius: Double, val centerPoint: Point) extends Shape
+  class Circle(val radius: Double, val centerPoint: MyPoint) extends Shape
 
-  class Rectangle(val width: Double, val height: Double, val centerPoint: Point) extends Shape {
-    val topLeft = Point(centerPoint.x - width/2, centerPoint.y + height/2)
-    val bottomLeft = Point(centerPoint.x - width/2, centerPoint.y - height/2)
-    val topRight = Point(centerPoint.x + width/2, centerPoint.y + height/2)
-    val bottomRight = Point(centerPoint.x + width/2, centerPoint.y - height/2)
+  class Rectangle(val width: Double, val height: Double, val centerPoint: MyPoint) extends Shape {
+    val topLeft = MyPoint(centerPoint.x - width/2, centerPoint.y + height/2)
+    val bottomLeft = MyPoint(centerPoint.x - width/2, centerPoint.y - height/2)
+    val topRight = MyPoint(centerPoint.x + width/2, centerPoint.y + height/2)
+    val bottomRight = MyPoint(centerPoint.x + width/2, centerPoint.y - height/2)
   }
 }
 

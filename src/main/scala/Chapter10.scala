@@ -22,6 +22,23 @@ object Chapter10 {
    * }}}
    */
 
+  trait RectangleLike {
+    def getX: Double
+    def getY: Double
+    def getWidth: Double
+    def getHeight: Double
+    def setFrame(x: Double, y: Double, w: Double, h: Double): Unit
+
+    def translate(dx: Int, dy: Int) {
+      setFrame(getX + dx, getY + dy, getWidth, getHeight)
+    }
+
+    def grow(dw: Int, dh: Int) {
+      setFrame(getX, getY, getWidth + dw*2, getHeight + dh*2)
+    }
+
+  }
+
 
   /**
    * Task 2:
