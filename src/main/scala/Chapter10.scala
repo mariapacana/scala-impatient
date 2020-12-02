@@ -1,4 +1,4 @@
-import java.awt.Point
+import java.awt.{Point => JavaPoint}
 import java.beans.{PropertyChangeEvent, PropertyChangeListener, PropertyChangeSupport}
 import java.io.InputStream
 import scala.annotation.tailrec
@@ -46,6 +46,15 @@ object Chapter10 {
    * Define a class `OrderedPoint` by mixing `scala.math.Ordered[Point]` into `java.awt.Point`.
    * Use lexicographic ordering, i e. (x, y) < (x’, y’) if x < x’ or x = x’ and y < y’.
    */
+  class OrderedPoint(x: Int, y: Int) extends JavaPoint(x, y) with scala.math.Ordered[JavaPoint] {
+    def compare(that: JavaPoint): Int = {
+      ((this.x - that.x).signum, (this.y - that.y).signum) match {
+        case (-1, _) | (_, -1) => -1
+        case (0, 0) => 0
+        case _ => 1
+      }
+    }
+  }
 
   /**
    * Task 3:
