@@ -72,6 +72,15 @@ object Chapter10 {
    * Provide usage examples with the default key and a key of -3.
    */
 
+  trait CryptoLogger {
+    def key: Int = 3
+
+    def log(msg: String) = {
+      msg.map(i => (i.toInt + key).toChar)
+    }
+
+  }
+
   /**
    * Task 5:
    *

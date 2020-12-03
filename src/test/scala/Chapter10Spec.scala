@@ -1,7 +1,10 @@
 import Chapter10._
 import java.beans.{PropertyChangeEvent, PropertyChangeListener}
 import java.io.{FilterInputStream, InputStream}
+import java.util.logging.Logger
+
 import org.scalatest.{FlatSpec, Matchers}
+
 import scala.annotation.tailrec
 import scala.collection.mutable.ArrayBuffer
 import scala.io.Source
@@ -48,17 +51,19 @@ class Chapter10Spec extends FlatSpec with Matchers {
 //    val tpe = scala.reflect.runtime.universe.typeOf[scala.collection.BitSet]
 //    result shouldBe tpe.baseClasses.map(_.fullName)
 //  }
+
+  "CryptoLogger" should "encrypt messages with the Caesar cipher default key" in {
+    //given
+    val logger = new Logger with CryptoLogger
+
+    //when
+    logger.log("abcd")
 //
-//  "CryptoLogger" should "encrypt messages with the Caesar cipher default key" in {
-//    //given
-//    val logger = new TestLogger with CryptoLogger
-//
-//    //when
-//    logger.log("12345")
-//
-//    //then
-//    logger.message shouldBe "45678"
-//  }
+//    val logger2 = new  {
+//      def key = -3
+//    } Logger with CryptoLogger
+
+  }
 //
 //  it should "encrypt messages with the Caesar cipher key -3" in {
 //    //given
@@ -165,9 +170,9 @@ class Chapter10Spec extends FlatSpec with Matchers {
 //    read()
 //    buf.toArray
 //  }
-//
-//  class TestLogger extends Logger {
-//    var message = ""
-//    override def log(msg: String): Unit = message = msg
-//  }
+
+  class TestLogger extends Logger {
+    var message = ""
+    override def log(msg: String): Unit = message = msg
+  }
 }
