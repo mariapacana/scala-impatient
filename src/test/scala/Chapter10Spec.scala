@@ -1,4 +1,5 @@
 import Chapter10._
+import task1004.{Logger => MyLogger, CryptoLogger}
 import java.beans.{PropertyChangeEvent, PropertyChangeListener}
 import java.io.{FilterInputStream, InputStream}
 import java.util.logging.Logger
@@ -53,30 +54,25 @@ class Chapter10Spec extends FlatSpec with Matchers {
 //  }
 
   "CryptoLogger" should "encrypt messages with the Caesar cipher default key" in {
+      //given
+      val logger = new TestLogger with CryptoLogger
+
+      logger.log("abcd")
+      logger.message shouldBe("defg")
+  }
+
+  it should "encrypt messages with the Caesar cipher key -3" in {
     //given
-    val logger = new Logger with CryptoLogger
+    val logger = new TestLogger with CryptoLogger {
+      override val key = -3
+    }
 
     //when
-    logger.log("abcd")
-//
-//    val logger2 = new  {
-//      def key = -3
-//    } Logger with CryptoLogger
+    logger.log("defg")
 
+    //then
+    logger.message shouldBe "abcd"
   }
-//
-//  it should "encrypt messages with the Caesar cipher key -3" in {
-//    //given
-//    val logger = new TestLogger with CryptoLogger {
-//      override val key = -3
-//    }
-//
-//    //when
-//    logger.log("45678")
-//
-//    //then
-//    logger.message shouldBe "12345"
-//  }
 //
 //  "PointBean" should "extend java.awt.Point with PropertyChangeSupportLike" in {
 //    //given
@@ -171,8 +167,9 @@ class Chapter10Spec extends FlatSpec with Matchers {
 //    buf.toArray
 //  }
 
-  class TestLogger extends Logger {
+  class TestLogger extends MyLogger {
     var message = ""
-    override def log(msg: String): Unit = message = msg
+    def log(msg: String): Unit = message = msg
   }
+
 }

@@ -5,7 +5,7 @@ import scala.annotation.tailrec
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 
-object Chapter10 {
+package Chapter10 {
 
   /**
    * Task 1:
@@ -71,14 +71,16 @@ object Chapter10 {
    * The key should be 3 by default, but it should be overridable by the user.
    * Provide usage examples with the default key and a key of -3.
    */
-
-  trait CryptoLogger {
-    def key: Int = 3
-
-    def log(msg: String) = {
-      msg.map(i => (i.toInt + key).toChar)
+  package task1004 {
+    trait Logger {
+      def log(msg: String): Unit
     }
 
+    trait CryptoLogger extends Logger {
+      val key: Int = 3
+
+      abstract override def log(msg: String): Unit = super.log(msg.map(i => (i.toInt + key).toChar))
+    }
   }
 
   /**
