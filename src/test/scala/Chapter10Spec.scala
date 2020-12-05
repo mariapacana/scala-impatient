@@ -1,5 +1,6 @@
 import Chapter10._
 import task1004.{Logger => MyLogger, CryptoLogger}
+import task1008.{Vehicle, Car => MyCar}
 import java.beans.{PropertyChangeEvent, PropertyChangeListener}
 import java.io.{FilterInputStream, InputStream}
 import java.util.logging.Logger
@@ -96,17 +97,35 @@ class Chapter10Spec extends FlatSpec with Matchers {
 //    event.getNewValue shouldBe 1
 //  }
 
-  "TestEngine" should "extend Engine with InfiniteEngine" in {
+  "Car" should "increase the fuel level in a car with fillTank" in {
     //given
-    val engine = new TestEngine
-
+    val camry = new MyCar
     //when
-    engine.start()
-    engine.stop()
-
+    camry.fillTank(5.0)
     //then
-    engine.model shouldBe "test"
+    camry.tankLevel shouldBe 5.0
   }
+
+  it should "not be filled beyond maximum capacity" in {
+    //given
+    val camry = new MyCar
+    //when
+    camry.fillTank(100.0)
+    //then
+    camry.tankLevel shouldBe 10.0
+  }
+
+  it should "reduce the tank level when you drive it" in {
+    //given
+    val camry = new MyCar
+    //when
+    camry.fillTank(10.0)
+    camry.drive(60)
+    //then
+    camry.tankLevel shouldBe 8.0
+  }
+
+
 //
 //  "BufferedInputStreamLike" should "add buffering to an input stream" in {
 //    //given

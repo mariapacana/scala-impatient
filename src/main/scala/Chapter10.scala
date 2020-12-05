@@ -142,6 +142,51 @@ package Chapter10 {
    * example that demonstrates layered traits, concrete and abstract methods, and concrete and
    * abstract fields.
    */
+  package task1008 {
+    trait Vehicle {
+      var tankLevel = 0.0
+      protected val tankCapacity: Double
+      protected val mpg: Double
+
+      def fillTank(gas: Double): Double = {
+        tankLevel = if (gas + tankLevel <= tankCapacity) tankLevel + gas else tankCapacity
+        tankLevel
+      }
+
+      def drive(miles: Int): Double
+    }
+
+    class Car extends Vehicle {
+      override val tankCapacity = 10.0 // concrete field overrides abstract field maxTankLevel
+      override val mpg = 30.0
+
+      // concrete method overrides abstract drive method
+      override def drive(miles: Int): Double = {
+        tankLevel = if (tankLevel < miles/mpg) 0.0 else tankLevel - miles/mpg
+        tankLevel
+      }
+    }
+
+
+    trait Hybrid {
+      var batteryVoltage = 0.0 //voltage
+      protected val chargePerHour = 1.0
+      protected val batteryCapacity = 12.6
+      var milesPerVolt = 15
+
+      def charge(hours: Int) = {
+        batteryVoltage = if (batteryCapacity > hours*chargePerHour) batteryCapacity else hours*chargePerHour
+      }
+    }
+
+    class HybridCar extends Car with Hybrid {
+      override def drive(miles: Int): Double = {
+        if (tankLevel < miles/mpg) {
+          batteryCapacity = batteryCapacity - 
+        }
+      }
+    }
+  }
 
   /**
    * Task 9:
