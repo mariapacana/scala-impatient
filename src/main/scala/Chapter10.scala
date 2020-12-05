@@ -111,6 +111,10 @@ package Chapter10 {
    * }}}
    * But that's not possible in Java. Explain why not.
    * How could the design be executed in Scala with traits?
+   *
+   * In Java, a class can't inherit from more than one superclass. JContainer couldn't inherit
+   * from both JComponent and Container. (Though why couldn't they have made Container an interface?)
+   * In Scala, you can create a Container trait and mix it into JComponent to create JContainer.
    */
 
   /**
