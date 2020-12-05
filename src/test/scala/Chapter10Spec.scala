@@ -95,18 +95,18 @@ class Chapter10Spec extends FlatSpec with Matchers {
 //    event.getOldValue shouldBe 0
 //    event.getNewValue shouldBe 1
 //  }
-//
-//  "TestEngine" should "extend Engine with InfiniteEngine" in {
-//    //given
-//    val engine = new TestEngine
-//
-//    //when
-//    engine.start()
-//    engine.stop()
-//
-//    //then
-//    engine.model shouldBe "test"
-//  }
+
+  "TestEngine" should "extend Engine with InfiniteEngine" in {
+    //given
+    val engine = new TestEngine
+
+    //when
+    engine.start()
+    engine.stop()
+
+    //then
+    engine.model shouldBe "test"
+  }
 //
 //  "BufferedInputStreamLike" should "add buffering to an input stream" in {
 //    //given

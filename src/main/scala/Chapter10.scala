@@ -120,6 +120,22 @@ package Chapter10 {
   /**
    * Task 7:
    *
+   * Construct an example where a class needs to be recompiled when one of the mixins changes. Start with
+   * `class SavingsAccount extends Account with ConsoleLogger`. Put each class and trait in a separate
+   * source file. Add a field to `Account`. In `Main` (also in a separate source file), construct a `SavingsAccount`
+   * and access the new field. Recompile all fields except for `SavingsAccount` and verify that the program
+   *   works. Now add a field to `ConsoleLogger` and access it in `Main`. Again, recompile all files except for
+   * `SavingsAccount`. What happens? Why?
+   *
+   * I was able to access the new fields both times. As long as you recompile `ConsoleLogger`, `Main` is
+   * able to access the new field. There was no need to recompile `SavingsAccount` because it is just an
+   * abstract class and we didn't change it.
+   *
+   */
+
+  /**
+   * Task 8:
+   *
    * There are dozens of Scala trait tutorials with silly examples of barking dogs or
    * philosophizing frogs. Reading through contrived hierarchies can be tedious and not very
    * helpful, but designing your own is very illuminating. Make your own silly trait hierarchy
@@ -128,24 +144,31 @@ package Chapter10 {
    */
 
   /**
-   * Task 8:
+   * Task 9:
    *
    * In the `java.io` library, you add buffering to an input stream with a `BufferedInputStream`
    * decorator. Reimplement buffering as a trait. For simplicity, override the `read` method.
    */
 
   /**
-   * Task 9:
+   * Task 10:
    *
    * Using the logger traits from this chapter, add logging to the solution of the preceding
    * problem that demonstrates buffering.
    */
 
   /**
-   * Task 10:
+   * Task 11:
    *
    * Implement a class `IterableInputStream` that extends `java.io.InputStream` with the trait
    * `Iterable[Byte]`.
+   */
+
+  /**
+   * Task 12:
+   *
+   * Using `javap -c -private`, analyze how the call `super.log(msg)` is translated to Java. How does the
+   * same call invoke two different methods, depending on the mixin order?
    */
 
 }
