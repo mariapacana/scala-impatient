@@ -1,3 +1,2 @@
-
 Simple text file with example words.
 We will parse the file and count the words.

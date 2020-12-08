@@ -162,7 +162,7 @@ package Chapter10 {
 
       // concrete method overrides abstract drive method
       override def drive(miles: Double): Double = {
-        var milesLeft = miles - tankLevel / mpg
+        var milesLeft = miles - tankLevel * mpg
         if (milesLeft <= 0) {
           tankLevel = tankLevel - miles / mpg
           milesLeft = 0
@@ -176,9 +176,9 @@ package Chapter10 {
      */
     trait Hybrid {
       var batteryVoltage = 0.0
-      val batteryCapacity = 12.5
+      val batteryCapacity = 12.0
       val chargePerHour = 1.0
-      val milesPerVolt = 5.0
+      val milesPerVolt = 10.0
 
       def charge(hours: Int): Double = {
         batteryVoltage = if (batteryCapacity > hours*chargePerHour) batteryCapacity else hours*chargePerHour
@@ -188,11 +188,12 @@ package Chapter10 {
 
     class HybridCar extends Car with Hybrid {
       override def drive(miles: Double): Double = {
-        var milesLeft = miles - (batteryVoltage / milesPerVolt)
+        var milesLeft = miles - batteryVoltage * milesPerVolt
         if (milesLeft <= 0) {
           batteryVoltage = batteryVoltage - miles / milesPerVolt
           milesLeft = 0
         } else {
+          batteryVoltage = 0.0
           milesLeft = super.drive(milesLeft)
         }
         milesLeft
@@ -206,6 +207,29 @@ package Chapter10 {
    * In the `java.io` library, you add buffering to an input stream with a `BufferedInputStream`
    * decorator. Reimplement buffering as a trait. For simplicity, override the `read` method.
    */
+  trait BufferedInputStreamLike extends InputStream {
+    val bufferSize = 48
+    var buffer = new Array[Byte](bufferSize)
+    var pos = 0
+
+    override def read(): Int = {
+      if (bufferIsEmpty() || pos >= bufferSize) {
+        this.read(buffer) // read input here
+        pos = 0
+      }
+      val result = if (bufferIsEmpty()) -1 else {
+        val r = buffer(pos)
+        buffer(pos) = 0
+        r
+      }
+      pos += 1
+      result
+    }
+
+    def bufferIsEmpty(): Boolean = {
+      buffer.forall(_ == 0)
+    }
+  }
 
   /**
    * Task 10:

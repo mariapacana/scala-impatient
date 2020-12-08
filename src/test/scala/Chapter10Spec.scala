@@ -1,10 +1,11 @@
 import Chapter10._
-import task1004.{Logger => MyLogger, CryptoLogger}
-import task1008.{Vehicle, Car => MyCar}
+import task1004.{CryptoLogger, Logger => MyLogger}
+import task1008.{HybridCar, Vehicle, Car => MyCar}
 import java.beans.{PropertyChangeEvent, PropertyChangeListener}
-import java.io.{FilterInputStream, InputStream}
+import java.io.{File, FileInputStream, FilterInputStream, InputStream}
 import java.util.logging.Logger
 
+import Chapter1007.ConsoleLogger
 import org.scalatest.{FlatSpec, Matchers}
 
 import scala.annotation.tailrec
@@ -120,36 +121,62 @@ class Chapter10Spec extends FlatSpec with Matchers {
     val camry = new MyCar
     //when
     camry.fillTank(10.0)
-    camry.drive(60)
+    val milesLeft = camry.drive(60)
     //then
+    milesLeft shouldBe(0.0)
     camry.tankLevel shouldBe 8.0
   }
 
+  "Hybrid Car" should "rely on the battery first and not use gas" in {
+    //given
+    val camry = new HybridCar
+    //when
+    camry.charge(12)
+    camry.fillTank(10.0)
+    val milesLeft = camry.drive(60)
+    //then
+    milesLeft shouldBe(0.0)
+    camry.batteryVoltage shouldBe(6.0)
+    camry.tankLevel shouldBe 10.0
+  }
 
-//
-//  "BufferedInputStreamLike" should "add buffering to an input stream" in {
-//    //given
-//    val in = new {
-//      override val bufferSize = 48
-//    } with FilterInputStream(getClass.getResourceAsStream("/myfile.txt"))
-//      with BufferedInputStreamLike
-//      with ConsoleLogger
-//
-//    try {
-//      //when
-//      val result = Source.fromBytes(readBytes(in)).mkString
-//
-//      //then
-//      result shouldBe """
-//                        |Simple text file with example words.
-//                        |We will parse the file and count the words.
-//                        |""".stripMargin
-//    }
-//    finally {
-//      in.close()
-//    }
-//  }
-//
+  "Hybrid Car" should "use gas after the battery is exhausted" in {
+    //given
+    val camry = new HybridCar
+    //when
+    camry.charge(12)
+    camry.fillTank(10.0)
+    val milesLeft = camry.drive(200)
+    //then
+    milesLeft shouldBe(0.0)
+    camry.batteryVoltage shouldBe(0.0)
+    camry.tankLevel shouldBe(7.33 +- 0.01)
+  }
+
+
+  "BufferedInputStreamLike" should "add buffering to an input stream" in {
+    //given
+    val in = new FileInputStream(new File(getClass.getResource("/resources/myfile.txt").getPath))
+      with BufferedInputStreamLike
+      with ConsoleLogger
+
+    try {
+      //when
+      var result = ""
+      var a = in.read()
+      while (a != -1) {
+        result = result + a.toChar
+        a = in.read()
+      }
+
+      //then
+      result shouldBe "Simple text file with example words.\nWe will parse the file and count the words.\n"
+    }
+    finally {
+      in.close()
+    }
+  }
+
 //  "IterableInputStream" should "extends java.io.InputStream with the trait Iterable[Byte]" in {
 //    //given
 //    val in = new IterableInputStream(getClass.getResourceAsStream("/myfile.txt"))
