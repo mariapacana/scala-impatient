@@ -153,7 +153,7 @@ package Chapter10 {
         tankLevel
       }
 
-      def drive(miles: Int): Double
+      def drive(miles: Double): Double
     }
 
     class Car extends Vehicle {
@@ -161,29 +161,41 @@ package Chapter10 {
       override val mpg = 30.0
 
       // concrete method overrides abstract drive method
-      override def drive(miles: Int): Double = {
-        tankLevel = if (tankLevel < miles/mpg) 0.0 else tankLevel - miles/mpg
-        tankLevel
+      override def drive(miles: Double): Double = {
+        var milesLeft = miles - tankLevel / mpg
+        if (milesLeft <= 0) {
+          tankLevel = tankLevel - miles / mpg
+          milesLeft = 0
+        }
+        milesLeft
       }
     }
 
-
+    /**
+     * Assume that battery capacity is measured purely in volts.
+     */
     trait Hybrid {
-      var batteryVoltage = 0.0 //voltage
-      protected val chargePerHour = 1.0
-      protected val batteryCapacity = 12.6
-      var milesPerVolt = 15
+      var batteryVoltage = 0.0
+      val batteryCapacity = 12.5
+      val chargePerHour = 1.0
+      val milesPerVolt = 5.0
 
-      def charge(hours: Int) = {
+      def charge(hours: Int): Double = {
         batteryVoltage = if (batteryCapacity > hours*chargePerHour) batteryCapacity else hours*chargePerHour
+        batteryVoltage
       }
     }
 
     class HybridCar extends Car with Hybrid {
-      override def drive(miles: Int): Double = {
-        if (tankLevel < miles/mpg) {
-          batteryCapacity = batteryCapacity - 
+      override def drive(miles: Double): Double = {
+        var milesLeft = miles - (batteryVoltage / milesPerVolt)
+        if (milesLeft <= 0) {
+          batteryVoltage = batteryVoltage - miles / milesPerVolt
+          milesLeft = 0
+        } else {
+          milesLeft = super.drive(milesLeft)
         }
+        milesLeft
       }
     }
   }
