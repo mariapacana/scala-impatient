@@ -207,29 +207,6 @@ package Chapter10 {
    * In the `java.io` library, you add buffering to an input stream with a `BufferedInputStream`
    * decorator. Reimplement buffering as a trait. For simplicity, override the `read` method.
    */
-  trait BufferedInputStreamLike extends InputStream {
-    val bufferSize = 48
-    var buffer = new Array[Byte](bufferSize)
-    var pos = 0
-
-    override def read(): Int = {
-      if (bufferIsEmpty() || pos >= bufferSize) {
-        this.read(buffer) // read input here
-        pos = 0
-      }
-      val result = if (bufferIsEmpty()) -1 else {
-        val r = buffer(pos)
-        buffer(pos) = 0
-        r
-      }
-      pos += 1
-      result
-    }
-
-    def bufferIsEmpty(): Boolean = {
-      buffer.forall(_ == 0)
-    }
-  }
 
   /**
    * Task 10:
@@ -237,6 +214,40 @@ package Chapter10 {
    * Using the logger traits from this chapter, add logging to the solution of the preceding
    * problem that demonstrates buffering.
    */
+  package Chapter1009 {
+    import Chapter10.Example.ConsoleLogger
+    trait BufferedInputStreamLike extends InputStream with ConsoleLogger {
+      val bufferSize = 48
+      val SENTINEL_VAL: Byte = (-1).toByte
+      var buffer: Array[Byte] = Array.fill[Byte](bufferSize)(SENTINEL_VAL)
+      var pos = 0
+
+      override def read(): Int = {
+        val result = (buffer(pos), pos) match {
+          // We've exhausted all characters from the original source.
+          case (SENTINEL_VAL, p) if p > 0  => -1
+          // Buffer is empty, read from source.
+          case (_, p) if p == 0 => {
+            log("Buffering...")
+            val next = this.read(buffer)
+            if (next == -1) -1 else buffer(pos)
+          }
+          // There is a character in the buffer, read it.
+          case (r, _) => {
+            buffer(pos) = SENTINEL_VAL
+            r
+          }
+        }
+
+        pos = if (pos == bufferSize - 1) 0 else pos + 1
+
+        result
+      }
+
+      // also implement read for arrays.
+    }
+  }
+
 
   /**
    * Task 11:
@@ -251,5 +262,24 @@ package Chapter10 {
    * Using `javap -c -private`, analyze how the call `super.log(msg)` is translated to Java. How does the
    * same call invoke two different methods, depending on the mixin order?
    */
+
+  package Example {
+    trait Logger {
+      def log(msg: String)
+    }
+
+    trait ConsoleLogger extends Logger {
+      def log(msg: String) { println(msg) }
+    }
+
+    trait ShortLogger extends Logger {
+      val maxLength = 15 // A concrete field
+      abstract override def log(msg: String) {
+        super.log(
+          if (msg.length <= maxLength) msg
+          else s"${msg.substring(0, maxLength - 3)}...")
+      }
+    }
+  }
 
 }

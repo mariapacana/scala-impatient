@@ -5,7 +5,7 @@ import java.beans.{PropertyChangeEvent, PropertyChangeListener}
 import java.io.{File, FileInputStream, FilterInputStream, InputStream}
 import java.util.logging.Logger
 
-import Chapter1007.ConsoleLogger
+import Chapter10.Chapter1009.BufferedInputStreamLike
 import org.scalatest.{FlatSpec, Matchers}
 
 import scala.annotation.tailrec
@@ -158,7 +158,6 @@ class Chapter10Spec extends FlatSpec with Matchers {
     //given
     val in = new FileInputStream(new File(getClass.getResource("/resources/myfile.txt").getPath))
       with BufferedInputStreamLike
-      with ConsoleLogger
 
     try {
       //when
