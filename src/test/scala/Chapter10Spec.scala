@@ -176,41 +176,38 @@ class Chapter10Spec extends FlatSpec with Matchers {
     }
   }
 
-//  "IterableInputStream" should "extends java.io.InputStream with the trait Iterable[Byte]" in {
-//    //given
-//    val in = new IterableInputStream(getClass.getResourceAsStream("/myfile.txt"))
-//
-//    try {
-//      //when
-//      val result = new ArrayBuffer[Byte]
-//      result ++= in
-//
-//      //then
-//      new String(result.toArray) shouldBe """
-//                                            |Simple text file with example words.
-//                                            |We will parse the file and count the words.
-//                                            |""".stripMargin
-//    }
-//    finally {
-//      in.close()
-//    }
-//  }
-//
-//  private def readBytes(in: InputStream): Array[Byte] = {
-//    val buf = new ArrayBuffer[Byte]
-//
-//    @tailrec
-//    def read(): Unit = {
-//      val byte = in.read()
-//      if (byte == -1) return
-//
-//      buf += byte.toByte
-//      read()
-//    }
-//
-//    read()
-//    buf.toArray
-//  }
+  "IterableInputStream" should "extends java.io.InputStream with the trait Iterable[Byte]" in {
+    //given
+    val in = new IterableInputStream(getClass.getResourceAsStream("/resources/myfile.txt"))
+
+    try {
+      //when
+      val result = new ArrayBuffer[Byte]
+      result ++= in
+
+      //then
+      new String(result.toArray) shouldBe "Simple text file with example words.\nWe will parse the file and count the words.\n"
+    }
+    finally {
+      in.close()
+    }
+  }
+
+  private def readBytes(in: InputStream): Array[Byte] = {
+    val buf = new ArrayBuffer[Byte]
+
+    @tailrec
+    def read(): Unit = {
+      val byte = in.read()
+      if (byte == -1) return
+
+      buf += byte.toByte
+      read()
+    }
+
+    read()
+    buf.toArray
+  }
 
   class TestLogger extends MyLogger {
     var message = ""

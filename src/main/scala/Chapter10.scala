@@ -7,6 +7,8 @@ import scala.collection.mutable.ListBuffer
 
 package Chapter10 {
 
+  import java.util.NoSuchElementException
+
   /**
    * Task 1:
    *
@@ -248,13 +250,50 @@ package Chapter10 {
     }
   }
 
-
   /**
    * Task 11:
    *
    * Implement a class `IterableInputStream` that extends `java.io.InputStream` with the trait
    * `Iterable[Byte]`.
+   *
+   * This seems like a dumb exercise. Isn't an input stream essentially an iterator?
+   * An Iterator has two methods, hasNext and next. hasNext checks if there's another element in a series.
+   * Next gives you the next element.
+   * An InputStream's read() method is like a combination of hasNext/next. It either returns the next
+   * element of some input, or -1 if all input has been processed.
    */
+  class IterableInputStream(inputStream: InputStream) extends InputStream with Iterable[Byte] {
+    val SENTINEL_VAL: Int = -1
+    var nextByte: Int = SENTINEL_VAL
+
+    def read(): Int = inputStream.read()
+
+    def iterator: Iterator[Byte] = new Iterator[Byte] {
+      def hasNext(): Boolean = {
+        val n = read()
+        if (n != -1) {
+          nextByte = n
+          true
+        } else false
+      }
+      def next(): Byte = {
+        val nb = if (nextByte != SENTINEL_VAL) {
+          val _nb = nextByte
+          nextByte = SENTINEL_VAL
+          _nb
+        } else {
+          read()
+        }
+        if (nb == -1) { throw new NoSuchElementException("Stream exhausted")}
+        nb.toByte
+      }
+    }
+
+    // Call read -- same as inputStream.read()
+    // Iterator - We want an iterator
+    // - hasNext - call read(), but save the info for next()
+    // - next -- check next. if exist, use it. otherwise, call read.
+  }
 
   /**
    * Task 12:
