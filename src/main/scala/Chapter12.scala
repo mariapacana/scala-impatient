@@ -7,18 +7,26 @@ object Chapter12 {
    * of function inputs and outputs in a given range. For example, `values(x => x * x, -5, 5)`
    * should produce a collection of pairs `(-5, 25)`, `(-4, 16)`, `(-3, 9)`, ..., `(5, 25)`.
    */
+  def values(fun: (Int) => Int, low: Int, high: Int): IndexedSeq[(Int, Int)] = {low to high map { x => (x, fun(x))}}
 
   /**
    * Task 2:
    *
    * How do you get the largest element of an array with `reduceLeft`?
    */
+  def largestElement(myArray: Array[Int]): Int = myArray.reduceLeft((acc, i) => if (i > acc) i else acc)
 
   /**
    * Task 3:
    *
    * Implement the `factorial` function using `to` and `reduceLeft`, without a loop or recursion.
    */
+  def factorial(x: Int): Int = {
+    if (x <= 1) 1
+    else {
+      (1 to x).reduceLeft(_ * _)
+    }
+  }
 
   /**
    * Task 4:
@@ -27,6 +35,7 @@ object Chapter12 {
    * with `foldLeft`. (Look at the Scaladoc for `foldLeft`. It’s like `reduceLeft`, except that
    * the first value in the chain of combined values is supplied in the call.)
    */
+  def factorial2(x: Int): Int = (1 to x).foldLeft(1)(_ * _)
 
   /**
    * Task 5:
@@ -35,7 +44,9 @@ object Chapter12 {
    * value of a function within a given sequence of inputs. For example,
    * `largest(x => 10 * x - x * x, 1 to 10)` should return `25`. Don't use a loop or recursion.
    */
-
+  def largest(fun: (Int) => Int, inputs: Seq[Int]) = {
+    inputs.map(fun).reduceLeft((acc, i) => if (i > acc) i else acc)
+  }
   /**
    * Task 6:
    *
