@@ -270,11 +270,8 @@ package Chapter10 {
 
     def iterator: Iterator[Byte] = new Iterator[Byte] {
       def hasNext(): Boolean = {
-        val n = read()
-        if (n != -1) {
-          nextByte = n
-          true
-        } else false
+        nextByte = read()
+        nextByte != SENTINEL_VAL
       }
       def next(): Byte = {
         val nb = if (nextByte != SENTINEL_VAL) {
@@ -284,7 +281,7 @@ package Chapter10 {
         } else {
           read()
         }
-        if (nb == -1) { throw new NoSuchElementException("Stream exhausted")}
+        if (nb == SENTINEL_VAL) { throw new NoSuchElementException("Stream exhausted")}
         nb.toByte
       }
     }

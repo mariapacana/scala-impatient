@@ -176,17 +176,42 @@ class Chapter10Spec extends FlatSpec with Matchers {
     }
   }
 
-  "IterableInputStream" should "extends java.io.InputStream with the trait Iterable[Byte]" in {
+  "IterableInputStream hasNext" should "be true when there's more input and false when there's no input left" in {
     //given
     val in = new IterableInputStream(getClass.getResourceAsStream("/resources/myfile.txt"))
+    val it = in.iterator
 
     try {
+      it.hasNext shouldBe true
+
       //when
       val result = new ArrayBuffer[Byte]
       result ++= in
 
       //then
-      new String(result.toArray) shouldBe "Simple text file with example words.\nWe will parse the file and count the words.\n"
+      it.hasNext shouldBe false
+    }
+    finally {
+      in.close()
+    }
+  }
+
+  "IterableInputStream next" should "provide the next byte in the stream" in {
+    //given
+    val in = new IterableInputStream(getClass.getResourceAsStream("/resources/myfile.txt"))
+    val it = in.iterator
+
+    try {
+      it.next().toChar shouldBe 'S'
+      it.next().toChar shouldBe 'i'
+      it.next().toChar shouldBe 'm'
+      it.next().toChar shouldBe 'p'
+      it.next().toChar shouldBe 'l'
+      it.next().toChar shouldBe 'e'
+
+      val result = new ArrayBuffer[Byte]
+      result ++= in
+      new String(result.toArray) shouldBe " text file with example words.\nWe will parse the file and count the words.\n"
     }
     finally {
       in.close()
