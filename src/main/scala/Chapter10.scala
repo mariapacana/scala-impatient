@@ -297,25 +297,52 @@ package Chapter10 {
    *
    * Using `javap -c -private`, analyze how the call `super.log(msg)` is translated to Java. How does the
    * same call invoke two different methods, depending on the mixin order?
+   *
+   * The parent trait is turned into an interface and super.log calls the log method in that interface.
    */
 
   package Example {
     trait Logger {
-      def log(msg: String)
+      def log(msg: String);
     }
 
     trait ConsoleLogger extends Logger {
       def log(msg: String) { println(msg) }
     }
 
-    trait ShortLogger extends Logger {
-      val maxLength = 15 // A concrete field
-      abstract override def log(msg: String) {
-        super.log(
-          if (msg.length <= maxLength) msg
-          else s"${msg.substring(0, maxLength - 3)}...")
+    trait TimestampLogger extends ConsoleLogger {
+      override def log(msg: String) {
+        super.log(new java.util.Date() + " " + msg)
       }
     }
-  }
 
+    trait ShortLogger extends ConsoleLogger {
+      override def log(msg: String) {
+        super.log(
+          if (msg.length <= 15) msg else s"${msg.substring(0, 12)}...")
+      }
+    }
+
+    class Account {
+      protected var balance = 0.0
+    }
+
+    class SavingsAccount extends Account with ShortLogger with TimestampLogger {
+      def withdraw(amount: Double) {
+        if (amount > balance) log("Insufficient funds")
+        else balance -= amount
+      }
+
+      // More methods ...
+    }
+
+    class SavingsAccount2 extends Account with TimestampLogger with ShortLogger {
+      def withdraw(amount: Double) {
+        if (amount > balance) log("Insufficient funds")
+        else balance -= amount
+      }
+
+      // More methods ...
+    }
+  }
 }

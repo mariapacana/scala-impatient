@@ -218,6 +218,12 @@ class Chapter10Spec extends FlatSpec with Matchers {
     }
   }
 
+  "Logger" should "log" in {
+    import Example.{SavingsAccount, SavingsAccount2}
+    new SavingsAccount().withdraw(10.0)
+    new SavingsAccount2().withdraw(10.0)
+  }
+
   private def readBytes(in: InputStream): Array[Byte] = {
     val buf = new ArrayBuffer[Byte]
 
