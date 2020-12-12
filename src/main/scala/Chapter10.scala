@@ -298,7 +298,20 @@ package Chapter10 {
    * Using `javap -c -private`, analyze how the call `super.log(msg)` is translated to Java. How does the
    * same call invoke two different methods, depending on the mixin order?
    *
-   * The parent trait is turned into an interface and super.log calls the log method in that interface.
+   * Solution:
+   * In the SavingsAccount example below, `log` calls the log method from the rightmost trait (TimestampLogger).
+   * TimestampLogger calls `super.log`, which is ShortLogger's log method (the trait directly to its left).
+   * If we swap around ShortLogger and TimestampLogger, ShortLogger will be called first, and its call to
+   * `super.log` would call TimestampLogger.
+   *
+   * From SavingsAccount.class
+   * (class SavingsAccount extends Account with ShortLogger with TimestampLogger)
+   * - log calls the TimestampLogger interface's log method
+   * - The TimestampLogger's log method calls $TimestampLogger$$super$log, which is implemented in SavingsAccount.
+   * - $TimestampLogger$$super$log in SavingsAccount calls the ShortLogger interface
+   * - ShortLogger's log method calls $ShortLogger$$super$log, which is implemented in SavingsAccount
+   * - $ShortLogger$$super$log calls the log in the ConsoleLogger interface
+   * - ConsoleLogger actually prints the log (weird, because Java interfaces are supposed to be abstract, but w/e.)
    */
 
   package Example {
