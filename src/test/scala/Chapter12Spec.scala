@@ -70,35 +70,39 @@ class Chapter12Spec extends FlatSpec with Matchers {
     result shouldBe Seq(12, 14, 16, 18, 20, 22, 24, 26, 28, 30)
   }
 
-//  "correspondsLen" should "check that strings have the lengths from integers array" in {
-//    //when & then
-//    correspondsLen(Array(""), Array(0)) shouldBe true
-//    correspondsLen(Array(""), Array(1)) shouldBe false
-//    correspondsLen(Array("a"), Array(1)) shouldBe true
-//    correspondsLen(Array("a"), Array(2)) shouldBe false
-//    correspondsLen(Array("a", "bb", "ccc"), Array(1, 2, 3)) shouldBe true
-//    correspondsLen(Array("a", "bb", "ccc"), Array(1, 2, 3, 4)) shouldBe false
-//    correspondsLen(Array("a", "bb", "ccc"), Array(1, 2)) shouldBe false
-//  }
-//
-//  "corresponds2" should "be implemented without currying" in {
-//    corresponds2(Array("a"), Array(1), (a: String, b: Int) => a.length == b) shouldBe true
-//  }
-//
-//  "unless" should "work just like if, but with an inverted condition" in {
-//    //when & then
-//    var a = 0
-//    unless(a == 1) {
-//      a = 1
-//    }
-//
-//    a shouldBe 1
-//
-//    var b = 0
-//    unless(b == 0) {
-//      b = 1
-//    }
-//
-//    b shouldBe 0
-//  }
+  "correspondsLen" should "check that strings have the lengths from integers array" in {
+    //when & then
+    correspondsLen(Array(""), Array(0)) shouldBe true
+    correspondsLen(Array(""), Array(1)) shouldBe false
+    correspondsLen(Array("a"), Array(1)) shouldBe true
+    correspondsLen(Array("a"), Array(2)) shouldBe false
+    correspondsLen(Array("a", "bb", "ccc"), Array(1, 2, 3)) shouldBe true
+    correspondsLen(Array("a", "bb", "ccc"), Array(1, 2, 3, 4)) shouldBe false
+    correspondsLen(Array("a", "bb", "ccc"), Array(1, 2)) shouldBe false
+  }
+
+  "corresponds2" should "be implemented without currying" in {
+    corresponds2(Array("a"), Array(1), (a: String, b: Int) => a.length == b) shouldBe true
+  }
+
+  "corresponds3" should "be implemented without currying" in {
+    corresponds3(Array("a"), Array(1), (a: String, b: Int) => a.length == b) shouldBe true
+  }
+
+  "unless" should "work just like if, but with an inverted condition" in {
+    //when & then
+    var a = 0
+    unless(false) {
+      a = 1
+    }
+
+    a shouldBe 1
+
+    var b = 0
+    unless(true) {
+      b = 1
+    }
+
+    b shouldBe 0
+  }
 }

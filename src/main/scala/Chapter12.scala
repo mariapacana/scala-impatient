@@ -83,18 +83,41 @@ object Chapter12 {
    * arrays of strings. Make a call to corresponds that checks whether the elements in an
    * array of strings have the lengths given in an array of integers.
    */
-
+  def correspondsLen(as: Array[String], bs: Array[Int]): Boolean = {
+    as.corresponds(bs)(_.length == _)
+  }
   /**
    * Task 9:
    *
    * Implement `corresponds` without currying. Then try the call from the preceding exercise.
    * What problem do you encounter?
+   *
+   * Without currying, the compiler can't infer the types of the predicate, so you have
+   * to put them in yourself.
    */
+//  def corresponds[B](that: Seq[B])(p: (A, B) => Boolean): Boolean
+
+  def corresponds2[A,B](as: Seq[A], bs: Seq[B], p: (A, B) => Boolean): Boolean = as.corresponds(bs)(p)
+
+  // Implement corresponds from scratch?
+  def corresponds3[A,B](as: Seq[A], bs: Seq[B], p: (A, B) => Boolean): Boolean = {
+    as.zip(bs).map(i => p(i._1, i._2)).reduce(_ & _)
+  }
 
   /**
    * Task 10:
    *
    * Implement an `unless` control abstraction that works just like `if`, but with an inverted
    * condition. Does the first parameter need to be a call-by-name parameter? Do you need currying?
+   *
+   * Yes, the first parameter needs to be a call-by-name parameter because you don't want to
+   * evaluate it in the function call. You want to evaluate the condition in the body of the
+   * itself.
+   *
+   * You don't need currying for this to work, but it looks nicer with currying.
    */
+
+  def unless(condition: => Boolean)(block: => Unit): Unit = {
+    if (!condition) { block }
+  }
 }
