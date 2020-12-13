@@ -44,7 +44,7 @@ object Chapter12 {
    * value of a function within a given sequence of inputs. For example,
    * `largest(x => 10 * x - x * x, 1 to 10)` should return `25`. Don't use a loop or recursion.
    */
-  def largest(fun: (Int) => Int, inputs: Seq[Int]) = {
+  def largest(fun: (Int) => Int, inputs: Seq[Int]): Int = {
     inputs.map(fun).reduceLeft((acc, i) => if (i > acc) i else acc)
   }
   /**
@@ -53,6 +53,9 @@ object Chapter12 {
    * Modify the previous function to return the input at which the output is largest. For example,
    * `largestAt(x => 10 * x - x * x, 1 to 10)` should return `5`. Don't use a loop or recursion.
    */
+  def largestAt(fun: (Int) => Int, inputs: Seq[Int]): Int = {
+    inputs.sortWith(fun(_) > fun(_)).head
+  }
 
   /**
    * Task 7:
