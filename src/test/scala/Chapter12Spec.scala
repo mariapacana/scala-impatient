@@ -54,22 +54,22 @@ class Chapter12Spec extends FlatSpec with Matchers {
     //then
     result shouldBe 5
   }
-//
-//  "adjustToPair" should "return the function that operates on a pair" in {
-//    //when & then
-//    adjustToPair(_ * _)((6, 7)) shouldBe 42
-//  }
-//
-//  "mapPairs" should "compute the sums of the elements in pairs" in {
-//    //given
-//    val pairs = (1 to 10) zip (11 to 20)
-//
-//    //when
-//    val result: Seq[Int] = mapPairs(pairs, _ + _)
-//
-//    result shouldBe Seq(12, 14, 16, 18, 20, 22, 24, 26, 28, 30)
-//  }
-//
+
+  "adjustToPair" should "return the function that operates on a pair" in {
+    //when & then
+    adjustToPair(_ * _)((6, 7)) shouldBe 42
+  }
+
+  "mapPairs" should "compute the sums of the elements in pairs" in {
+    //given
+    val pairs = (1 to 10) zip (11 to 20)
+
+    //when
+    val result: Seq[Int] = pairs.map(adjustToPair(_ + _))
+
+    result shouldBe Seq(12, 14, 16, 18, 20, 22, 24, 26, 28, 30)
+  }
+
 //  "correspondsLen" should "check that strings have the lengths from integers array" in {
 //    //when & then
 //    correspondsLen(Array(""), Array(0)) shouldBe true

@@ -74,7 +74,7 @@ object Chapter12 {
    * function that operates on a pair. For example, `adjustToPair(_ * _)((6, 7))` is `42`.
    * Then use this function in conjunction with `map` to compute the sums of the elements in pairs.
    */
-
+  def adjustToPair(f: (Int, Int) => Int)(p: (Int, Int)): Int = f(p._1, p._2)
 
   /**
    * Task 8:
