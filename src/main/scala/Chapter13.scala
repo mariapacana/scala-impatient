@@ -1,4 +1,5 @@
 import scala.collection.{concurrent, mutable}
+import scala.collection.mutable.{LinkedList, Map => mMap, Set => mSet}
 import scala.io.Source
 
 object Chapter13 {
@@ -11,12 +12,42 @@ object Chapter13 {
    * 'M' with the set {0},
    * ‘i’ with the set {1, 4, 7, 10}, and so on.
    * Use a mutable map of characters to mutable sets. How can you ensure that the set is sorted?
+   *
+   * Solution:
+   * You can use a SortedSet to make sure the set is sorted, but I don't think it matters because
+   * a string's index increases monotonically.
    */
+  def indexes(str: String): mMap[Char, mSet[Int]] = {
+    val myMap = mMap[Char, mSet[Int]]()
+    (0 until str.length).foreach(i => {
+      myMap(str(i)) = myMap.get(str(i)).map(_ ++ mSet(i)).getOrElse(mSet(i))
+    })
+    myMap
+  }
 
   /**
    * Task 2:
    *
    * Repeat the preceding exercise, using an immutable map of characters to lists.
+   *
+   * Alternative option (gives you a Map[Char, IndexedSeq[Int]):
+   * (0 until str.length).groupBy(str(_))
+   */
+//  def indexes2(str: String): Map[Char, List[Int]] = {
+//    str.toCharArray
+//      .zipWithIndex
+//      .foldLeft(Map[Char, List[Int]]()((acc: Map[Char, List[Int]], curr: (Char, Int)) => {
+//        val (chr, chrIndex) = curr
+//        val vList: List[Int] = acc(chr) :: List(chrIndex)
+//        acc(chr) = vList
+//        acc
+//      }))
+//  }
+
+
+  /*
+    Map(
+    i => List(1))
    */
 
   /**
@@ -25,6 +56,26 @@ object Chapter13 {
    * Write a function that removes all zeroes from a linked list of integers.
    */
 
+//  def removeAllZeroes1(l: LinkedList[Int]): LinkedList[Int] = {
+//    if (l.isEmpty) { return l }
+//    if (l.head == 0) removeAllZeroes(l.tail) else l.head +: removeAllZeroes(l.tail)
+//  }
+//  def removeAllZeroes2(l: LinkedList[Int]): LinkedList[Int] = l.filter(_ != 0)
+
+    def removeAllZeroes(l: LinkedList[Int]): LinkedList[Int] = {
+      var myList = l
+      if (myList.isEmpty) return myList
+      (myList.elem, removeAllZeroes(myList.next)) match {
+        case (0, t) if t.isEmpty =>
+          myList = t
+        case (0, t) =>
+          myList.elem = t.elem
+          myList.next = t.next
+        case (_, t) =>
+          myList.next = t
+      }
+      myList
+    }
   /**
    * Task 4:
    *

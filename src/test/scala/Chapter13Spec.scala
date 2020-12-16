@@ -1,10 +1,10 @@
-//import Chapter13._
-//import org.scalatest.{FlatSpec, Matchers}
-//import scala.collection.mutable
-//import scala.io.Source
-//
-//class Chapter13Spec extends FlatSpec with Matchers {
-//
+import Chapter13._
+import org.scalatest.{FlatSpec, Matchers}
+import scala.collection.mutable.{LinkedList, Map => mMap, Set => mSet}
+import scala.io.Source
+
+class Chapter13Spec extends FlatSpec with Matchers {
+
 //  "indexes" should "produce a mutable map of mutable set of indexes of all characters" in {
 //    //when
 //    val result: mutable.Map[Char, mutable.Set[Int]] = indexes("Mississippi")
@@ -26,22 +26,21 @@
 //    result('s') shouldBe List(2, 3, 5, 6)
 //    result('p') shouldBe List(8, 9)
 //  }
-//
-//  "removeAllZeroes" should "remove all zeroes from a linked list of integers" in {
-//    //when & then
-//    val list: LinkedList[Int] = newLinkedList(1, 2, 3)
-//    val result: LinkedList[Int] = removeAllZeroes(list)
-//    result shouldBe theSameInstanceAs(list)
-//
-//    removeAllZeroes(newLinkedList(0, 1, 2, 3, 4)) shouldBe newLinkedList(1, 2, 3, 4)
-//    removeAllZeroes(newLinkedList(1, 2, 0, 3, 4)) shouldBe newLinkedList(1, 2, 3, 4)
-//    removeAllZeroes(newLinkedList(1, 2, 3, 4, 0)) shouldBe newLinkedList(1, 2, 3, 4)
-//    removeAllZeroes(newLinkedList(0, 1, 2, 0, 3, 4, 0)) shouldBe newLinkedList(1, 2, 3, 4)
-//    removeAllZeroes(newLinkedList(0, 0, 1, 2, 0, 0, 3, 0, 0, 4, 0, 0)) shouldBe
-//      newLinkedList(1, 2, 3, 4)
-//  }
-//
-//  private def newLinkedList(elems: Int*): LinkedList[Int] = mutable.LinkedList(elems: _*)
+
+  "removeAllZeroes" should "remove all zeroes from a linked list of integers" in {
+    //when & then
+    val list: LinkedList[Int] = newLinkedList(1, 2, 3)
+    val result: LinkedList[Int] = removeAllZeroes(list)
+    result shouldBe theSameInstanceAs(list)
+
+    removeAllZeroes(newLinkedList(0, 1, 2, 3, 4)) shouldBe newLinkedList(1, 2, 3, 4)
+    removeAllZeroes(newLinkedList(1, 2, 0, 3, 4)) shouldBe newLinkedList(1, 2, 3, 4)
+    removeAllZeroes(newLinkedList(1, 2, 3, 4, 0)) shouldBe newLinkedList(1, 2, 3, 4)
+    removeAllZeroes(newLinkedList(0, 1, 2, 0, 3, 4, 0)) shouldBe newLinkedList(1, 2, 3, 4)
+    removeAllZeroes(newLinkedList(0, 0, 1, 2, 0, 0, 3, 0, 0, 4, 0, 0)) shouldBe newLinkedList(1, 2, 3, 4)
+  }
+
+  private def newLinkedList(elems: Int*): LinkedList[Int] = LinkedList(elems: _*)
 //
 //  "mapToValues" should "return collection of corresponding integer values from map" in {
 //    //given
@@ -132,4 +131,4 @@
 //
 //    result.toMap
 //  }
-//}
+}
