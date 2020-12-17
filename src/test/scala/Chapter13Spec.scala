@@ -61,18 +61,18 @@ class Chapter13Spec extends FlatSpec with Matchers {
     collToString(Seq(1, 2, 3), ", ") shouldBe "1, 2, 3"
     collToString(List("1", "2", "3"), ", ") shouldBe "1, 2, 3"
   }
-//
-//  "reversList" should "revers the given list" in {
-//    //given
-//    val lst = List(1, 2, 3, 4, 5)
-//
-//    //when
-//    val result: List[Int] = reversList(lst)
-//
-//    //then
-//    result shouldBe List(5, 4, 3, 2, 1)
-//  }
-//
+
+  "reverseList" should "reverse the given list" in {
+    //given
+    val lst = List(1, 2, 3, 4, 5)
+
+    //when
+    val result: List[Int] = reverseList(lst)
+
+    //then
+    result shouldBe List(5, 4, 3, 2, 1)
+  }
+
 //  "multiply" should "apply Function.tupled to the multiplication function" in {
 //    //given
 //    val prices = List(1, 2, 3)

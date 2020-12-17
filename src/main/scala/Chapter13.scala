@@ -109,8 +109,17 @@ object Chapter13 {
    * `(lst :\ List[Int]())(_ :: _)` ?
    * `(List[Int]() /: lst)(_ :+ _)` ?
    * How can you modify one of them to reverse the list?
+   *
+   * Solution:
+   * Both of these expressions return the same list again without doing anything.
+   * `(lst :\ List[Int]())(_ :: _)` calls foldRight. It processes the list from right to left,
+   * prepending each new element to the head of the list.
+   * `(List[Int]() /: lst)(_ :+ _)` calls foldLeft. It processes the list from left to right,
+   * appending each new element to the tail of the list.
    */
-
+  def reverseList(lst: List[Int]): List[Int] = (List[Int]() /: lst)((a, b) => {
+    b +: a
+  })
 
   /**
    * Task 7:
