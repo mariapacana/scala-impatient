@@ -33,22 +33,14 @@ object Chapter13 {
    * Alternative option (gives you a Map[Char, IndexedSeq[Int]):
    * (0 until str.length).groupBy(str(_))
    */
-//  def indexes2(str: String): Map[Char, List[Int]] = {
-//    str.toCharArray
-//      .zipWithIndex
-//      .foldLeft(Map[Char, List[Int]]()((acc: Map[Char, List[Int]], curr: (Char, Int)) => {
-//        val (chr, chrIndex) = curr
-//        val vList: List[Int] = acc(chr) :: List(chrIndex)
-//        acc(chr) = vList
-//        acc
-//      }))
-//  }
-
-
-  /*
-    Map(
-    i => List(1))
-   */
+  def indexes2(str: String): Map[Char, List[Int]] = {
+    str.toCharArray
+      .zipWithIndex
+      .foldLeft(Map[Char, List[Int]]())((acc: Map[Char, List[Int]], curr: (Char, Int)) => {
+        val updatedIndexes = acc.get(curr._1).map(_ :+ curr._2).getOrElse(List(curr._2))
+        acc.updated(curr._1, updatedIndexes)
+      })
+  }
 
   /**
    * Task 3:
