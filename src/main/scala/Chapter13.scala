@@ -68,6 +68,15 @@ object Chapter13 {
       }
       myList
     }
+
+  /**
+   * Task 3a:
+   *
+   * Write a function that removes every second eleent from a `ListBuffer`
+.  * Try it two ways. Call `remove(i)` for all even `i` starting at the end of the list.
+   * Copy every second element to a new list. Compare the performance.
+   */
+
   /**
    * Task 4:
    *
@@ -77,12 +86,21 @@ object Chapter13 {
    * `Array("Tom", "Fred", "Harry")` and `Map("Tom" -> 3, "Dick" -> 4, "Harry" -> 5)`,
    * return `Array(3, 5)`. Hint: Use flatMap to combine the Option values returned by get.
    */
+  def mapToValues(coll: Array[String], sMap: Map[String, Int]): Array[Int] = {
+    coll.flatMap(sMap.get)
+  }
 
   /**
    * Task 5:
    *
    * Implement a function that works just like `mkString`, using `reduceLeft`.
    */
+  def collToString[A](coll: Iterable[A], sep: String): String = {
+    if (coll.isEmpty) return ""
+    coll.reduceLeft((a: Any, b: A) => {
+      a + sep + b
+    }).toString
+  }
 
   /**
    * Task 6:
@@ -122,27 +140,27 @@ object Chapter13 {
   /**
    * Task 9:
    *
-   * Harry Hacker writes a program that accepts a sequence of file names on the command line.
-   * For each, he starts a new thread that reads the file and updates a letter frequency map
-   * declared as
+   * The Scala compiler transforms a `for/yield` expression
    * {{{
-   *  val frequencies = new scala.collection.mutable.HashMap[Char, Int] with
-   *    scala.collection.mutable.SynchronizedMap[Char, Int]
+   *   for (i <- 1 to 10; j <- 1 to i) yield i*j
    * }}}
-   * When reading a letter `c`, he calls
+   * to invocations of `flatMap` and `map`, like this:
    * {{{
-   *  frequencies(c) = frequencies.getOrElse (c, 0) + 1
+   *   (1 to 10).flatMap(i => (1 to i).map(j => i * j))
    * }}}
-   * Why won't this work? Will it work if he used instead
-   * {{{
-   *  import scala.collection.JavaConversions.asScalaConcurrentMap
-   *  val frequencies: scala.collection.mutable.ConcurrentMap[Char, Int] =
-   *    new java.util.concurrent.ConcurrentHashMap[Char, Int]
-   * }}}
+   * Explain the use of `flatMap`. Hint: What is `(1 to i).map(j => i * j)` when `i` is `1,2,3`?
+   * What happens when there are three generators in the `for/yield` expression?
    */
+
 
   /**
    * Task 10:
+   * The method `java.util.TimeZone.getAvailableIDs` yields time zones such as `Africa/Cairo`
+   * and `Asia/Chungking`. Which continent has the most time zones? Hint: `groupBy`.
+   */
+
+  /**
+   * Task 11:
    *
    * Harry Hacker reads a file into a string and wants to use a parallel collection to update
    * the letter frequencies concurrently on portions of the string. He uses the following code:

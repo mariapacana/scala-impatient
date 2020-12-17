@@ -41,26 +41,26 @@ class Chapter13Spec extends FlatSpec with Matchers {
   }
 
   private def newLinkedList(elems: Int*): LinkedList[Int] = LinkedList(elems: _*)
-//
-//  "mapToValues" should "return collection of corresponding integer values from map" in {
-//    //given
-//    val coll = Array("Tom", "Fred", "Harry")
-//    val map = Map("Tom" -> 3, "Dick" -> 4, "Harry" -> 5)
-//
-//    //when
-//    val result = mapToValues(coll, map)
-//
-//    //then
-//    result shouldBe Array(3, 5)
-//  }
-//
-//  "collToString" should "works just like mkString, using reduceLeft" in {
-//    //when & then
-//    collToString(Nil) shouldBe ""
-//    collToString(Array(1)) shouldBe "1"
-//    collToString(Seq(1, 2, 3)) shouldBe "1, 2, 3"
-//    collToString(List("1", "2", "3")) shouldBe "1, 2, 3"
-//  }
+
+  "mapToValues" should "return collection of corresponding integer values from map" in {
+    //given
+    val coll = Array("Tom", "Fred", "Harry")
+    val map = Map("Tom" -> 3, "Dick" -> 4, "Harry" -> 5)
+
+    //when
+    val result = mapToValues(coll, map)
+
+    //then
+    result shouldBe Array(3, 5)
+  }
+
+  "collToString" should "works just like mkString, using reduceLeft" in {
+    //when & then
+    collToString(Nil, ", ") shouldBe ""
+    collToString(Array(1), ", ") shouldBe "1"
+    collToString(Seq(1, 2, 3), ", ") shouldBe "1, 2, 3"
+    collToString(List("1", "2", "3"), ", ") shouldBe "1, 2, 3"
+  }
 //
 //  "reversList" should "revers the given list" in {
 //    //given
