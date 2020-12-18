@@ -143,10 +143,13 @@ object Chapter13 {
    * prepending each new element to the head of the list.
    * `(List[Int]() /: lst)(_ :+ _)` calls foldLeft. It processes the list from left to right,
    * appending each new element to the tail of the list.
+   *
+   * In Scala Lists, the append operation is linear but the prepend operation is constant time.
+   * It's better to modify the second operation to use prepend.
    */
-  // TODO: How to make this cheaper?
-  def reverseList(lst: List[Int]): List[Int] = (List[Int]() /: lst)((a, b) => {
-    b +: a
+  // List has O(1) prepend but O(n) append
+  def reverseList(lst: List[Int]): List[Int] = (List[Int]() /: lst)((b, a) => {
+    a +: b
   })
 
   /**
