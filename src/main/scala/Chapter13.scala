@@ -1,5 +1,5 @@
 import scala.collection.{concurrent, mutable}
-import scala.collection.mutable.{LinkedList, Map => mMap, Set => mSet}
+import scala.collection.mutable.{LinkedList, ListBuffer, Map => mMap, Set => mSet}
 import scala.io.Source
 
 object Chapter13 {
@@ -72,10 +72,37 @@ object Chapter13 {
   /**
    * Task 3a:
    *
-   * Write a function that removes every second eleent from a `ListBuffer`
+   * Write a function that removes every second element from a `ListBuffer`
 .  * Try it two ways. Call `remove(i)` for all even `i` starting at the end of the list.
    * Copy every second element to a new list. Compare the performance.
+   *
+   * Solution:
+   *
+   * According to the docs, ListBuffer offers constant time prepend and append, but most other
+   * implementations are linear. Therefore, we can assume that `remove` is O(n).
+   *
+   * That means that the first way (with `remove`) results in an O(n^2) runtime, but the second
+   * way (which relies on `append`) is O(n).
    */
+  def removeEveryOtherElement[A](lb: ListBuffer[A]): ListBuffer[A] = {
+    // O(n^2)
+    for (i <- lb.length-1 to 0 by -1 if i % 2 == 0) {
+      // O(n)
+      lb.remove(i)
+    }
+    lb
+  }
+
+  def removeEveryOtherElement2[A](lb: ListBuffer[A]): ListBuffer[A] = {
+    val everyOtherElement = new ListBuffer[A]()
+    // O(n)
+    for (i <- lb.length-1 to 0 by -1 if i % 2 != 0) {
+      // O(1)
+      everyOtherElement.append(lb(i))
+    }
+    everyOtherElement
+  }
+
 
   /**
    * Task 4:
@@ -117,6 +144,7 @@ object Chapter13 {
    * `(List[Int]() /: lst)(_ :+ _)` calls foldLeft. It processes the list from left to right,
    * appending each new element to the tail of the list.
    */
+  // TODO: How to make this cheaper?
   def reverseList(lst: List[Int]): List[Int] = (List[Int]() /: lst)((a, b) => {
     b +: a
   })

@@ -1,6 +1,7 @@
 import Chapter13._
 import org.scalatest.{FlatSpec, Matchers}
-import scala.collection.mutable.{LinkedList, Map => mMap, Set => mSet}
+
+import scala.collection.mutable.{LinkedList, ListBuffer, Map => mMap, Set => mSet}
 import scala.io.Source
 
 class Chapter13Spec extends FlatSpec with Matchers {
@@ -41,6 +42,19 @@ class Chapter13Spec extends FlatSpec with Matchers {
   }
 
   private def newLinkedList(elems: Int*): LinkedList[Int] = LinkedList(elems: _*)
+
+  "removeEveryOtherElement" should "remove every second element from a ListBuffer" in {
+    //when
+    val lb = ListBuffer(1,2,3)
+    removeEveryOtherElement(lb) shouldBe ListBuffer(2)
+  }
+
+  "removeEveryOtherElement2" should "remove every second element from a ListBuffer" in {
+    //when
+    val lb = ListBuffer(1,2,3)
+    removeEveryOtherElement2(lb) shouldBe ListBuffer(2)
+  }
+
 
   "mapToValues" should "return collection of corresponding integer values from map" in {
     //given
