@@ -168,6 +168,10 @@ object Chapter13 {
    * two arguments to one that take a tuple. Apply `tupled` to the multiplication function
    * so you can map it over the list of pairs.
    */
+  def multiply(as: List[Int], bs: List[Int]): List[Int] = {
+    as zip bs map {Function.tupled(_*_)}
+//    as zip bs map {{(a: Int, b: Int) => {a*b}}.tupled}
+  }
 
   /**
    * Task 8:

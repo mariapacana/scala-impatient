@@ -87,18 +87,18 @@ class Chapter13Spec extends FlatSpec with Matchers {
     result shouldBe List(5, 4, 3, 2, 1)
   }
 
-//  "multiply" should "apply Function.tupled to the multiplication function" in {
-//    //given
-//    val prices = List(1, 2, 3)
-//    val quantities = List(10, 20, 30)
-//
-//    //when
-//    val result = multiply(prices, quantities)
-//
-//    //then
-//    result shouldBe List(10, 40, 90)
-//  }
-//
+  "multiply" should "apply Function.tupled to the multiplication function" in {
+    //given
+    val prices = List(1, 2, 3)
+    val quantities = List(10, 20, 30)
+
+    //when
+    val result = multiply(prices, quantities)
+
+    //then
+    result shouldBe List(10, 40, 90)
+  }
+
 //  "twoDimensionalArray" should "turn an array of Double values into a two-dimensional array" in {
 //    //given
 //    val arr = Array[Double](1, 2, 3, 4, 5, 6)
