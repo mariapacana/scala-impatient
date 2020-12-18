@@ -99,18 +99,18 @@ class Chapter13Spec extends FlatSpec with Matchers {
     result shouldBe List(10, 40, 90)
   }
 
-//  "twoDimensionalArray" should "turn an array of Double values into a two-dimensional array" in {
-//    //given
-//    val arr = Array[Double](1, 2, 3, 4, 5, 6)
-//    val columns = 3
-//
-//    //when
-//    val result: Array[Array[Double]] = twoDimensionalArray(arr, columns)
-//
-//    //then
-//    result shouldBe Array[Array[Double]](Array(1, 2, 3), Array(4, 5, 6))
-//  }
-//
+  "twoDimensionalArray" should "turn an array of Double values into a two-dimensional array" in {
+    //given
+    val arr = Array[Double](1, 2, 3, 4, 5, 6)
+    val columns = 3
+
+    //when
+    val result: Array[Array[Double]] = twoDimensionalArray(arr, columns)
+
+    //then
+    result shouldBe Array[Array[Double]](Array(1, 2, 3), Array(4, 5, 6))
+  }
+
 //  "getLetterFrequencyMap" should "return letter frequency map for the given files" in {
 //    //given
 //    val files = Array.fill(5)("/myfile.txt")

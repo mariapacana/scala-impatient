@@ -180,7 +180,9 @@ object Chapter13 {
    * Pass the number of columns as a parameter. For example, with `Array(1, 2, 3, 4, 5, 6)`
    * and three columns, return `Array(Array(1, 2, 3), Array(4, 5, 6))`. Use the `grouped` method.
    */
-
+  def twoDimensionalArray(ary: Array[Double], numCols: Int): Array[Array[Double]] = {
+    ary.grouped(numCols).toArray
+  }
   /**
    * Task 9:
    *
