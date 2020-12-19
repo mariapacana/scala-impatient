@@ -221,7 +221,6 @@ object Chapter13 {
       }
   }
 
-
   /**
    * Task 11:
    *
@@ -232,6 +231,24 @@ object Chapter13 {
    *  for (c <- str.par) frequencies(c) = frequencies.getOrElse(c, 0) + 1
    * }}}
    * Why is this a terrible idea? How can he really parallelize the computation?
+   *
    * (Hint: Use aggregate.)
+   * def aggregate[S](z: =>S)(seqop: (S, T) => S, combop: (S, S) => S): S
+   *
+   * Solution:
+   *
+   * This is a terrible idea because `frequencies` is mutable. The program creates a new thread
+   * for each character, but all the threads are updating the same frequency map.
+   * This causes a race condition.
    */
+    def getLetterFrequencyMap(str: String): Map[Char, Int] = {
+      val seqop: (Map[Char, Int], Char) => Map[Char, Int] = (acc, curr) => {
+        acc(curr) = 1
+        acc
+      }
+      val combop: (Map[Char, Int], Map[Char, Int]) => Int = (m1, m2) => {
+        (m1 ++ m2).groupBy((k, v) => k)
+      }
+      str.par.aggregate(Map[Char, Int]())( seqop, (acc1, acc2) => { acc1 ++ acc2 })
+  }
 }

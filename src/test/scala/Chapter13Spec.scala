@@ -1,6 +1,7 @@
 import Chapter13._
 import org.scalatest.{FlatSpec, Matchers}
 
+import scala.collection.mutable
 import scala.collection.mutable.{LinkedList, ListBuffer, Map => mMap, Set => mSet}
 import scala.io.Source
 
@@ -119,38 +120,27 @@ class Chapter13Spec extends FlatSpec with Matchers {
     result shouldBe("America")
   }
 
-//  "getLetterFrequencyMap" should "return letter frequency map for the given files" in {
-//    //given
-//    val files = Array.fill(5)("/myfile.txt")
-//
-//    //when
-//    val result: Map[Char, Int] = getLetterFrequencyMap(files)
-//
-//    //then
-//    result shouldBe getTestFrequencyMap(files.head, files.length)
-//  }
-//
-//  "getLetterFrequencyMap2" should "return letter frequency map for the given string" in {
-//    //given
-//    val str = Source.fromInputStream(getClass.getResourceAsStream("/myfile.txt")).mkString
-//
-//    //when
-//    val result: Map[Char, Int] = getLetterFrequencyMap2(str)
-//
-//    //then
-//    result shouldBe getTestFrequencyMap("/myfile.txt", 1)
-//  }
-//
-//  private def getTestFrequencyMap(file: String, multiplier: Int): Map[Char, Int] = {
-//    val result = new mutable.HashMap[Char, Int]()
-//    for (c <- Source.fromInputStream(getClass.getResourceAsStream(file))) {
-//      result(c) = result.getOrElse(c, 0) + 1
-//    }
-//
-//    for ((k, v) <- result) {
-//      result(k) = v * multiplier
-//    }
-//
-//    result.toMap
-//  }
+  "getLetterFrequencyMap" should "return letter frequency map for the given string" in {
+    //given
+    val str = Source.fromInputStream(getClass.getResourceAsStream("/myfile.txt")).mkString
+
+    //when
+    val result: Map[Char, Int] = getLetterFrequencyMap(str)
+
+    //then
+    result shouldBe getTestFrequencyMap("/myfile.txt", 1)
+  }
+
+  private def getTestFrequencyMap(file: String, multiplier: Int): Map[Char, Int] = {
+    val result = new mutable.HashMap[Char, Int]()
+    for (c <- Source.fromInputStream(getClass.getResourceAsStream(file))) {
+      result(c) = result.getOrElse(c, 0) + 1
+    }
+
+    for ((k, v) <- result) {
+      result(k) = v * multiplier
+    }
+
+    result.toMap
+  }
 }
