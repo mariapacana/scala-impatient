@@ -111,6 +111,14 @@ class Chapter13Spec extends FlatSpec with Matchers {
     result shouldBe Array[Array[Double]](Array(1, 2, 3), Array(4, 5, 6))
   }
 
+  "mostTimeZones" should "return the continent with the most time zones" in {
+    //when
+    val result: String = mostTimeZones()
+
+    //then
+    result shouldBe("America")
+  }
+
 //  "getLetterFrequencyMap" should "return letter frequency map for the given files" in {
 //    //given
 //    val files = Array.fill(5)("/myfile.txt")

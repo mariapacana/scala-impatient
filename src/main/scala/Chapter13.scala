@@ -1,5 +1,6 @@
 import scala.collection.{concurrent, mutable}
 import scala.collection.mutable.{LinkedList, ListBuffer, Map => mMap, Set => mSet}
+import scala.util.matching.Regex
 import scala.io.Source
 
 object Chapter13 {
@@ -183,6 +184,7 @@ object Chapter13 {
   def twoDimensionalArray(ary: Array[Double], numCols: Int): Array[Array[Double]] = {
     ary.grouped(numCols).toArray
   }
+
   /**
    * Task 9:
    *
@@ -198,12 +200,27 @@ object Chapter13 {
    * What happens when there are three generators in the `for/yield` expression?
    */
 
-
   /**
    * Task 10:
    * The method `java.util.TimeZone.getAvailableIDs` yields time zones such as `Africa/Cairo`
    * and `Asia/Chungking`. Which continent has the most time zones? Hint: `groupBy`.
    */
+  def mostTimeZones(): String = {
+    continentsToTimeZones
+      .toSeq
+      .maxBy(_._2.length)
+      ._1
+  }
+
+  private def continentsToTimeZones: Map[String, Array[String]] = {
+    val reg = """(^\w+)/.*""".r
+    java.util.TimeZone.getAvailableIDs
+      .groupBy {
+        case reg(c) => c
+        case _ => ""
+      }
+  }
+
 
   /**
    * Task 11:
@@ -217,5 +234,4 @@ object Chapter13 {
    * Why is this a terrible idea? How can he really parallelize the computation?
    * (Hint: Use aggregate.)
    */
-
 }
