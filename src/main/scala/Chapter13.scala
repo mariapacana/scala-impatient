@@ -198,6 +198,26 @@ object Chapter13 {
    * }}}
    * Explain the use of `flatMap`. Hint: What is `(1 to i).map(j => i * j)` when `i` is `1,2,3`?
    * What happens when there are three generators in the `for/yield` expression?
+   *
+   * Solution:
+   * When `i` is `1,2,3`, the result is a Vector of Vectors:
+   * {{{
+   * (1 to 3).map(i => (1 to i).map(j => i * j))
+   * res5: IndexedSeq[IndexedSeq[Int]] = Vector(Vector(1), Vector(2, 4), Vector(3, 6, 9))
+   * }}}
+   * `flatMap` maps over all the values of `i`, creating a Vector of Vectors, then
+   * flattens the results into a single `Vector`.
+   *
+   * When there are three generators in the `for/yield` expression, Scala transforms
+   * the expression into two chained invocations of `flatMap` followed by `map`, like this:
+   * {{{
+   *   for (i <- 1 to 10; j <- 1 to i; k <- 1 to j) yield i*j*k
+   * }}}
+   * {{{
+   *   (1 to 10).flatMap(i => (1 to i).flatMap(j => (1 to j).map(k => i * j*k)))
+   * }}}
+   *
+   *
    */
 
   /**
@@ -241,6 +261,8 @@ object Chapter13 {
    * for each character, but all the threads are updating the same frequency map.
    * This causes a race condition.
    */
+    // This solution uses Lists of (Char, Int) tuples.
+    // Other students used immutable HashMaps here.
     def getLetterFrequencyMap(str: String): Map[Char, Int] = {
       val seqop: (List[(Char, Int)], Char) => List[(Char, Int)] = (acc, curr) => {
         (curr, 1) +: acc
@@ -249,7 +271,6 @@ object Chapter13 {
         .groupBy(_._1)
         .mapValues(_.size)
   }
-
 //  TODO:
 //  - Review `flatMap` and for comprehensions
 //  - Review regular expressions and do regexp exercises
