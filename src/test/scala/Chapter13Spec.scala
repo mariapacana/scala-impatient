@@ -122,13 +122,13 @@ class Chapter13Spec extends FlatSpec with Matchers {
 
   "getLetterFrequencyMap" should "return letter frequency map for the given string" in {
     //given
-    val str = Source.fromInputStream(getClass.getResourceAsStream("/myfile.txt")).mkString
+    val str = Source.fromInputStream(getClass.getResourceAsStream("/resources/myfile.txt")).mkString
 
     //when
     val result: Map[Char, Int] = getLetterFrequencyMap(str)
 
     //then
-    result shouldBe getTestFrequencyMap("/myfile.txt", 1)
+    result shouldBe getTestFrequencyMap("/resources/myfile.txt", 1)
   }
 
   private def getTestFrequencyMap(file: String, multiplier: Int): Map[Char, Int] = {

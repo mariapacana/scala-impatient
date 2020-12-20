@@ -242,13 +242,15 @@ object Chapter13 {
    * This causes a race condition.
    */
     def getLetterFrequencyMap(str: String): Map[Char, Int] = {
-      val seqop: (Map[Char, Int], Char) => Map[Char, Int] = (acc, curr) => {
-        acc(curr) = 1
-        acc
+      val seqop: (List[(Char, Int)], Char) => List[(Char, Int)] = (acc, curr) => {
+        (curr, 1) +: acc
       }
-      val combop: (Map[Char, Int], Map[Char, Int]) => Int = (m1, m2) => {
-        (m1 ++ m2).groupBy((k, v) => k)
-      }
-      str.par.aggregate(Map[Char, Int]())( seqop, (acc1, acc2) => { acc1 ++ acc2 })
+      str.par.aggregate(List[(Char, Int)]())(seqop, _ ++ _)
+        .groupBy(_._1)
+        .mapValues(_.size)
   }
+
+//  TODO:
+//  - Review `flatMap` and for comprehensions
+//  - Review regular expressions and do regexp exercises
 }
