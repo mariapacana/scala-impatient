@@ -1,4 +1,4 @@
-
+import scala.reflect.ClassTag
 
 object Chapter14 {
 
@@ -19,6 +19,11 @@ object Chapter14 {
    * Using pattern matching, write a function `swap` that receives a pair of integers and
    * returns the pair with the components swapped.
    */
+  def swap(pair: (Int, Int)): (Int, Int) = {
+    pair match {
+      case (a, b) => (b, a)
+    }
+  }
 
   /**
    * Task 3:
@@ -26,6 +31,12 @@ object Chapter14 {
    * Using pattern matching, write a function `swap` that swaps the first two elements of
    * an array provided its length is at least two.
    */
+  def swap2[T: ClassTag](arr: Array[T]): Array[T] = {
+    arr match {
+      case Array(a, b, rest @ _*) => Array(b, a) ++ rest
+      case _ => arr
+    }
+  }
 
   /**
    * Task 4:
