@@ -1,3 +1,4 @@
+import scala.Double
 import scala.reflect.ClassTag
 
 object Chapter14 {
@@ -46,6 +47,16 @@ object Chapter14 {
    * you should be able to handle any items, such as bundles or multiples, in the second argument.
    * Extend the `price` function to handle this new case.
    */
+  abstract class Item
+  case class Article(description: String, price: Double) extends Item
+  case class Bundle(description: String, discount: Double, items: Item*) extends Item
+  case class Multiple(number: Int, item: Item) extends Item
+
+  def price(it: Item): Double = it match {
+    case Article(_, p) => p
+    case Bundle(_, disc, its @ _*) => its.map(price).sum - disc
+    case Multiple(n, it) => price(it)*n
+  }
 
   /**
    * Task 5:
@@ -64,6 +75,14 @@ object Chapter14 {
    * compute the sum of all elements in the leaves, using pattern matching to differentiate
    * between numbers and lists.
    */
+  def leafSum(lst: List[Any]): Double =
+    (lst map { i: Any => {
+      i match {
+        case d: Double => d
+        case i: Int => i.toDouble
+        case l: List[Any] => leafSum(l)
+      }
+    }}).sum
 
   /**
    * Task 6:

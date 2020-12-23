@@ -271,7 +271,4 @@ object Chapter13 {
         .groupBy(_._1)
         .mapValues(_.size)
   }
-//  TODO:
-//  - Review `flatMap` and for comprehensions
-//  - Review regular expressions and do regexp exercises
 }

@@ -33,42 +33,42 @@ class Chapter14Spec extends FlatSpec with Matchers {
     r4 shouldBe Array(2, 1, 3, 4)
   }
 
-//  "price" should "handle Multiple class items" in {
-//    //given
-//    val item = Bundle("Father's day special", 20.0,
-//      Article("Scala for the Impatient", 39.95),
-//      Bundle("Anchor Distilley Sampler", 10.0,
-//        Article("Old Potrero Straight Rye Whiskey", 79.95),
-//        Article("Junipero Gin", 32.95)),
-//      Multiple(10, Article("Blackwell Toaster", 29.95)))
-//
-//    //when
-//    val result: Double = price(item)
-//
-//    //then
-//    result.formatted("%.2f") shouldBe "422.35"
-//  }
-//
-//  it should "be able to handle any items, such as bundles or multiples" in {
-//    //when & then
-//    price(Multiple(1,
-//      Multiple(2,
-//        Bundle("Black Friday special", 49.0,
-//          Multiple(3, Article("iPhone 5s", 549.99)))))
-//    ).formatted("%.2f") shouldBe "3201.94"
-//  }
-//
-//  "leafSum" should "compute the sum of all elements in the leaves" in {
-//    //given
-//    val list: List[Any] = List(List(3, 8), 2, List(5))
-//
-//    //when
-//    val result: Double = leafSum(list)
-//
-//    //then
-//    result shouldBe 18
-//  }
-//
+  "price" should "handle Multiple class items" in {
+    //given
+    val item = Bundle("Father's day special", 20.0,
+      Article("Scala for the Impatient", 39.95),
+      Bundle("Anchor Distilley Sampler", 10.0,
+        Article("Old Potrero Straight Rye Whiskey", 79.95),
+        Article("Junipero Gin", 32.95)),
+      Multiple(10, Article("Blackwell Toaster", 29.95)))
+
+    //when
+    val result: Double = price(item)
+
+    //then
+    result.formatted("%.2f") shouldBe "422.35"
+  }
+
+  it should "be able to handle any items, such as bundles or multiples" in {
+    //when & then
+    price(Multiple(1,
+      Multiple(2,
+        Bundle("Black Friday special", 49.0,
+          Multiple(3, Article("iPhone 5s", 549.99)))))
+    ).formatted("%.2f") shouldBe "3201.94"
+  }
+
+  "leafSum" should "compute the sum of all elements in the leaves" in {
+    //given
+    val list: List[Any] = List(List(3, 8), 2, List(5))
+
+    //when
+    val result: Double = leafSum(list)
+
+    //then
+    result shouldBe 18
+  }
+
 //  "Task6.leafSum" should "compute the sum of all elements in the BinaryTree" in {
 //    import Task6._
 //
