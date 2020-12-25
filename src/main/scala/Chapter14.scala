@@ -1,7 +1,7 @@
 import scala.Double
 import scala.reflect.ClassTag
 
-object Chapter14 {
+package object Chapter14 {
 
   /**
    * Task 1:
@@ -76,13 +76,11 @@ object Chapter14 {
    * between numbers and lists.
    */
   def leafSum(lst: List[Any]): Double =
-    (lst map { i: Any => {
-      i match {
-        case d: Double => d
-        case i: Int => i.toDouble
-        case l: List[Any] => leafSum(l)
-      }
-    }}).sum
+    (lst map {
+      case d: Double => d
+      case i: Int => i.toDouble
+      case l: List[Any] => leafSum(l)
+    }).sum
 
   /**
    * Task 6:
@@ -95,6 +93,18 @@ object Chapter14 {
    * }}}
    * Write a function to compute the sum of all elements in the leaves.
    */
+   object Task6 {
+    sealed abstract class BinaryTree
+    case class Leaf(value: Int) extends BinaryTree
+    case class Node(left: BinaryTree, right: BinaryTree) extends BinaryTree
+
+    def binaryTreeLeafSum(tree: BinaryTree): Int = {
+      tree match {
+        case Leaf(x) => x
+        case Node(left, right) => binaryTreeLeafSum(left) + binaryTreeLeafSum(right)
+      }
+    }
+  }
 
   /**
    * Task 7:
@@ -105,6 +115,18 @@ object Chapter14 {
    *  Node(Node(Leaf(3), Leaf(8)), Leaf(2), Node(Leaf(5)))
    * }}}
    */
+  object Task7 {
+    sealed abstract class BinaryTree
+    case class Leaf(value: Int) extends BinaryTree
+    case class Node(trees: BinaryTree*) extends BinaryTree
+
+    def leafSum(tree: BinaryTree): Int = {
+      tree match {
+        case Leaf(x) => x
+        case Node(trees@_*) => trees.map(leafSum).sum
+      }
+    }
+  }
 
   /**
    * Task 8:
@@ -121,6 +143,34 @@ object Chapter14 {
    * }}}
    * has value `(3 x 8) + 2 + (-5) = 21`.
    */
+  object Task8 {
+    sealed abstract class BinaryTree
+    case class Leaf(value: Int) extends BinaryTree
+    case class Node(operator: String, trees: BinaryTree*) extends BinaryTree
+
+    sealed abstract class Operator
+    case class Minus() extends Operator
+    case class Plus() extends Operator
+    case class Multiply() extends Operator
+
+    def eval(tree: BinaryTree): Int = {
+      tree match {
+        case Leaf(x) => x
+        case Node(op, Leaf(x)) if op == "-" => -x
+        case Node(_, Leaf(x)) => x
+        case Node(op, trees@_*) => trees.map(eval).reduce(calculator(op, _, _))
+      }
+    }
+
+    // TODO: Consider creating a new case class / companion object for this.
+    def calculator(op: String, a: Int, b: Int): Int = {
+      op match {
+        case "+" => a + b
+        case "-" => a - b
+        case "*" => a * b
+      }
+    }
+  }
 
   /**
    * Task 9:

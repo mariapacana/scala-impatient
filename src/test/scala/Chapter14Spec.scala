@@ -69,47 +69,45 @@ class Chapter14Spec extends FlatSpec with Matchers {
     result shouldBe 18
   }
 
-//  "Task6.leafSum" should "compute the sum of all elements in the BinaryTree" in {
-//    import Task6._
-//
-//    //given
-//    val bt: Task6.BinaryTree = Node(Node(Leaf(3), Leaf(8)), Node(Leaf(2), Leaf(5)))
-//
-//    //when
-//    val result: Int = leafSum(bt)
-//
-//    //then
-//    result shouldBe 18
-//  }
-//
-//  "Task7.leafSum" should "compute the sum of all elements in the multi-node tree" in {
-//    import Task7._
-//
-//    //given
-//    val bt: Task7.BinaryTree = Node(Node(Leaf(3), Leaf(8)), Leaf(2), Node(Leaf(5)))
-//
-//    //when
-//    val result: Int = leafSum(bt)
-//
-//    //then
-//    result shouldBe 18
-//  }
-//
-//  "eval" should "compute the value of the operator-node tree" in {
-//    import Task8._
-//    import Task8.Op._
-//
-//    //given
-//    val bt: Task8.BinaryTree =
-//      Node(Plus, Node(Product, Leaf(3), Leaf(8)), Leaf(2), Node(Minus, Leaf(5)))
-//
-//    //when
-//    val result: Int = eval(bt)
-//
-//    //then
-//    result shouldBe 21
-//  }
-//
+  "Task6.leafSum" should "compute the sum of all elements in the BinaryTree" in {
+    import Task6._
+    //given
+    val bt: BinaryTree = Node(Node(Leaf(3), Leaf(8)), Node(Leaf(2), Leaf(5)))
+
+    //when
+    val result: Int = binaryTreeLeafSum(bt)
+
+    //then
+    result shouldBe 18
+  }
+
+  "Task7.leafSum" should "compute the sum of all elements in the multi-node tree" in {
+    import Task7._
+
+    //given
+    val bt: Task7.BinaryTree = Node(Node(Leaf(3), Leaf(8)), Leaf(2), Node(Leaf(5)))
+
+    //when
+    val result: Int = leafSum(bt)
+
+    //then
+    result shouldBe 18
+  }
+
+  "eval" should "compute the value of the operator-node tree" in {
+    import Task8._
+
+    //given
+    val bt: Task8.BinaryTree =
+      Node("+", Node("*", Leaf(3), Leaf(8)), Leaf(2), Node("-", Leaf(5)))
+
+    //when
+    val result: Int = eval(bt)
+
+    //then
+    result shouldBe 21
+  }
+
 //  "sumOfNonNoneValues" should "compute the sum of the non-None values" in {
 //    //given
 //    val list: List[Option[Int]] = List(None, Some(1), None, Some(2), None, Some(3))
