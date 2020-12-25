@@ -118,7 +118,18 @@ class Chapter14Spec extends FlatSpec with Matchers {
     //then
     result shouldBe 6
   }
-//
+
+  "sumOfNonNoneValues2" should "compute the sum of the non-None values" in {
+    //given
+    val list: List[Option[Int]] = List(None, Some(1), None, Some(2), None, Some(3))
+
+    //when
+    val result: Int = sumOfNonNoneValues2(list)
+
+    //then
+    result shouldBe 6
+  }
+
 //  "compose" should "yield None if either function does" in {
 //    //given
 //    def f(x: Double) = if (x >= 0) Some(Math.sqrt(x)) else None

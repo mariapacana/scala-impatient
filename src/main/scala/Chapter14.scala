@@ -148,26 +148,12 @@ package object Chapter14 {
     case class Leaf(value: Int) extends BinaryTree
     case class Node(operator: String, trees: BinaryTree*) extends BinaryTree
 
-    sealed abstract class Operator
-    case class Minus() extends Operator
-    case class Plus() extends Operator
-    case class Multiply() extends Operator
-
     def eval(tree: BinaryTree): Int = {
       tree match {
         case Leaf(x) => x
-        case Node(op, Leaf(x)) if op == "-" => -x
-        case Node(_, Leaf(x)) => x
-        case Node(op, trees@_*) => trees.map(eval).reduce(calculator(op, _, _))
-      }
-    }
-
-    // TODO: Consider creating a new case class / companion object for this.
-    def calculator(op: String, a: Int, b: Int): Int = {
-      op match {
-        case "+" => a + b
-        case "-" => a - b
-        case "*" => a * b
+        case Node("+", trees@_*) => trees.map(eval).sum
+        case Node("-", trees@_*) => trees.map(eval).foldLeft(0)(_ - _)
+        case Node("*", trees@_*) => trees.map(eval).product
       }
     }
   }
@@ -179,6 +165,7 @@ package object Chapter14 {
    */
   def sumOfNonNoneValues(lst: List[Option[Int]]): Int = lst.map(_.getOrElse(0)).sum
 
+  def sumOfNonNoneValues2(l: List[Option[Int]]): Int = (for(Some(v) <- l) yield v).sum
 
   /**
    * Task 10:
@@ -193,5 +180,6 @@ package object Chapter14 {
    * }}}
    * Then `h(2)` is `Some(1)`, and `h(1)` and `h(0)` are `None`.
    */
-
+//  def compose(f: Double => Option[Double], g: Double => Option[Double]): Double => Option[Double] = {
+//  }
 }
