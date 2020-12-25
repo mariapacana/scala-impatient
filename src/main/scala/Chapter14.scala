@@ -180,6 +180,11 @@ package object Chapter14 {
    * }}}
    * Then `h(2)` is `Some(1)`, and `h(1)` and `h(0)` are `None`.
    */
-//  def compose(f: Double => Option[Double], g: Double => Option[Double]): Double => Option[Double] = {
-//  }
+  def compose(f: Double => Option[Double], g: Double => Option[Double]): Double => Option[Double] =
+    (a: Double) => {
+      g(a) match {
+        case Some(x) => f(x)
+        case None => None
+      }
+    }
 }
