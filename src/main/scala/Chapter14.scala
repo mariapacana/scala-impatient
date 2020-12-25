@@ -171,13 +171,14 @@ package object Chapter14 {
       }
     }
   }
-
   /**
    * Task 9:
    *
    * Write a function that computes the sum of the non-None values in a `List[Option[Int]]`.
    * Don't use a match statement.
    */
+  def sumOfNonNoneValues(lst: List[Option[Int]]): Int = lst.map(_.getOrElse(0)).sum
+
 
   /**
    * Task 10:
