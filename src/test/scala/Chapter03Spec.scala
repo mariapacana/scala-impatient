@@ -77,13 +77,21 @@ class Chapter03Spec extends FlatSpec with Matchers {
     b shouldBe Array(1, -1, 2, 0)
   }
 
-//  it should "drop negatives except first" in {
-//    val a = ArrayBuffer(1, -1, -3, 0, -2, 1, -1)
-//    val b: ArrayBuffer[Int] = dropNegativesExceptFirst(a)
-//    b shouldBe theSameInstanceAs(a)
-//    b shouldBe ArrayBuffer(1, -1, 0, 1)
-//  }
-//
+  "dropNegatives" should "drop negatives except first" in {
+    val a = ArrayBuffer(1, -1, -3, 0, -2, 1, -1)
+    val b: ArrayBuffer[Int] = dropNegativesExceptFirst(a)
+    b shouldBe theSameInstanceAs(a)
+    b shouldBe ArrayBuffer(1, -1, 0, 1)
+  }
+
+  "dropNegativesV2" should "drop negatives except first" in {
+    val a = ArrayBuffer(1, -1, -3, 0, -2, 1, -1)
+    val b: ArrayBuffer[Int] = dropNegativesV2(a)
+    b shouldBe theSameInstanceAs(a)
+    b shouldBe ArrayBuffer(1, -1, 0, 1)
+  }
+
+
   it should "return America time zones" in {
     val a: Array[String] = americaTimeZones
     a.length shouldEqual 166

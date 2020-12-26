@@ -109,12 +109,22 @@ object Chapter03 {
    * the negative elements, dropping the first element, reversing the sequence, and calling
    * `a.remove(i)` for each index.
    */
+  def dropNegativesExceptFirst(ary: ArrayBuffer[Int]): ArrayBuffer[Int]= {
+    val negativeElements = for (i <- ary.indices if ary(i) < 0) yield i
+    for (i <- negativeElements.drop(1).reverse) ary.remove(i)
+    ary
+  }
 
   /**
    * Improve the solution of the preceding exercise by collecting the positions that should be moved
    * and their target positions. Make those moves and truncate the buffer. Don't copy any elements
    * before the first unwanted element.
    */
+  def dropNegativesV2(ary: ArrayBuffer[Int]): ArrayBuffer[Int]= {
+    val negativeElements = for (i <- ary.indices if ary(i) < 0) yield i
+    for (i <- negativeElements.drop(1).reverse) ary.remove(i)
+    ary
+  }
 
   /**
    * Task 10:
