@@ -62,22 +62,19 @@ object Chapter03 {
   def computeAverage(ary: Array[Double]): Double = ary.sum / ary.length
 
   /**
-   * Reverses the given array in place.
-   *
-   * <p>Got from here:
-   * <br>http://javarevisited.blogspot.de/2015/03/how-to-reverse-array-in-place-in-java.html
-   */
-  /**
    * Task 6a:
    *   How do you rearrange the elements of an Array[Int]
    *   so that they appear in reverse sorted order?
    */
+//  def reverseSortArray(ary: Array[Int]): Array[Int] = ary.sorted.reverse
+  def reverseSortArray(ary: Array[Int]): Array[Int] = ary.sortWith(_ > _)
 
   /**
    * Task 6b:
    *   How do you rearrange the elements of an ArrayBuffer[Int]
    *   so that they appear in reverse sorted order?
    */
+  def reverseSortArrayBuffer(ary: ArrayBuffer[Int]) = ary.sortWith(_ > _)
 
   /**
    * Task 7:
@@ -87,7 +84,7 @@ object Chapter03 {
   def removeDuplicates(ary: Array[Int]): Array[Int] = ary.distinct
 
   /**
-   * Task 8:
+   * Task 8a:
    * Suppose you are given an array buffer of integers and want to remove all but the first
    * negative number. Here is a sequential solution that sets a flag when the first negative
    * number is called, then removes all elements beyond.
@@ -116,15 +113,12 @@ object Chapter03 {
   }
 
   /**
+   * Task 8b:
    * Improve the solution of the preceding exercise by collecting the positions that should be moved
    * and their target positions. Make those moves and truncate the buffer. Don't copy any elements
    * before the first unwanted element.
    */
-  def dropNegativesV2(ary: ArrayBuffer[Int]): ArrayBuffer[Int]= {
-    val negativeElements = for (i <- ary.indices if ary(i) < 0) yield i
-    for (i <- negativeElements.drop(1).reverse) ary.remove(i)
-    ary
-  }
+  def dropNegativesV2(ary: ArrayBuffer[Int]): ArrayBuffer[Int] =  ???
 
   /**
    * Task 10:

@@ -56,19 +56,17 @@ class Chapter03Spec extends FlatSpec with Matchers {
     b shouldBe 0.75
   }
 
-//  it should "reverse sort Array[Int] in place" in {
-//    val a = Array(1, -1, 3, 0, 0, 2, 1)
-//    val b: Array[Int] = reverseSortArray(a)
-//    b shouldBe theSameInstanceAs(a)
-//    b shouldBe Array(3, 2, 1, 1, 0, 0, -1)
-//  }
-//
-//  it should "reverse sort ArrayBuffer[Int] in place" in {
-//    val a = ArrayBuffer(1, -1, 3, 0, 2, 1)
-//    val b: ArrayBuffer[Int] = reverseSortArrayBuffer(a)
-//    b shouldBe theSameInstanceAs(a)
-//    b shouldBe ArrayBuffer(3, 2, 1, 1, 0, -1)
-//  }
+  it should "reverse sort Array[Int] " in {
+    val a = Array(1, -1, 3, 0, 0, 2, 1)
+    val b: Array[Int] = reverseSortArray(a)
+    b shouldBe Array(3, 2, 1, 1, 0, 0, -1)
+  }
+
+  it should "reverse sort ArrayBuffer[Int] in place" in {
+    val a = ArrayBuffer(1, -1, 3, 0, 2, 1)
+    val b: ArrayBuffer[Int] = reverseSortArrayBuffer(a)
+    b shouldBe ArrayBuffer(3, 2, 1, 1, 0, -1)
+  }
 
   it should "remove duplicates" in {
     val a = Array(1, -1, 2, 0, 2, 1)
