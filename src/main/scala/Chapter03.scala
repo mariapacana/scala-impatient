@@ -67,7 +67,6 @@ object Chapter03 {
    * <p>Got from here:
    * <br>http://javarevisited.blogspot.de/2015/03/how-to-reverse-array-in-place-in-java.html
    */
-
   /**
    * Task 6a:
    *   How do you rearrange the elements of an Array[Int]
@@ -85,23 +84,52 @@ object Chapter03 {
    *   Write a code snippet that produces all values from an array with duplicates removed.
    *   (Hint: Look at Scaladoc.)
    */
+  def removeDuplicates(ary: Array[Int]): Array[Int] = ary.distinct
 
   /**
    * Task 8:
-   *   Rewrite the example at the end of Section 3.4, "Transforming Arrays", on page 34
-   *   using the drop method for dropping the index of the first match.
-   *   Look the method up in Scaladoc.
+   * Suppose you are given an array buffer of integers and want to remove all but the first
+   * negative number. Here is a sequential solution that sets a flag when the first negative
+   * number is called, then removes all elements beyond.
+   *
+   * {{{
+   *   var first = true
+   *   var n = a.length
+   *   var i = 0
+   *   while (i < n) {
+   *     if (a(i) >= 0) i += 1
+   *     else {
+   *       if (first) { first = false; i +=1 }
+   *       else { a.remove(i); n -= 1 }
+   *     }
+   *   }
+   * }}}
+   *
+   * This is a complex and inefficient solution. Rewrite it in Scala by collecting positions of
+   * the negative elements, dropping the first element, reversing the sequence, and calling
+   * `a.remove(i)` for each index.
    */
 
-
   /**
-   * Task 9:
-   *   Make a collection of all time zones returned by java.util.TimeZone.getAvailableIDs
-   *   that are in America. Strip off the "America/" prefix and sort the result.
+   * Improve the solution of the preceding exercise by collecting the positions that should be moved
+   * and their target positions. Make those moves and truncate the buffer. Don't copy any elements
+   * before the first unwanted element.
    */
 
   /**
    * Task 10:
+   *   Make a collection of all time zones returned by java.util.TimeZone.getAvailableIDs
+   *   that are in America. Strip off the "America/" prefix and sort the result.
+   */
+  def americaTimeZones: Array[String] = {
+    java.util.TimeZone.getAvailableIDs()
+      .filter(_.contains("America"))
+      .map(_.replace("America/", ""))
+      .sorted
+  }
+
+  /**
+   * Task 11:
    *   Import java.awt.datatransfer._ and make an object of type SystemFlavorMap with the call
    *
    *   val flavors = SystemFlavorMap.getDefaultFlavorMap().asInstanceOf[SystemFlavorMap]

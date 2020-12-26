@@ -69,14 +69,14 @@ class Chapter03Spec extends FlatSpec with Matchers {
 //    b shouldBe theSameInstanceAs(a)
 //    b shouldBe ArrayBuffer(3, 2, 1, 1, 0, -1)
 //  }
-//
-//  it should "remove duplicates" in {
-//    val a = Array(1, -1, 2, 0, 2, 1)
-//    val b: Array[Int] = removeDuplicates(a)
-//    b shouldNot be theSameInstanceAs a
-//    b shouldBe Array(1, -1, 2, 0)
-//  }
-//
+
+  it should "remove duplicates" in {
+    val a = Array(1, -1, 2, 0, 2, 1)
+    val b: Array[Int] = removeDuplicates(a)
+    b shouldNot be theSameInstanceAs a
+    b shouldBe Array(1, -1, 2, 0)
+  }
+
 //  it should "drop negatives except first" in {
 //    val a = ArrayBuffer(1, -1, -3, 0, -2, 1, -1)
 //    val b: ArrayBuffer[Int] = dropNegativesExceptFirst(a)
@@ -84,13 +84,13 @@ class Chapter03Spec extends FlatSpec with Matchers {
 //    b shouldBe ArrayBuffer(1, -1, 0, 1)
 //  }
 //
-//  it should "return America time zones" in {
-//    val a: Array[String] = americaTimeZones
-//    a.length should be > 0
-//    a.head(0) shouldBe 'A'
-//    a.last(0) shouldBe 'Y'
-//  }
-//
+  it should "return America time zones" in {
+    val a: Array[String] = americaTimeZones
+    a.length shouldEqual 166
+    a.head(0) shouldBe 'A'
+    a.last(0) shouldBe 'Y'
+  }
+
 //  it should "return java List as Scala Buffer" in {
 //    val a: mutable.Buffer[String] = javaListAsScalaBuffer
 //    a.length should be > 0
