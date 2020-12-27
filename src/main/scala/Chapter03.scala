@@ -118,8 +118,32 @@ object Chapter03 {
    * Improve the solution of the preceding exercise by collecting the positions that should be moved
    * and their target positions. Make those moves and truncate the buffer. Don't copy any elements
    * before the first unwanted element.
+   * 
+   * (1, -1, -3, 0, -2, 1, -1)
+   * ((3, 2), (5,3))
+   * (1, -1, 0, 1)
    */
-  def dropNegativesV2(ary: ArrayBuffer[Int]): ArrayBuffer[Int] =  ???
+
+  def dropNegativesV2(ary: ArrayBuffer[Int]): ArrayBuffer[Int] = {
+    var shift = 0
+    val positionsToMove: IndexedSeq[Option[(Int, Int)]] = for {
+      i <- ary.indices
+    } yield {
+      if (ary(i) < 0) {
+        shift = shift + 1
+        None
+      } else if (ary(i) >= 0 && shift <= 1) {
+        None
+      } else {
+        Some((i, i - shift + 1))
+      }
+    }
+    val filteredPositions = positionsToMove.filterNot(_.isEmpty)
+    filteredPositions.foreach { case Some((o: Int, n: Int)) => ary(n) = ary(o) }
+    val lastPosition = filteredPositions.last.getOrElse((0,0))._2
+    ary.trimEnd(ary.length - lastPosition - 1)
+    ary
+  }
 
   /**
    * Task 10:

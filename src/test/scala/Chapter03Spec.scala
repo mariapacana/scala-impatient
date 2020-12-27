@@ -89,7 +89,6 @@ class Chapter03Spec extends FlatSpec with Matchers {
     b shouldBe ArrayBuffer(1, -1, 0, 1)
   }
 
-
   it should "return America time zones" in {
     val a: Array[String] = americaTimeZones
     a.length shouldEqual 166
