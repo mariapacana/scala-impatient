@@ -97,8 +97,8 @@ class Chapter03Spec extends FlatSpec with Matchers {
     a.last(0) shouldBe 'Y'
   }
 
-//  it should "return java List as Scala Buffer" in {
-//    val a: mutable.Buffer[String] = javaListAsScalaBuffer
-//    a.length should be > 0
-//  }
+  it should "return java List as Scala Buffer" in {
+    val a: mutable.Buffer[String] = javaListAsScalaBuffer
+    a.length should be > 0
+  }
 }

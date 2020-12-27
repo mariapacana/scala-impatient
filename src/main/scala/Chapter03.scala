@@ -1,5 +1,6 @@
 import java.awt.datatransfer.{DataFlavor, SystemFlavorMap}
 import java.util.TimeZone
+import scala.collection.JavaConverters._
 
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
@@ -142,5 +143,9 @@ object Chapter03 {
    *   and get the return value as a Scala buffer. (Why this obscure class? It’s hard
    *   to find uses of java.util.List in the standard Java library.)
    */
+  def javaListAsScalaBuffer: mutable.Buffer[String] = {
+    val flavors = SystemFlavorMap.getDefaultFlavorMap().asInstanceOf[SystemFlavorMap]
+    flavors.getNativesForFlavor(DataFlavor.imageFlavor).asScala
+  }
 
 }
