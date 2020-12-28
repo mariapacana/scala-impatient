@@ -2,8 +2,7 @@ import java.util
 import java.util.Scanner
 
 import scala.collection.JavaConversions.{mapAsScalaMap, propertiesAsScalaMap}
-import scala.collection.immutable.SortedMap
-import scala.collection.mutable
+import scala.collection.mutable.{Map => mMap, SortedMap => mSortedMap}
 import scala.collection.mutable.ListBuffer
 
 object Chapter04 {
@@ -13,7 +12,9 @@ object Chapter04 {
    *   Set up a map of prices for a number of gizmos that you covet.
    *   Then produce a second map with the same keys and the prices at a 10 percent discount.
    */
-  def gizmosWithReducedPrice(): Map[String, Int] = ???
+  def gizmosWithReducedPrice(gizmos: Map[String, Double]): Map[String, Double] = {
+    gizmos.mapValues(_ * 0.90)
+  }
 
   /**
    * Task 2:
@@ -24,27 +25,52 @@ object Chapter04 {
    *     while (in.hasNext()) process in.next()
    * </code></blockquote>
    */
-  def countWordsMutableMap(): mutable.Map[String, Int] = ???
+  def countWordsMutableMap(): mMap[String, Int] = {
+    val in = new java.util.Scanner(getClass.getResourceAsStream("/resources/myfile.txt"))
+    val wordCount = scala.collection.mutable.Map[String, Int]()
+    while (in.hasNext()) {
+      val word = in.next()
+      wordCount(word) = wordCount.getOrElse(word, 0) + 1
+    }
+    wordCount
+  }
 
   /**
    * Task 3:
    *   Repeat the preceding exercise with an immutable map.
    */
-  def countWordsImmutableMap(): Map[String, Int] = ???
+  def countWordsImmutableMap(): Map[String, Int] = {
+    val in = new java.util.Scanner(getClass.getResourceAsStream("/resources/myfile.txt"))
+    var wordCount = Map[String, Int]()
+    while (in.hasNext()) {
+      val word = in.next()
+      val count = wordCount.getOrElse(word, 0) + 1
+      wordCount += (word -> count)
+    }
+    wordCount
+  }
 
   /**
    * Task 4:
    *   Repeat the preceding exercise with a sorted map,
    *   so that the words are printed in sorted order.
    */
-  def countWordsSortedMap(): Map[String, Int] = ???
+  def countWordsSortedMap(): mSortedMap[String, Int] = {
+    val in = new java.util.Scanner(getClass.getResourceAsStream("/resources/myfile.txt"))
+    val wordCount = scala.collection.mutable.SortedMap[String, Int]()
+    while (in.hasNext()) {
+      val word = in.next()
+      wordCount(word) = wordCount.getOrElse(word, 0) + 1
+    }
+    wordCount
+  }
 
   /**
    * Task 5:
    *   Repeat the preceding exercise with a java.util.TreeMap
    *   that you adapt to the Scala API.
    */
-  def countWordsTreeMap(): mutable.Map[String, Int] = ???
+  def countWordsTreeMap(): mMap[String, Int] = ???
 
   /**
    * Task 6:
@@ -52,7 +78,7 @@ object Chapter04 {
    *   and similarly for the other weekdays. Demonstrate that the elements
    *   are visited in insertion order.
    */
-  def weekdaysLinkedHashMap(): mutable.Map[String, Int] = ???
+  def weekdaysLinkedHashMap(): mMap[String, Int] = ???
   /**
    * Task 7:
    *   Print a table of all Java properties, like this:
