@@ -2,7 +2,8 @@ import java.util
 import java.util.Scanner
 
 import scala.collection.JavaConversions.{mapAsScalaMap, propertiesAsScalaMap}
-import scala.collection.mutable.{Map => mMap, SortedMap => mSortedMap}
+import java.util.Calendar
+import scala.collection.mutable.{Map => mMap, SortedMap => mSortedMap, LinkedHashMap => mLinkedHashMap}
 import scala.collection.mutable.ListBuffer
 
 object Chapter04 {
@@ -78,7 +79,16 @@ object Chapter04 {
    *   and similarly for the other weekdays. Demonstrate that the elements
    *   are visited in insertion order.
    */
-  def weekdaysLinkedHashMap(): mMap[String, Int] = ???
+  def weekdaysLinkedHashMap(): mLinkedHashMap[String, Int] = {
+    mLinkedHashMap("Monday" -> Calendar.MONDAY,
+      "Tuesday" -> Calendar.TUESDAY,
+      "Wednesday" -> Calendar.WEDNESDAY,
+      "Thursday" -> Calendar.THURSDAY,
+      "Friday" -> Calendar.FRIDAY,
+      "Saturday" -> Calendar.SATURDAY,
+      "Sunday" -> Calendar.SUNDAY)
+  }
+
   /**
    * Task 7:
    *   Print a table of all Java properties, like this:

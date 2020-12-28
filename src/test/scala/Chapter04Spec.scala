@@ -3,7 +3,7 @@ import java.util
 import Chapter04._
 import org.scalatest.{FlatSpec, Matchers}
 
-import scala.collection.mutable.{Map => mMap, SortedMap => mSortedMap}
+import scala.collection.mutable.{Map => mMap, SortedMap => mSortedMap, LinkedHashMap => mLinkedHashMap}
 
 class Chapter04Spec extends FlatSpec with Matchers {
 
@@ -39,20 +39,15 @@ class Chapter04Spec extends FlatSpec with Matchers {
 //    assertWordsOrderedMap(words.toList)
 //  }
 //
-//  it should "visit weekdays in insertion order" in {
-//    val weekdays: mutable.Map[String, Int] = weekdaysLinkedHashMap()
-//
-//    weekdays.size shouldBe 7
-//    weekdays.toList shouldBe List(
-//      "Monday" -> util.Calendar.MONDAY,
-//      "Tuesday" -> util.Calendar.TUESDAY,
-//      "Wednesday" -> util.Calendar.WEDNESDAY,
-//      "Thursday" -> util.Calendar.THURSDAY,
-//      "Friday" -> util.Calendar.FRIDAY,
-//      "Saturday" -> util.Calendar.SATURDAY,
-//      "Sunday" -> util.Calendar.SUNDAY)
-//  }
-//
+  it should "visit weekdays in insertion order" in {
+    val weekdays: mLinkedHashMap[String, Int] = weekdaysLinkedHashMap()
+
+    weekdays.size shouldBe 7
+    val it = weekdays.keysIterator
+    it.next() shouldBe "Monday"
+    it.next() shouldBe "Tuesday"
+  }
+
 //  it should "format Java properties" in {
 //    val props: List[String] = formatJavaProperties()
 //    props.size should be > 0
