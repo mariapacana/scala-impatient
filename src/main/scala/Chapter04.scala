@@ -110,14 +110,15 @@ object Chapter04 {
    *   Write a function minmax(values: Array[Int]) that returns a pair containing
    *   the smallest and largest values in the array.
    */
-  def minmax(values: Array[Int]): (Int, Int) = ???
+  def minmax(values: Array[Int]): (Int, Int) = (values.min, values.max)
 
   /**
    * Task 9:
    *   Write a function lteqgt(values: Array[Int], v: Int) that returns a triple containing
    *   the counts of values less than v , equal to v , and greater than v.
    */
-  def lteqgt(values: Array[Int], v: Int): (Int, Int, Int) = ???
+  def lteqgt(values: Array[Int], v: Int): (Int, Int, Int) =
+    (values.count(_ < v), values.count(_ == v), values.count(_ > v))
 
 //  def main(args: Array[String]) {
 //    // task 2
