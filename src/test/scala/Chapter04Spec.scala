@@ -33,12 +33,12 @@ class Chapter04Spec extends FlatSpec with Matchers {
     assertWordsOrderedMap(words.toList)
   }
 
-//  it should "count words using TreeMap" in {
-//    val words: mutable.Map[String, Int] = countWordsTreeMap()
-//
-//    assertWordsOrderedMap(words.toList)
-//  }
-//
+  it should "count words using TreeMap" in {
+    val words: mMap[String, Int] = countWordsTreeMap()
+
+    assertWordsOrderedMap(words.toList)
+  }
+
   it should "visit weekdays in insertion order" in {
     val weekdays: mLinkedHashMap[String, Int] = weekdaysLinkedHashMap()
 

@@ -1,7 +1,7 @@
 import java.util
 import java.util.Scanner
 
-import scala.collection.JavaConversions.{mapAsScalaMap, propertiesAsScalaMap}
+import scala.collection.JavaConverters._
 import java.util.Calendar
 import scala.collection.mutable.{Map => mMap, SortedMap => mSortedMap, LinkedHashMap => mLinkedHashMap}
 import scala.collection.mutable.ListBuffer
@@ -71,7 +71,15 @@ object Chapter04 {
    *   Repeat the preceding exercise with a java.util.TreeMap
    *   that you adapt to the Scala API.
    */
-  def countWordsTreeMap(): mMap[String, Int] = ???
+  def countWordsTreeMap(): mMap[String, Int] = {
+    val in = new java.util.Scanner(getClass.getResourceAsStream("/resources/myfile.txt"))
+    val wordCount = new java.util.TreeMap[String, Int]().asScala
+    while (in.hasNext()) {
+      val word = in.next()
+      wordCount(word) = wordCount.getOrElse(word, 0) + 1
+    }
+    wordCount
+  }
 
   /**
    * Task 6:
