@@ -82,8 +82,32 @@ object Chapter17 {
    * Write a function that receives a sequence of futures and returns a future that eventually
    * yields a sequence of all results.
    */
-  def futureSequence[T](s: Seq[Future[T]]) = {
+  def futureSequence[T](s: Seq[Future[T]]): Future[Seq[T]] =
+    s.foldLeft(Future(Seq[T]()))((acc, f) => f.flatMap(ff =>
+      acc.map(aa => aa :+ ff ) ))
 
-  }
+  def futureSequence2[T](s: Seq[Future[T]]): Future[Seq[T]] = Future.sequence(s)
 
+  /**
+   * Task 6:
+   *
+   * Write a method
+   *
+   * {{{
+   *   Future[T] repeat(action: => T, until: T => Boolean)
+   * }}}
+   *
+   * that asynchronously repeats the action until it produces a value that is accepted by the `until`
+   * predicate, which should also run asynchronously. Test with a function that reads a password from
+   * the console, and a function that simulates a validity check by sleeping for a second and then
+   * checking that the password is "`secret`". Hint: Use recursion.
+   */
+
+  /**
+   * Task 7:
+   *
+   * Write a program that counts the prime numbers between 1 and `n`, ad reported by `BigInt.isProbablePrime`.
+   * Divide the interval into `p` parts, where `p` is the number of available processors. Count the primes
+   * in each part in concurrent futures and combine the results.
+   */
 }

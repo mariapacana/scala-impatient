@@ -48,6 +48,18 @@ class Chapter17Spec extends FlatSpec with Matchers {
     result shouldBe (4, 4)
   }
 
+  "futureSequence" should "receive a sequence of futures and return a sequence of all results" in {
+    val result = Await.result(futureSequence(Seq(task(1), task(2), task(3))), 10.seconds)
+
+    result shouldBe Seq(1, 4, 9)
+  }
+
+  "futureSequence2" should "receive a sequence of futures and return a sequence of all results" in {
+    val result = Await.result(futureSequence2(Seq(task(1), task(2), task(3))), 10.seconds)
+
+    result shouldBe Seq(1, 4, 9)
+  }
+
   def task(i: Int): Future[Int] = {
     Future {
       println(s"task=$i thread=${Thread.currentThread().getId} time=${System.currentTimeMillis()}")
