@@ -1,8 +1,10 @@
 import org.scalatest.{FlatSpec, Matchers}
 import Chapter17._
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}
+import scala.util.Success
 
 class Chapter17Spec extends FlatSpec with Matchers {
 
@@ -40,4 +42,16 @@ class Chapter17Spec extends FlatSpec with Matchers {
     result shouldBe 65
   }
 
+  "doTogether" should "run two computations in parallel" in {
+    val result = Await.result(doTogether[Int, Int, Int](task, task)(2), 10.seconds)
+
+    result shouldBe (4, 4)
+  }
+
+  def task(i: Int): Future[Int] = {
+    Future {
+      println(s"task=$i thread=${Thread.currentThread().getId} time=${System.currentTimeMillis()}")
+      i * i
+    }
+  }
 }

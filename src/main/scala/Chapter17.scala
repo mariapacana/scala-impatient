@@ -55,9 +55,26 @@ object Chapter17 {
    * Task 4:
    *
    * Write a function `doTogether` that, given two functions `f: T => Future[U]` and
-   * `g: U => Future:[V]`, produces a function `T => Future[U, V)]`, running the two computations
+   * `g: U => Future:[V]`, produces a function `T => Future[(U, V)]`, running the two computations
    * in parallel and, for a given `t`, eventually yielding `(f(t), g(t))`.
+   *
+   * Note:
+   * This is the best solution I could come up with, but it doesn't always seem to run
+   * the tasks in parallel. The tasks are on the same thread 25% of the time.
+   * "You can enforce sequential execution or ALLOW for parallel execution."
    */
+  def doTogether[T,U,V](f: T => Future[U], g: T => Future[V]): T => Future[(U,V)] = {
+    (t: T) => {
+      // Need to take these computations OUTSIDE the `flatMap` calls in order to run them
+      // in parallel. Putting the computations inside the `flatMap` forces sequential execution.
+      val f1 = f(t)
+      val g1 = g(t)
+      for {
+        u <- f1
+        v <- g1
+      } yield (u, v)
+    }
+  }
 
   /**
    * Task 5:
@@ -65,5 +82,8 @@ object Chapter17 {
    * Write a function that receives a sequence of futures and returns a future that eventually
    * yields a sequence of all results.
    */
+  def futureSequence[T](s: Seq[Future[T]]) = {
+
+  }
 
 }
