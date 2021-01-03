@@ -60,6 +60,12 @@ class Chapter17Spec extends FlatSpec with Matchers {
     result shouldBe Seq(1, 4, 9)
   }
 
+  "primesBetween" should "count the number of primes between 1 and 1,000" in {
+    val result = Await.result(primesBetween(BigInt(1000)), 10.seconds)
+
+    result shouldBe 168
+  }
+
   def task(i: Int): Future[Int] = {
     Future {
       println(s"task=$i thread=${Thread.currentThread().getId} time=${System.currentTimeMillis()}")

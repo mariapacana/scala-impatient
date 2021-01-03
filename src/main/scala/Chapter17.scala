@@ -106,8 +106,22 @@ object Chapter17 {
   /**
    * Task 7:
    *
-   * Write a program that counts the prime numbers between 1 and `n`, ad reported by `BigInt.isProbablePrime`.
+   * Write a program that counts the prime numbers between 1 and `n`, as reported by `BigInt.isProbablePrime`.
    * Divide the interval into `p` parts, where `p` is the number of available processors. Count the primes
    * in each part in concurrent futures and combine the results.
    */
+  def primesBetween(n: BigInt): Future[Int] = {
+    val cores = Runtime.getRuntime.availableProcessors
+    println(s"Number of cores = ${cores}")
+    val step = n / cores
+    val futures = (BigInt(1) until n by step).map(i => go(i, i + step))
+    Future.reduceLeft(futures)(_ + _)
+  }
+  def go(start: BigInt, end: BigInt): Future[Int] =
+    Future {
+      println(s"Start = ${start} end = ${end}")
+      (start until end)
+        .map(_.isProbablePrime(100)).count(_ == true)
+    }
 }
+
