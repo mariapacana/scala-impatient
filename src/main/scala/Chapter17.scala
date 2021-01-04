@@ -1,6 +1,6 @@
-import scala.concurrent.Future
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.collection.immutable.Nil
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 object Chapter17 {
 
@@ -88,19 +88,9 @@ object Chapter17 {
 
   def futureSequence2[T](s: Seq[Future[T]]): Future[Seq[T]] = Future.sequence(s)
 
+
   /**
-   * Task 6:
-   *
-   * Write a method
-   *
-   * {{{
-   *   Future[T] repeat(action: => T, until: T => Boolean)
-   * }}}
-   *
-   * that asynchronously repeats the action until it produces a value that is accepted by the `until`
-   * predicate, which should also run asynchronously. Test with a function that reads a password from
-   * the console, and a function that simulates a validity check by sleeping for a second and then
-   * checking that the password is "`secret`". Hint: Use recursion.
+   * Task 6: See Chapter17Tasks/Chapter17Task06.scala
    */
 
   /**
@@ -123,5 +113,21 @@ object Chapter17 {
       (start until end)
         .map(_.isProbablePrime(100)).count(_ == true)
     }
+
+  /**
+   * Task 8:
+   *
+   * Write a program that asks the user for a URL, reads the web page at that URL, and displays all the
+   * hyperlinks. Use a separate `Future` for each of these three steps.
+   */
+
+  /**
+   * Task 9:
+   *
+   * Write a program that asks the user for a URL, reads the web page at that URL, finds all the hyperlinks,
+   * visits each of them concurrently, and locates the `Server` HTTP header for each of them. Finally,
+   * print a table of which servers were found how often. the futures that visit each page should return
+   * the header.
+   */
 }
 
