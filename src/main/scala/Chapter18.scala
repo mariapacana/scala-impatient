@@ -1,3 +1,5 @@
+import scala.reflect.ClassTag
+
 object Chapter18 {
   /**
    * Task 1:
@@ -75,6 +77,13 @@ object Chapter18 {
    * Write a generic method `middle` that returns the middle element from any `Iterable[T]`.
    * For example, `middle("World")` is 'r'.
    */
+  object task1806 {
+    def middle[T : ClassTag](it: Iterable[T]): Option[T] = {
+      if (it.isEmpty) return None
+      val mid = (it.size / 2)
+      Some(it.slice(0, mid + 1).last)
+    }
+  }
 
   /**
    * Task 7:

@@ -59,19 +59,21 @@ class Chapter18Spec extends FlatSpec with Matchers {
     result.second.name shouldBe "Second"
   }
 
-//  "Task06.middle" should "return the middle element from any Iterable[T]" in {
-//    //when & then
-//    Chapter17Task06.middle("World") shouldBe Some('r')
-//    Chapter17Task06.middle("Worl") shouldBe None
-//    Chapter17Task06.middle("Wor") shouldBe Some('o')
-//    Chapter17Task06.middle("Wo") shouldBe None
-//    Chapter17Task06.middle("W") shouldBe Some('W')
-//    Chapter17Task06.middle("") shouldBe None
-//    Chapter17Task06.middle(List(1, 2, 3)) shouldBe Some(2)
-//    Chapter17Task06.middle(Some(1)) shouldBe Some(1)
-//    Chapter17Task06.middle(None) shouldBe None
-//  }
-//
+  "Task06.middle" should "return the middle element from any Iterable[T]" in {
+    //when & then
+    import task1806.middle
+
+    middle("World") shouldBe Some('r')
+    middle("Worl") shouldBe Some('r')
+    middle("Wor") shouldBe Some('o')
+    middle("Wo") shouldBe Some('o')
+    middle("W") shouldBe Some('W')
+    middle("") shouldBe None
+    middle(List(1, 2, 3)) shouldBe Some(2)
+    middle(Some(1)) shouldBe Some(1)
+    middle(None) shouldBe None
+  }
+
 //  "Task09.check" should "call replaceFirst on Pair[Any] that is actually NastyDoublePair" in {
 //    import Chapter17Task09._
 //
