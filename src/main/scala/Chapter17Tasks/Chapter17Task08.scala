@@ -23,9 +23,7 @@ object Chapter17Task08 extends App {
     Source.fromURL(url).mkString
   }
 
-  def getHyperlinks(contents: String): List[String] = {
-    val linkPattern =
-  }
+  def getHyperlinks(contents: String): List[String] = ???
 
   val myUrl = getURL
   println(s"url = ${myUrl}")

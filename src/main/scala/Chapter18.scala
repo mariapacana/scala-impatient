@@ -5,13 +5,30 @@ object Chapter18 {
    * Define an immutable `class Pair[T, S]` with a method `swap` that returns a new pair with
    * the components swapped.
    */
+  object task1801 {
+    class Pair[T,S](val first: T, val second: S) {
+      def apply(first: T, second: S) = new Pair(first, second)
+
+      def swap() = new Pair(second, first)
+    }
+  }
 
   /**
    * Task 2:
    *
    * Define a mutable `class Pair[T]` with a method `swap` that swaps the components of the pair.
    */
+  object task1802 {
+    class Pair[T](var first: T, var second: T) {
+      def apply(first: T, second: T): Pair[T] = new Pair(first, second)
 
+      def swap(): Unit = {
+        val tmp = first
+        first = second
+        second = tmp
+      }
+    }
+  }
 
   /**
    * Task 3:
@@ -19,6 +36,9 @@ object Chapter18 {
    * Given a `class Pair[T, S]`, write a generic method `swap` that takes a pair as its argument
    * and returns a new pair with the components swapped.
    */
+  object task1803 {
+    def swap[T, S](pair: task1801.Pair[T, S]) = new task1801.Pair(pair.second, pair.first)
+  }
 
   /**
    * Task 4:
@@ -27,10 +47,6 @@ object Chapter18 {
    * "Bounds for Type Variables”, on page 232 if we want to replace the first component of
    * a `Pair[Person]` with a `Student`?
    *
-   * Solution:
-   *
-   * We don't need a lower bound because we replacing with a sub-class, which is OK, since
-   * the result type is still `Pair[Person]`.
    */
 
   /**
