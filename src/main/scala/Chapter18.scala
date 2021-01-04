@@ -47,12 +47,26 @@ object Chapter18 {
    * "Bounds for Type Variables”, on page 232 if we want to replace the first component of
    * a `Pair[Person]` with a `Student`?
    *
+   * Solution:
+   * Because a `Student` is a subtype of a `Person`, so the compiler still correctly infers that
+   * the type is `Pair[Person]`.
    */
+  object task1804 {
+    class Person(val name: String)
+    class Student(override val name: String) extends Person(name)
+
+    class Pair[T](val first: T, val second: T) {
+      def replaceFirst(newFirst: T) = new Pair(newFirst, second)
+    }
+  }
 
   /**
    * Task 5:
    *
    * Why does `RichInt` implement `Comparable[Int]` and not `Comparable[RichInt]`?
+   *
+   * Solution:
+   * View bounds...
    */
 
   /**

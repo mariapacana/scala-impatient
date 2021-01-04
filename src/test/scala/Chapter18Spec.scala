@@ -45,20 +45,20 @@ class Chapter18Spec extends FlatSpec with Matchers {
     result.second shouldBe 1
   }
 
-//  "Task04.replaceFirst" should "take a pair and return a new pair with the components swapped" in {
-//    import task1704._
-//
-//    //given
-//    val pair: Pair[Person] = new Pair[Person](new Person("First"), new Person("Second"))
-//
-//    //when
-//    val result: Pair[Person] = pair.replaceFirst(new Student("newFirst"))
-//
-//    //then
-//    result.first.name shouldBe "newFirst"
-//    result.second.name shouldBe "Second"
-//  }
-//
+  "Task04.replaceFirst" should "take a pair and return a new pair with the components swapped" in {
+    import task1804._
+
+    //given
+    val pair: Pair[Person] = new Pair[Person](new Person("First"), new Person("Second"))
+
+    //when
+    val result: Pair[Person] = pair.replaceFirst(new Student("newFirst"))
+
+    //then
+    result.first.name shouldBe "newFirst"
+    result.second.name shouldBe "Second"
+  }
+
 //  "Task06.middle" should "return the middle element from any Iterable[T]" in {
 //    //when & then
 //    Chapter17Task06.middle("World") shouldBe Some('r')
