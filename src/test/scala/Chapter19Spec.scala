@@ -1,255 +1,184 @@
-//import Chapter19._
+//import Chapter18._
 //import TestUtils.withOutput
-//import java.util.{Calendar, Date}
 //import org.scalatest.{FlatSpec, Matchers}
+//import scala.language.reflectiveCalls
 //
-//class Chapter19Spec extends FlatSpec with Matchers {
+//class Chapter18Spec extends FlatSpec with Matchers {
 //
-//  "ExprEvaluator" should "handle / and % operations" in {
+//  "Bug" should "has move, turn, and show methods" in {
 //    //given
-//    val e = new ExprEvaluator
+//    val bugsy = new Bug()
 //
-//    //when & then
-//    e.eval("3 - 4 * 5") shouldBe -17
-//    e.eval("3 - 8 / 4 * 5 + 3 % 4") shouldBe -4
-//  }
-//
-//  "ExprEvaluator2" should "handle ^ operator" in {
-//    //given
-//    val e = new ExprEvaluator2
-//
-//    //when & then
-//    e.eval("3 - 4 * 5") shouldBe -17
-//    e.eval("3 - 8 / 4 * 5 + 3 % 4") shouldBe -4
-//    e.eval("4 ^ 2 ^ 3") shouldBe 65536
-//    e.eval("1 + 2 * 4 ^ 2 ^ 3 * 2 - 1") shouldBe 262144
-//  }
-//
-//  "IntListParser" should "parse a list of integers into a List[Int]" in {
-//    //given
-//    val p = new IntListParser
-//
-//    //when & then
-//    p.parse("()") shouldBe List()
-//    p.parse("(1)") shouldBe List(1)
-//    p.parse("(1, 23, -79)") shouldBe List(1, 23, -79)
-//  }
-//
-//  "DateTimeParser" should "date and time expressions in ISO 8601" in {
-//    //given
-//    val p = new DateTimeParser
-//
-//    //when & then
-//    p.parse("2005-08-09T18:31:42.123") shouldBe date(2005, 8, 9, 18, 31, 42, 123)
-//    p.parse("20050809T183142123") shouldBe date(2005, 8, 9, 18, 31, 42, 123)
-//    p.parse("2005-08-09T18:31:42") shouldBe date(2005, 8, 9, 18, 31, 42, 0)
-//    p.parse("20050809T183142") shouldBe date(2005, 8, 9, 18, 31, 42, 0)
-//    p.parse("2005-08-09") shouldBe date(2005, 8, 9, 0, 0, 0, 0)
-//    p.parse("20050809") shouldBe date(2005, 8, 9, 0, 0, 0, 0)
-//  }
-//
-//  "IdentXMLParser" should "parse a subset of XML" in {
-//    //given
-//    val p = new IdentXMLParser
-//
-//    //when & then
-//    a [IllegalArgumentException] should be thrownBy {
-//      p.parse("<a></a>")
-//    }
-//    a [IllegalArgumentException] should be thrownBy {
-//      p.parse("<ident></a>")
-//    }
-//    a [IllegalArgumentException] should be thrownBy {
-//      p.parse("<a></ident>")
-//    }
-//    a [IllegalArgumentException] should be thrownBy {
-//      p.parse("<ident><a/></ident>")
-//    }
-//    a [IllegalArgumentException] should be thrownBy {
-//      p.parse("<ident><a></a></ident>")
-//    }
-//    a [IllegalArgumentException] should be thrownBy {
-//      p.parse("<ident><ident/><a/></ident>")
-//    }
-//    a [IllegalArgumentException] should be thrownBy {
-//      p.parse("<ident/>")
+//    //when
+//    val out = withOutput {
+//      bugsy.move(4).show().move(6).show().turn().move(5).show()
 //    }
 //
-//    p.parse("""<ident>
-//              |  text <![CDATA[
-//              |  <ident/>]]> text <![CDATA[<ident/>]]> text
-//              |</ident>
-//              |""".stripMargin) shouldBe <ident></ident>
-//
-//    p.parse("""<ident a1="val1" a2="val2" a3='val3'>
-//              |  text
-//              |  text text
-//              |</ident>
-//              |""".stripMargin) shouldBe <ident a1="val1" a2="val2" a3='val3'></ident>
-//
-//    p.parse( """<ident a1="val1"> a
-//               |  <ident a2="val2"> b </ident>c
-//               |  <ident a3='val3'/>d
-//               |</ident>""".stripMargin) shouldBe
-//      <ident a1="val1"><ident a2="val2"></ident><ident a3='val3'/></ident>
+//    //then
+//    out shouldBe " 4 10 5"
 //  }
 //
-//  "ExprParser" should "produce correct expression tree" in {
+//  it should "provide a fluent interface" in {
 //    //given
-//    val p = new ExprParser
+//    val bugsy = new Bug() with FluentBug
+//
+//    //when
+//    val out = withOutput {
+//      bugsy move 4 and show and then move 6 and show turn around move 5 and show
+//    }
+//
+//    //then
+//    out shouldBe " 4 10 5"
+//  }
+//
+//  "Book" should "provide a fluent interface" in {
+//    //given
+//    val book = new Book()
+//
+//    //when
+//    book set Title to "Scala for the Impatient" set Author to "Cay Horstmann"
+//
+//    //then
+//    book.getTitle shouldBe "Scala for the Impatient"
+//    book.getAuthor shouldBe "Cay Horstmann"
+//  }
+//
+//  "Member.equals" should "return true if two members are in the same network" in {
+//    //given
+//    val network1 = new Network
+//    val member11 = new network1.Member
+//    val member12 = new network1.Member
+//    val network2 = new Network
+//    val member21 = new network2.Member
 //
 //    //when & then
-//    p.parse("3-4-5") shouldBe Operator("-", Operator("-", Number(3), Number(4)), Number(5))
-//    p.parse("3-4+5") shouldBe Operator("+", Operator("-", Number(3), Number(4)), Number(5))
-//    p.parse("3-4*5") shouldBe Operator("-", Number(3), Operator("*", Number(4), Number(5)))
+//    member11.equals(member12) shouldBe true
+//    member11.equals(member21) shouldBe false
+//    member12.equals(member21) shouldBe false
 //  }
 //
-//  "FoldExprEvaluator" should "implement expression computation as a fold" in {
+//  "process" should "should accept members from any network" in {
 //    //given
-//    val p = new FoldExprEvaluator
+//    val network1 = new Network
+//    val member11 = new network1.Member
+//    val member12 = new network1.Member
+//    val network2 = new Network
+//    val member21 = new network2.Member
 //
 //    //when & then
-//    p.parse("3-4+5") shouldBe 4
-//    p.parse("3+4-5") shouldBe 2
-//    p.parse("3-4*5") shouldBe -17
+//    process(member11, member12) shouldBe (member11, member12)
+//    process(member11, member21) shouldBe (member11, member21)
+//    process(member12, member21) shouldBe (member12, member21)
 //  }
 //
-//  "Calculator" should "use variables and assignment when calculating expressions" in {
+//  "processAny" should "should accept members from any network" in {
 //    //given
-//    val c = new Calculator
+//    val network1 = new Network
+//    val member11 = new network1.Member
+//    val member12 = new network1.Member
+//    val network2 = new Network
+//    val member21 = new network2.Member
 //
 //    //when & then
-//    c.parseAndEval("") shouldBe 0
-//    c.parseAndEval("3-4+5+a") shouldBe 4
-//    c.parseAndEval("""a=6
-//                     |3-4+5""".stripMargin) shouldBe 4
-//    c.parseAndEval("""a=6+1
-//                     |3-4+5+a""".stripMargin) shouldBe 11
-//    c.parseAndEval("""a=b
-//                     |3-4+5+a""".stripMargin) shouldBe 4
-//    c.parseAndEval("""a=b-6
-//                     |3-4+5+a""".stripMargin) shouldBe -2
-//    withOutput {
-//      c.parseAndEval("""a=(3+3)
-//                       |out=a+1""".stripMargin)
-//    } shouldBe "7"
+//    processAny(member11, member12) shouldBe (member11, member12)
+//    processAny(member11, member21) shouldBe (member11, member21)
+//    processAny(member12, member21) shouldBe (member12, member21)
 //  }
 //
-//  "Program" should "use variable assignments, Boolean expressions, if/else, while statements" in {
+//  "processSame" should "should accept members from the same network" in {
 //    //given
-//    val p = new Program
+//    val network1 = new Network
+//    val member11 = new network1.Member
+//    val member12 = new network1.Member
+//    val network2 = new Network
+//    val member21 = new network2.Member
 //
 //    //when & then
-//    p.parseAndEval("""a=b-6
-//                     |3-4+5+a
-//                     |""".stripMargin) shouldBe -2
-//    p.parseAndEval("""
-//                     |a=b-6
-//                     |
-//                     |if (1 <= 2) {
-//                     |  3-4+5+a
-//                     |}
-//                     |else {
-//                     |  5
-//                     |}
-//                     |""".stripMargin) shouldBe -2
-//    p.parseAndEval("""a=b-6
-//                     |if (1 > 2)
-//                     |{
-//                     |  //3-4+5+a
-//                     |}
-//                     |else
-//                     |{
-//                     |  5
-//                     |}
-//                     |""".stripMargin) shouldBe 5
-//    p.parseAndEval("""a=b-6
-//                     |if (1 > 2) {
-//                     |  3-4+5+a
-//                     |} else {
-//                     |  a = 0
-//                     |  while (a < 10) {
-//                     |    a = a + 1
-//                     |  }
-//                     |  a
-//                     |}
-//                     |""".stripMargin) shouldBe 10
-//    withOutput {
-//      p.parseAndEval("""a=(3+3)
-//                       |if (a < 10) {
-//                       |  out=a+1
-//                       |}""".stripMargin)
-//    } shouldBe "7"
+//    processSame(member11, member12) shouldBe (member11, member12)
+//    //processSame(member11, member21) shouldBe (member11, member21) // Error
+//    //processSame(member12, member21) shouldBe (member12, member21) // Error
 //  }
 //
-//  "FuncProgram" should "add function definitions to program evaluator" in {
+//  "findClosestValueIndex" should "return either index of exact value or closest value" in {
+//    //when & then
+//    findClosestValueIndex(Array(), 0) shouldBe Right(-1)
+//    findClosestValueIndex(Array(1, 2, 4), 0) shouldBe Right(0)
+//    findClosestValueIndex(Array(1, 2, 4), 1) shouldBe Left(0)
+//    findClosestValueIndex(Array(1, 2, 4), 2) shouldBe Left(1)
+//    findClosestValueIndex(Array(1, 2, 4), 3) shouldBe Right(2)
+//    findClosestValueIndex(Array(1, 2, 4), 4) shouldBe Left(2)
+//    findClosestValueIndex(Array(1, 2, 4), 5) shouldBe Right(2)
+//    findClosestValueIndex(Array(1, 2, 4), 6) shouldBe Right(2)
+//  }
+//
+//  "processAndClose" should "call the function and invoke the close method upon completion" in {
 //    //given
-//    val f = new FuncProgram
+//    val obj = new Object {
+//      var processed = false
+//      var closed = false
+//
+//      def process(): Unit = {
+//        processed = true
+//      }
+//
+//      def close(): Unit = {
+//        closed = true
+//      }
+//    }
+//
+//    //when
+//    processAndClose(obj)(_.process())
+//
+//    //then
+//    obj.processed shouldBe true
+//    obj.closed shouldBe true
+//  }
+//
+//  it should "call the function and invoke the close method when exception" in {
+//    //given
+//    val obj = new Object {
+//      var closed = false
+//
+//      def close(): Unit = {
+//        closed = true
+//      }
+//    }
+//
+//    //when
+//    a [Exception] should be thrownBy {
+//      processAndClose(obj)(_ => throw new Exception())
+//    }
+//
+//    //then
+//    obj.closed shouldBe true
+//  }
+//
+//  "printValues" should "print all values of apply function with inputs from the given range" in {
+//    //when & then
+//    withOutput(printValues((x: Int) => x * x, 3, 6)) shouldBe " 9 16 25 36"
+//    withOutput(printValues(Array(1, 1, 2, 3, 5, 8, 13, 21, 34, 55), 3, 6)) shouldBe " 3 5 8 13"
+//  }
+//
+//  "Dim" should "not allow meters and seconds to be added" in {
+//    //given
+//    val seconds1 = new Seconds(1.0)
+//    val seconds2 = new Seconds(2.0)
+//    val meters1 = new Meters(3.0)
+//    val meters2 = new Meters(4.0)
 //
 //    //when & then
-//    the [IllegalArgumentException] thrownBy {
-//      f.parseAndEval("""a()
-//                       |""".stripMargin)
-//    } should have message """function definition not found at 1.1
-//                            |a()
-//                            |
-//                            |^""".stripMargin
-//    the [IllegalArgumentException] thrownBy {
-//      f.parseAndEval("""def a() {
-//                       |}
-//                       |a(1)
-//                       |""".stripMargin)
-//    } should have message """function call with wrong arguments number at 3.1
-//                            |a(1)
-//                            |
-//                            |^""".stripMargin
-//    the [IllegalArgumentException] thrownBy {
-//      f.parseAndEval("""def a(b) {
-//                       |}
-//                       |a()
-//                       |""".stripMargin)
-//    } should have message """function call with wrong arguments number at 3.1
-//                            |a()
-//                            |
-//                            |^""".stripMargin
-//    f.parseAndEval("""
-//                     |def a() {
-//                     |  b-6
-//                     |}
-//                     |
-//                     |a = 3-4
-//                     |if (1 <= 2) {
-//                     |  a+5+a()
-//                     |}
-//                     |else {
-//                     |  5
-//                     |}
-//                     |""".stripMargin) shouldBe -2
-//    f.parseAndEval("""
-//                     |def a(b) {
-//                     |  b = b-6
-//                     |  if (1 <= 2) {
-//                     |    3-4+5+b
-//                     |  }
-//                     |}
-//                     |a(1)
-//                     |a(2)
-//                     |a(3)
-//                     |""".stripMargin) shouldBe 1
-//    withOutput {
-//      f.parseAndEval("""def a(a, c) {
-//                       |  out=a+c+1
-//                       |}
-//                       |a = 2
-//                       |a(3+3, a)
-//                       |""".stripMargin)
-//    } shouldBe "9"
+//    (seconds1 + seconds2).toString shouldBe "3.0 s"
+//    (meters1 + meters2).toString shouldBe "7.0 m"
+//    //(seconds1 + meters2).toString shouldBe "" // Error
 //  }
 //
-//  private def date(y: Int, m: Int, d: Int, hh: Int, mm: Int, ss: Int, sss: Int): Date = {
-//    val cal = Calendar.getInstance()
-//    cal.set(y, m - 1, d, hh, mm, ss)
-//    cal.set(Calendar.MILLISECOND, sss)
-//    cal.getTime
+//  "selfType" should "demonstrate changes in the initialization and override orders" in {
+//    import task1810._
+//
+//    //given
+//    val obj = new A("obj") with Named
+//
+//    //when & then
+//    obj.toString shouldBe "from Named: Named: null"
 //  }
 //}

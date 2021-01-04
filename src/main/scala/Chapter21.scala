@@ -1,4 +1,4 @@
-import Chapter11.Fraction
+//import Chapter11.Fraction
 import java.awt.Point
 import scala.annotation.tailrec
 import scala.collection.immutable.IndexedSeq

@@ -115,13 +115,6 @@ object Chapter17 {
     }
 
   /**
-   * Task 8:
-   *
-   * Write a program that asks the user for a URL, reads the web page at that URL, and displays all the
-   * hyperlinks. Use a separate `Future` for each of these three steps.
-   */
-
-  /**
    * Task 9:
    *
    * Write a program that asks the user for a URL, reads the web page at that URL, finds all the hyperlinks,

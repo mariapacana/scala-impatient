@@ -1,98 +1,142 @@
-import java.util.{Calendar, Date}
-import scala.collection.mutable
+import scala.beans.BeanProperty
+import scala.language.reflectiveCalls
 
 object Chapter19 {
 
   /**
    * Task 1:
    *
-   * Add `/` and `%` operations to the arithmetic expression evaluator.
+   * Implement a `Bug` class modeling a bug that moves along a horizontal line.
+   * The `move` method moves in the current direction,
+   * the `turn` method makes the bug turn around,
+   * and the `show` method prints the current position.
+   * Make these methods chainable. For example,
+   * {{{
+   *   bugsy.move(4).show().move(6).show().turn().move(5).show()
+   * }}}
+   * should display `4 10 5`.
    */
-
 
   /**
    * Task 2:
    *
-   * Add a `^` operator to the arithmetic expression evaluator. As in mathematics, `^` should have
-   * a higher precedence than multiplication, and it should be right associative.
-   * That is, `4^2^3` should be `4^(2^3)`, or `65536`.
+   * Provide a fluent interface for the `Bug` class of the preceding exercise, so that one can
+   * write
+   * {{{
+   *   bugsy move 4 and show and then move 6 and show turn around move 5 and show
+   * }}}
    */
 
   /**
    * Task 3:
    *
-   * Write a parser that parses a list of integers (such as `(1, 23, -79)`) into a `List[Int]`.
+   * Complete the fluent interface in Section 18.1, "Singleton Types", on page 246
+   * so that one can call
+   * {{{
+   *   book set Title to "Scala for the Impatient" set Author to "Cay Horstmann"
+   * }}}
    */
-
 
   /**
    * Task 4:
    *
-   * Write a parser that can parse date and time expressions in ISO 8601.
-   * Your parser should return a `java.util.Date` object.
+   * Implement the `equals` method for the `Member` class that is nested inside the `Network`
+   * class in Section 18.2, "Type Projections", on page 247. For two members to be equal,
+   * they need to be in the same network.
    */
 
   /**
    * Task 5:
    *
-   * Write a parser that parses a subset of XML. Handle tags of the form `<ident>...</ident>` or
-   * `<ident/>`. Tags can be nested. Handle attributes inside tags. Attribute values can be
-   * delimited by single or double quotes. You don't need to deal with character data
-   * (that is, text inside tags or CDATA sections).
-   * Your parser should return a Scala XML `Elem` value.
-   * The challenge is to reject mismatched tags. Hint: `into`, `accept`.
+   * Consider the type alias
+   * {{{
+   *   type NetworkMember = n.Member forSome { val n: Network }
+   * }}}
+   * and the function
+   * {{{
+   *   def process(m1: NetworkMember, m2: NetworkMember) = (m1, m2)
+   * }}}
+   * How does this differ from the `process` function in Section 18.8, "Existential Types",
+   * on page 252?
+   *
+   * Solution:
+   *
+   * The difference is that `NetworkMember` defines type alias for `Member` from any `Network`,
+   * which is the same as defining `process` function like this:
+   * {{{
+   *   def process[M >: n.Member forSome { val n: Network }](m1: M, m2: M) = (m1, m2)
+   * }}}
+   * While the `process` function, from Section 18.8, accepts only members from the same network,
+   * and it is defined like this:
+   * {{{
+   *   def process[M <: n.Member forSome { val n: Network }](m1: M, m2: M) = (m1, m2)
+   * }}}
    */
 
   /**
    * Task 6:
    *
-   * Assume that the parser in Section 19.5, "Generating Parse Trees", on page 275 is completed with
-   * {{{
-   *  class ExprParser extends RegexParsers {
-   *    def expr: Parser[Expr] = (term ~ opt(("+" | "-") ~ expr)) ^^ {
-   *      case a ~ None => a
-   *      case a ~ Some(op ~ b) => Operator(op, a, b)
-   *    }
-   *  }
-   * }}}
-   * Unfortunately, this parser computes an incorrect expression tree - operators with the same
-   * precedence are evaluated right-to-left. Modify the parser so that the expression tree
-   * is correct. For example, `3-4-5` should yield an
-   * {{{
-   *  Operator("-", Operator("-", 3, 4), 5)
-   * }}}
+   * The `Either` type in the Scala library can be used for algorithms that return either a result
+   * or some failure information. Write a function that takes two parameters:
+   * a sorted array of integers and an integer value.
+   * Return either the index of the value in the array or the index of the element that is closest
+   * to the value. Use an infix type as the return type.
    */
 
   /**
    * Task 7:
    *
-   * Suppose in Section 19.6, "Avoiding Left Recursion", on page 276, we first parse an expr
-   * into a list of `~` with operations and values:
+   * Implement a method that receives an object of any class that has a method
    * {{{
-   *  def expr: Parser[Int] = term ~ rep(("+" | "-") ~ term) ^^ {...}
+   *   def close(): Unit
    * }}}
-   * To evaluate the result, we need to compute `((t0 +- t1) +- t2) +- ...`
-   * Implement this computation as a `fold` (see Chapter 13).
+   * together with a function that processes that object. Call the function and invoke the
+   * `close` method upon completion, or when any exception occurs.
    */
 
   /**
    * Task 8:
    *
-   * Add variables and assignment to the calculator program. Variables are created when they
-   * are first used. Uninitialized variables are zero. To print a value, assign it to the special
-   * variable `out`.
+   * Write a function `printValues` with three parameters `f`, `from`, `to` that prints all values
+   * of `f` with inputs from the given range. Here, `f` should be any object with an `apply` method
+   * that consumes and yields an `Int`. For example,
+   * {{{
+   *   printValues((x: Int) => x * x, 3, 6) // Prints 9 16 25 36
+   *   printValues(Array(1, 1, 2, 3, 5, 8, 13, 21, 34, 55), 3, 6) // Prints 3 5 8 13
+   * }}}
    */
 
   /**
    * Task 9:
    *
-   * Extend the preceding exercise into a parser for a programming language that has variable
-   * assignments, `Boolean` expressions, and `if`/`else` and `while` statements.
+   * Consider this class that models a physical dimension:
+   * {{{
+   *   abstract class Dim[T](val value: Double, val name: String) {
+   *     protected def create(v: Double): T
+   *     def +(other: Dim[T]) = create(value + other.value)
+   *     override def toString() = value + " " + name
+   *   }
+   * }}}
+   * Here is a concrete subclass:
+   * {{{
+   *   class Seconds(v: Double) extends Dim[Seconds](v, "s") {
+   *     override def create(v: Double) = new Seconds(v)
+   *   }
+   * }}}
+   * But now a knucklehead could define
+   * {{{
+   *   class Meters(v: Double) extends Dim[Seconds](v, "m") {
+   *     override def create(v: Double) = new Seconds(v)
+   *   }
+   * }}}
+   * allowing meters and seconds to be added. Use a self type to prevent that.
    */
 
   /**
    * Task 10:
    *
-   * Add function definitions to the programming language of the preceding exercise.
+   * Self types can usually be replaced with traits that extend classes, but there can be
+   * situations where using self types changes the initialization and override orders.
+   * Construct such an example.
    */
 }

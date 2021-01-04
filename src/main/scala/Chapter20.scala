@@ -1,96 +1,98 @@
-import java.awt.Color
-import java.awt.image.BufferedImage
-import java.io.{File, IOException}
-import java.util
-import javax.imageio.ImageIO
-import scala.collection.JavaConverters.mapAsScalaMapConverter
-import scala.collection.immutable.Seq
+import java.util.{Calendar, Date}
 import scala.collection.mutable
-import scala.collection.mutable.ArrayBuffer
-import scala.concurrent.duration.Duration
-import scala.concurrent.{Await, Promise}
-import scala.io.Source
-import scala.util.Random
-import scala.util.matching.Regex
 
-//noinspection ScalaDeprecation
 object Chapter20 {
 
   /**
    * Task 1:
    *
-   * Write a program that generates an array of `n` random numbers (where `n` is a large value,
-   * such as 1,000,000), and then computes the average of those numbers by distributing the work
-   * over multiple actors, each of which computes the sum of the values, sending the result to
-   * an actor that combines the results.
-   * If you run your program on a dual-core or quad-core processor, what is the speedup over
-   * a single-threaded solution?
+   * Add `/` and `%` operations to the arithmetic expression evaluator.
    */
+
 
   /**
    * Task 2:
    *
-   * Write a program that reads in a large image into a `BufferedImage`, using
-   * `javax.imageio.ImageIO.read`. Use multiple actors, each of which inverts the colors in
-   * a strip of the image. When all strips have been inverted, write the result.
+   * Add a `^` operator to the arithmetic expression evaluator. As in mathematics, `^` should have
+   * a higher precedence than multiplication, and it should be right associative.
+   * That is, `4^2^3` should be `4^(2^3)`, or `65536`.
    */
 
   /**
    * Task 3:
    *
-   * Write a program that counts how many words match a given regular expression in all files of
-   * all subdirectories of a given directory. Have one actor per file, one actor that traverses
-   * the subdirectories, and one actor to accumulate the results.
+   * Write a parser that parses a list of integers (such as `(1, 23, -79)`) into a `List[Int]`.
    */
+
 
   /**
    * Task 4:
    *
-   * Modify the program of the preceding exercise to display all matching words.
+   * Write a parser that can parse date and time expressions in ISO 8601.
+   * Your parser should return a `java.util.Date` object.
    */
 
   /**
    * Task 5:
    *
-   * Modify the program of the preceding exercise to display all matching words, each with
-   * a list of all files containing it.
+   * Write a parser that parses a subset of XML. Handle tags of the form `<ident>...</ident>` or
+   * `<ident/>`. Tags can be nested. Handle attributes inside tags. Attribute values can be
+   * delimited by single or double quotes. You don't need to deal with character data
+   * (that is, text inside tags or CDATA sections).
+   * Your parser should return a Scala XML `Elem` value.
+   * The challenge is to reject mismatched tags. Hint: `into`, `accept`.
    */
 
   /**
    * Task 6:
    *
-   * Write a program that constructs 100 actors that use a `while(true)/receive` loop,
-   * calling `println(Thread.currentThread)` when they receive a 'Hello message,
-   * and 100 actors that do the same with `loop/react`. Start them all,
-   * and send them all a message.
-   * How many threads are occupied by the first kind, and how many by the second kind?
+   * Assume that the parser in Section 19.5, "Generating Parse Trees", on page 275 is completed with
+   * {{{
+   *  class ExprParser extends RegexParsers {
+   *    def expr: Parser[Expr] = (term ~ opt(("+" | "-") ~ expr)) ^^ {
+   *      case a ~ None => a
+   *      case a ~ Some(op ~ b) => Operator(op, a, b)
+   *    }
+   *  }
+   * }}}
+   * Unfortunately, this parser computes an incorrect expression tree - operators with the same
+   * precedence are evaluated right-to-left. Modify the parser so that the expression tree
+   * is correct. For example, `3-4-5` should yield an
+   * {{{
+   *  Operator("-", Operator("-", 3, 4), 5)
+   * }}}
    */
 
   /**
    * Task 7:
    *
-   * Add a supervisor to the program of exercise 3 that monitors the file reading actors
-   * and logs any that exit with an `IOException`. Try triggering the exception by removing
-   * files that have been scheduled for processing.
+   * Suppose in Section 19.6, "Avoiding Left Recursion", on page 276, we first parse an expr
+   * into a list of `~` with operations and values:
+   * {{{
+   *  def expr: Parser[Int] = term ~ rep(("+" | "-") ~ term) ^^ {...}
+   * }}}
+   * To evaluate the result, we need to compute `((t0 +- t1) +- t2) +- ...`
+   * Implement this computation as a `fold` (see Chapter 13).
    */
 
   /**
    * Task 8:
    *
-   * Show how an actor-based program can deadlock when one sends synchronous messages.
+   * Add variables and assignment to the calculator program. Variables are created when they
+   * are first used. Uninitialized variables are zero. To print a value, assign it to the special
+   * variable `out`.
    */
 
   /**
    * Task 9:
    *
-   * Produce a faulty implementation of the program in exercise 3, in which the actors update
-   * a shared counter. Can you demonstrate that the program acts incorrectly?
+   * Extend the preceding exercise into a parser for a programming language that has variable
+   * assignments, `Boolean` expressions, and `if`/`else` and `while` statements.
    */
 
   /**
    * Task 10:
    *
-   * Rewrite the program of exercise 1 by using channels for communication.
+   * Add function definitions to the programming language of the preceding exercise.
    */
-
 }

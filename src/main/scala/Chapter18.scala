@@ -1,143 +1,89 @@
-import scala.beans.BeanProperty
-import scala.language.reflectiveCalls
-
 object Chapter18 {
-
   /**
    * Task 1:
    *
-   * Implement a `Bug` class modeling a bug that moves along a horizontal line.
-   * The `move` method moves in the current direction,
-   * the `turn` method makes the bug turn around,
-   * and the `show` method prints the current position.
-   * Make these methods chainable. For example,
-   * {{{
-   *   bugsy.move(4).show().move(6).show().turn().move(5).show()
-   * }}}
-   * should display `4 10 5`.
+   * Define an immutable `class Pair[T, S]` with a method `swap` that returns a new pair with
+   * the components swapped.
    */
 
   /**
    * Task 2:
    *
-   * Provide a fluent interface for the `Bug` class of the preceding exercise, so that one can
-   * write
-   * {{{
-   *   bugsy move 4 and show and then move 6 and show turn around move 5 and show
-   * }}}
+   * Define a mutable `class Pair[T]` with a method `swap` that swaps the components of the pair.
    */
+
 
   /**
    * Task 3:
    *
-   * Complete the fluent interface in Section 18.1, "Singleton Types", on page 246
-   * so that one can call
-   * {{{
-   *   book set Title to "Scala for the Impatient" set Author to "Cay Horstmann"
-   * }}}
+   * Given a `class Pair[T, S]`, write a generic method `swap` that takes a pair as its argument
+   * and returns a new pair with the components swapped.
    */
-
 
   /**
    * Task 4:
    *
-   * Implement the `equals` method for the `Member` class that is nested inside the `Network`
-   * class in Section 18.2, "Type Projections", on page 247. For two members to be equal,
-   * they need to be in the same network.
+   * Why don't we need a lower bound for the `replaceFirst` method in Section 17.3,
+   * "Bounds for Type Variables”, on page 232 if we want to replace the first component of
+   * a `Pair[Person]` with a `Student`?
+   *
+   * Solution:
+   *
+   * We don't need a lower bound because we replacing with a sub-class, which is OK, since
+   * the result type is still `Pair[Person]`.
    */
 
   /**
    * Task 5:
    *
-   * Consider the type alias
-   * {{{
-   *   type NetworkMember = n.Member forSome { val n: Network }
-   * }}}
-   * and the function
-   * {{{
-   *   def process(m1: NetworkMember, m2: NetworkMember) = (m1, m2)
-   * }}}
-   * How does this differ from the `process` function in Section 18.8, "Existential Types",
-   * on page 252?
-   *
-   * Solution:
-   *
-   * The difference is that `NetworkMember` defines type alias for `Member` from any `Network`,
-   * which is the same as defining `process` function like this:
-   * {{{
-   *   def process[M >: n.Member forSome { val n: Network }](m1: M, m2: M) = (m1, m2)
-   * }}}
-   * While the `process` function, from Section 18.8, accepts only members from the same network,
-   * and it is defined like this:
-   * {{{
-   *   def process[M <: n.Member forSome { val n: Network }](m1: M, m2: M) = (m1, m2)
-   * }}}
+   * Why does `RichInt` implement `Comparable[Int]` and not `Comparable[RichInt]`?
    */
 
   /**
    * Task 6:
    *
-   * The `Either` type in the Scala library can be used for algorithms that return either a result
-   * or some failure information. Write a function that takes two parameters:
-   * a sorted array of integers and an integer value.
-   * Return either the index of the value in the array or the index of the element that is closest
-   * to the value. Use an infix type as the return type.
+   * Write a generic method `middle` that returns the middle element from any `Iterable[T]`.
+   * For example, `middle("World")` is 'r'.
    */
 
   /**
    * Task 7:
    *
-   * Implement a method that receives an object of any class that has a method
-   * {{{
-   *   def close(): Unit
-   * }}}
-   * together with a function that processes that object. Call the function and invoke the
-   * `close` method upon completion, or when any exception occurs.
+   * Look through the methods of the `Iterable[+A]` trait. Which methods use the type parameter `A`?
+   * Why is it in a covariant position in these methods?
+   *
    */
 
   /**
    * Task 8:
    *
-   * Write a function `printValues` with three parameters `f`, `from`, `to` that prints all values
-   * of `f` with inputs from the given range. Here, `f` should be any object with an `apply` method
-   * that consumes and yields an `Int`. For example,
+   * In Section 17.10, "Co- and Contravariant Positions", on page 238, the `replaceFirst` method
+   * has a type bound. Why can't you define an equivalent method on a mutable `Pair[T]`?
    * {{{
-   *   printValues((x: Int) => x * x, 3, 6) // Prints 9 16 25 36
-   *   printValues(Array(1, 1, 2, 3, 5, 8, 13, 21, 34, 55), 3, 6) // Prints 3 5 8 13
+   *   def replaceFirst[R >: T](newFirst: R) { first = newFirst } // Error
    * }}}
    */
 
   /**
    * Task 9:
    *
-   * Consider this class that models a physical dimension:
+   * It may seem strange to restrict method parameters in an immutable `class Pair[+T]`. However,
+   * suppose you could define
    * {{{
-   *   abstract class Dim[T](val value: Double, val name: String) {
-   *     protected def create(v: Double): T
-   *     def +(other: Dim[T]) = create(value + other.value)
-   *     override def toString() = value + " " + name
-   *   }
+   *   def replaceFirst(newFirst: T)
    * }}}
-   * Here is a concrete subclass:
-   * {{{
-   *   class Seconds(v: Double) extends Dim[Seconds](v, "s") {
-   *     override def create(v: Double) = new Seconds(v)
-   *   }
-   * }}}
-   * But now a knucklehead could define
-   * {{{
-   *   class Meters(v: Double) extends Dim[Seconds](v, "m") {
-   *     override def create(v: Double) = new Seconds(v)
-   *   }
-   * }}}
-   * allowing meters and seconds to be added. Use a self type to prevent that.
+   * in a `Pair[+T]`. The problem is that this method can be overridden in an unsound way.
+   * Construct an example of the problem. Define a subclass `NastyDoublePair` of `Pair[Double]`
+   * that overrides `replaceFirst` so that it makes a pair with the square root of `newFirst`.
+   * Then construct the call `replaceFirst("Hello")` on a `Pair[Any]` that is actually
+   * a `NastyDoublePair`.
    */
 
   /**
    * Task 10:
    *
-   * Self types can usually be replaced with traits that extend classes, but there can be
-   * situations where using self types changes the initialization and override orders.
-   * Construct such an example.
+   * Given a mutable `Pair[S, T]` class, use a type constraint to define a `swap` method that can
+   * be called if the type parameters are the same.
    */
+
 }

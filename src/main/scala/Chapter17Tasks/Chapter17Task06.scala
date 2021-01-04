@@ -1,5 +1,3 @@
-package Chapter17Tasks
-
 import scala.concurrent.{Await, Future}
 import scala.concurrent.duration._
 import scala.io.StdIn.readLine
@@ -19,7 +17,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
  * the console, and a function that simulates a validity check by sleeping for a second and then
  * checking that the password is "`secret`". Hint: Use recursion.
  * */
-
 object Chapter17Task06 extends App {
   def repeat[T](action: => T, until: T => Boolean): Future[T] = {
     val futureAction = Future { action }
@@ -39,8 +36,8 @@ object Chapter17Task06 extends App {
   }
 
   def u: String => Boolean = p => {
-    Thread.sleep(1000);
-    println(s"Password was : ${p}")
+    Thread.sleep(100);
+    println(s"Password was: ${p}")
     p == "secret"
   }
 
