@@ -1,3 +1,5 @@
+import Chapter18.task1802.Pair
+
 import scala.reflect.ClassTag
 
 object Chapter18 {
@@ -68,7 +70,10 @@ object Chapter18 {
    * Why does `RichInt` implement `Comparable[Int]` and not `Comparable[RichInt]`?
    *
    * Solution:
-   * View bounds...
+   * Int was meant to be a wrapper class around primitive Java ints, and RichInt provides useful
+   * methods for Int. You don't use RichInts directly, you use Ints that are implicitly converted
+   * to RichInts. If `RichInt` implemented `Comparable[Int]`, we'd need to wrap an `Int` in a `RichInt`
+   * to use `Comparable`.
    */
 
   /**
@@ -91,6 +96,19 @@ object Chapter18 {
    * Look through the methods of the `Iterable[+A]` trait. Which methods use the type parameter `A`?
    * Why is it in a covariant position in these methods?
    *
+   * Solution:
+   * A is the type of element in the iterator. When we step through the iterator, we expect A to be the result type.
+   * Because it's the result, it needs to be in a covariant position. Lots of methods use the type parameter `A` so
+   * I won't bother listing them all.
+   *
+   * def++:[B >: A, That]
+   * def/:[B](z: B)(op: (B, A) ⇒ B): B
+   * defaggregate[B](z: ⇒ B)(seqop: (B, A) ⇒ B, combop: (B, B) ⇒ B
+   * defcopyToArray(xs: Array[A]): Unit
+   * [use case] Copies the elements of this iterable collection to an array.
+   * defdrop(n: Int): Iterable[A]
+   * defdropWhile(p: (A) ⇒ Boolean):
+   * defexists(p: (A) ⇒ Boolean): Boolean
    */
 
   /**
@@ -102,6 +120,13 @@ object Chapter18 {
    *   def replaceFirst[R >: T](newFirst: R) { first = newFirst } // Error
    * }}}
    */
+  class Pair[T](var first: T, var second: T) {
+    def apply(first: T, second: T): Pair[T] = new Pair(first, second)
+
+    def replaceFirst[R >: T](newFirst: R) {
+      first = newFirst
+    }
+  }
 
   /**
    * Task 9:
