@@ -114,18 +114,24 @@ object Chapter18 {
   /**
    * Task 8:
    *
-   * In Section 17.10, "Co- and Contravariant Positions", on page 238, the `replaceFirst` method
+   * In Section 17.10, "Co- and Contravariant Positions", on page 272, the `replaceFirst` method
    * has a type bound. Why can't you define an equivalent method on a mutable `Pair[T]`?
    * {{{
    *   def replaceFirst[R >: T](newFirst: R) { first = newFirst } // Error
    * }}}
+   *
+   * Solution:
+   * Because you would be assigning a value that is of type T to a value having its supertype.
+   * If we make `R` a subtype of `T`, this compiles.
+   * {{{
+   *   def replaceFirst[R <: T](newFirst: R) { first = newFirst }
+   * }}}
+   *
    */
   class Pair[T](var first: T, var second: T) {
     def apply(first: T, second: T): Pair[T] = new Pair(first, second)
 
-    def replaceFirst[R >: T](newFirst: R) {
-      first = newFirst
-    }
+    def replaceFirst[R <: T](newFirst: R) { first = newFirst }
   }
 
   /**
