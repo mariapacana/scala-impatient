@@ -154,6 +154,22 @@ object Chapter18 {
    *
    * Given a mutable `Pair[S, T]` class, use a type constraint to define a `swap` method that can
    * be called if the type parameters are the same.
+   *
+   * Comment:
+   * It's a shame that the `implicit` doesn't go both ways. If `S =:= T` shouldn't `T =:= S`? It says
+   * that `S` is the same type as `T`, so * we can set `second = tmp = first`. But you still have to
+   * cast `second` to be an instance of `S` to set `first = second`.
    */
+  object task1810 {
+    class Pair[S,T](var first: S, var second: T) {
+      def apply(first: S, second: T): Pair[S,T] = new Pair(first, second)
+
+      def swap()(implicit ev: S =:= T): Unit = {
+        val tmp = first
+        first = second.asInstanceOf[S]
+        second = tmp
+      }
+    }
+  }
 
 }
