@@ -147,6 +147,29 @@ object Chapter18 {
    * that overrides `replaceFirst` so that it makes a pair with the square root of `newFirst`.
    * Then construct the call `replaceFirst("Hello")` on a `Pair[Any]` that is actually
    * a `NastyDoublePair`.
+   *
+   * Solution:
+   * Pair[+T] means that the type `Pair` is covariant; `Pair[Double]` is a subtype of `Pair[Any]`.
+   * In `replaceFirst`, `newFirst` is in a contravariant position. It can be a value of type `T`,
+   * or a supertype of `T`. * `Any` is the supertype of all types, so a `Pair[Double]` is also a
+   * `Pair[Any].` Calling `replaceFirst` on the `Pair[Any]` will replace the first Double with a
+   * String ("Hello"). (I don't think it actually calls the overriding method.)
+   *
+   * This code won't compile so it needs to be commented.
+   * {{{
+   *     object task1809 {
+   *     class Pair[+T](val first: T, val second: T) {
+   *       def replaceFirst(newFirst: T): Pair[T] = new Pair(newFirst, second)
+   *     }
+   *
+   *     class NastyDoublePair(first: Double, second: Double) extends Pair[Double](first, second) {
+   *       override def replaceFirst(newFirst: Double): Pair[Double] = new Pair(Math.sqrt(newFirst), second)
+   *     }
+   *
+   *     val nasty: Pair[Any] = new NastyDoublePair(1.0, 2.0)
+   *     nasty.replaceFirst("Hello")
+   *   }
+   * }}}
    */
 
   /**
