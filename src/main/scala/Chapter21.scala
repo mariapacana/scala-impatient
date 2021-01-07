@@ -22,6 +22,7 @@ object Chapter21 {
    * `120 +% 10` should be `132`. Hint: Since operators are methods, not functions,
    * you will also need to provide an `implicit`.
    */
+//   implicit def +%(n: Int, percentage: Int): Int = n*(1+percentage)
 
   /**
    * Task 3:
@@ -29,6 +30,14 @@ object Chapter21 {
    * Define a `!` operator that computes the factorial of an integer. For example,
    * `5!` is `120`. You will need an enrichment class and an implicit conversion.
    */
+  implicit class MyRichInt(val from: Int) {
+    def ! : Int = go(from)
+
+    def go(i: Int): Int = {
+      if (i == 1) 1 else i*go(i-1)
+    }
+  }
+
 
   /**
    * Task 4:

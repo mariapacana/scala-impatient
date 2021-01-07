@@ -1,24 +1,24 @@
 //import Chapter11.Fraction
-//import TestUtils.withOutputAndResult
-//import java.awt.Point
-//import java.io.StringReader
-//import org.scalatest.{FlatSpec, Matchers}
-//import scala.language.postfixOps
-//
-//class Chapter21Spec extends FlatSpec with Matchers {
-//
+import TestUtils.withOutputAndResult
+import java.awt.Point
+import java.io.StringReader
+import org.scalatest.{FlatSpec, Matchers}
+import scala.language.postfixOps
+
+class Chapter21Spec extends FlatSpec with Matchers {
+
 //  "PercentAdder" should "define an operator `+%` and use implicit conversion" in {
 //    import Chapter21._
 //
 //    120 +% 10 shouldBe 132
 //  }
 //
-//  "Int2Factorial" should "define an operator `!` and use implicit conversion" in {
-//    import Chapter21._
-//
-//    (5!) shouldBe 120
-//  }
-//
+  "Int2Factorial" should "define an operator `!` and use implicit conversion" in {
+    import Chapter21._
+
+    (5!) shouldBe 120
+  }
+
 //  "FluentReader" should "provide fluent APIs for reading data from the console" in {
 //    //given
 //    import Chapter21._
@@ -75,4 +75,4 @@
 //    new Point(1, 1) should be < new Point(1, 2)
 //    new Point(1, -3) should be > new Point(1, 2)
 //  }
-//}
+}
