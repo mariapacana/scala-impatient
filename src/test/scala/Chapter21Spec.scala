@@ -1,9 +1,12 @@
-//import Chapter11.Fraction
+import Chapter21.{Fraction, RichFraction, smaller}
 import TestUtils.withOutputAndResult
 import java.awt.Point
 import java.io.StringReader
+
 import org.scalatest.{FlatSpec, Matchers}
+
 import scala.language.postfixOps
+import scala.math.abs
 
 class Chapter21Spec extends FlatSpec with Matchers {
 
@@ -45,14 +48,13 @@ class Chapter21Spec extends FlatSpec with Matchers {
 //    out shouldBe """Your name: Your age: Your weight: """.stripMargin
 //  }
 //
-//  "smaller" should "work with Fraction instances" in {
-//    import Chapter21._
-//
-//    //when & then
-//    smaller(Fraction(1, 7), Fraction(2, 9)) shouldBe Fraction(1, 7)
-//    smaller(Fraction(1, 7), Fraction(1, 7)) shouldBe Fraction(1, 7)
-//    smaller(Fraction(0, 7), Fraction(0, 9)) shouldBe Fraction(0, 9)
-//  }
+  "smaller" should "work with Fraction instances" in {
+
+    //when & then
+    smaller(Fraction(1, 7), Fraction(2, 9)) shouldEqual Fraction(1, 7)
+    smaller(Fraction(1, 7), Fraction(1, 7)) == Fraction(1, 7)
+    smaller(Fraction(0, 7), Fraction(0, 9)) == Fraction(0, 9)
+  }
 //
 //  "LexicographicPointOrdering" should "compare Point objects by lexicographic comparison" in {
 //    //given
