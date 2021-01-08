@@ -7,12 +7,12 @@ import scala.language.postfixOps
 
 class Chapter21Spec extends FlatSpec with Matchers {
 
-//  "PercentAdder" should "define an operator `+%` and use implicit conversion" in {
-//    import Chapter21._
-//
-//    120 +% 10 shouldBe 132
-//  }
-//
+  "PercentAdder" should "define an operator `+%` and use implicit conversion" in {
+    import Chapter21._
+
+    120 +% 10 shouldBe 132
+  }
+
   "Int2Factorial" should "define an operator `!` and use implicit conversion" in {
     import Chapter21._
 

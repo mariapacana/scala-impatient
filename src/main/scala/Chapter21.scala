@@ -22,7 +22,9 @@ object Chapter21 {
    * `120 +% 10` should be `132`. Hint: Since operators are methods, not functions,
    * you will also need to provide an `implicit`.
    */
-//   implicit def +%(n: Int, percentage: Int): Int = n*(1+percentage)
+  implicit class RichInt(from: Int) {
+    implicit def +%(percentage: Double): Double = (from*(100 + percentage)/100).toInt
+  }
 
   /**
    * Task 3:
