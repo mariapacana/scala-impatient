@@ -123,9 +123,33 @@ object Chapter21 {
    * Section 21.5, "Implicit Parameters," on page 328 and
    * Section 21.6, "Implicit Conversions with Implicit Parameters," on page 329.
    * What objects do you get?
-   *
    */
-
+  case class Delimiters(left: String, right: String)
+  def quote(what: String)(implicit delims: Delimiters) =
+    delims.left + what + delims.right
+  quote("Bonjour le monde")(Delimiters("«", "»"))
+  object FrenchPunctuation {
+    implicit val quoteDelimiters = Delimiters("«", "»")
+  }
+  import FrenchPunctuation._
+  quote("Bonjour le monde")
+  /**
+   * From Section 2.6:
+   *
+   * scala> implicitly[Delimiters]
+   * res4: Delimiters = Delimiters(«,»)
+   */
+  def smaller[T](a: T, b: T)(implicit order: T => Ordered[T]) = if (order(a) < b) a else b
+  smaller(40, 2)
+  smaller("Hello", "World")
+  def smaller[T](a: T, b: T)(implicit order: T => Ordered[T]) =
+    if (a < b) a else b // Can omit call to order
+  smaller(40, 2)
+  smaller("Hello", "World")
+  /**
+   * Trying to call `implicitly[order]` here doesn't work.
+   */
+  
   /**
    * Task 9:
    *
