@@ -1,4 +1,6 @@
-import java.awt.Point
+import java.awt.geom.Point2D
+import java.awt.{Point => jPoint}
+
 import scala.annotation.tailrec
 import scala.collection.immutable.IndexedSeq
 import scala.io.StdIn
@@ -95,6 +97,9 @@ object Chapter21 {
    *
    * Compare objects of the `class java.awt.Point` by lexicographic comparison.
    */
+  implicit object LexicographicPointOrdering extends Ordering[jPoint] {
+    def compare(x: jPoint, y: jPoint): Int = x.toString.compareTo(y.toString)
+  }
 
   /**
    * Task 7:
@@ -102,7 +107,14 @@ object Chapter21 {
    * Continue the previous exercise, comparing two points according to their distance to
    * the origin. How can you switch between the two orderings?
    *
+   * Solution:
+   * You can switch between the two orderings by importing one or the other.
    */
+  implicit object DistancePointOrdering extends Ordering[jPoint] {
+    def compare(x: jPoint, y: jPoint): Int = distance(x).compareTo(distance(y))
+
+    def distance(x: jPoint): Double = Point2D.distance(x.getX, x.getY, 0, 0)
+  }
 
   /**
    * Task 8:

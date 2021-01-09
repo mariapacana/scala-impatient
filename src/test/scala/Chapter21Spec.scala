@@ -1,6 +1,6 @@
 import Chapter21.{Fraction, RichFraction, smaller}
 import TestUtils.withOutputAndResult
-import java.awt.Point
+import java.awt.{Point => jPoint}
 import java.io.StringReader
 
 import org.scalatest.{FlatSpec, Matchers}
@@ -55,26 +55,26 @@ class Chapter21Spec extends FlatSpec with Matchers {
     smaller(Fraction(1, 7), Fraction(1, 7)) == Fraction(1, 7)
     smaller(Fraction(0, 7), Fraction(0, 9)) == Fraction(0, 9)
   }
-//
-//  "LexicographicPointOrdering" should "compare Point objects by lexicographic comparison" in {
-//    //given
-//    import Chapter21.LexicographicPointOrdering
-//
-//    //when & then
-//    new Point(1, 1).compareTo(new Point(1, 1)) shouldBe 0
-//    new Point(1, 1) should be < new Point(2, 1)
-//    new Point(1, 1) should be < new Point(1, 2)
-//    new Point(1, -3) should be < new Point(1, 2)
-//  }
-//
-//  "DistancePointOrdering" should "compare Point objects by distance to the origin" in {
-//    //given
-//    import Chapter21.DistancePointOrdering
-//
-//    //when & then
-//    new Point(1, 1).compareTo(new Point(1, 1)) shouldBe 0
-//    new Point(-2, 1).compareTo(new Point(2, 1)) shouldBe 0
-//    new Point(1, 1) should be < new Point(1, 2)
-//    new Point(1, -3) should be > new Point(1, 2)
-//  }
+
+  "LexicographicPointOrdering" should "compare Point objects by lexicographic comparison" in {
+    //given
+    import Chapter21.LexicographicPointOrdering
+
+    //when & then
+    new jPoint(1, 1) == new jPoint(1, 1)
+    new jPoint(1, 1) should be < new jPoint(2, 1)
+    new jPoint(1, 1) should be < new jPoint(1, 2)
+    new jPoint(1, -3) should be < new jPoint(1, 2)
+  }
+
+  "DistancePointOrdering" should "compare Point objects by distance to the origin" in {
+    //given
+    import Chapter21.DistancePointOrdering
+
+    //when & then
+    new jPoint(1, 1) == (new jPoint(1, 1))
+    new jPoint(-2, 1) == (new jPoint(2, 1))
+    new jPoint(1, 1) should be < new jPoint(1, 2)
+    new jPoint(1, -3) should be > new jPoint(1, 2)
+  }
 }
