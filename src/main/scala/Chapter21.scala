@@ -139,17 +139,17 @@ object Chapter21 {
    * scala> implicitly[Delimiters]
    * res4: Delimiters = Delimiters(«,»)
    */
-  def smaller[T](a: T, b: T)(implicit order: T => Ordered[T]) = if (order(a) < b) a else b
-  smaller(40, 2)
-  smaller("Hello", "World")
-  def smaller[T](a: T, b: T)(implicit order: T => Ordered[T]) =
-    if (a < b) a else b // Can omit call to order
-  smaller(40, 2)
-  smaller("Hello", "World")
+//  def smaller[T](a: T, b: T)(implicit order: T => Ordered[T]) = if (order(a) < b) a else b
+//  smaller(40, 2)
+//  smaller("Hello", "World")
+//  def smaller[T](a: T, b: T)(implicit order: T => Ordered[T]) =
+//    if (a < b) a else b // Can omit call to order
+//  smaller(40, 2)
+//  smaller("Hello", "World")
   /**
    * Trying to call `implicitly[order]` here doesn't work.
    */
-  
+
   /**
    * Task 9:
    *
@@ -161,14 +161,39 @@ object Chapter21 {
    *
    * Generalize the `average` method in Section 21.8, "Type Classes," on page 331 to a `Seq[T]`.
    */
+  def average[T](ts: T*)(implicit ev: NumberLike[T]): T = {
+    val sum = ts.reduce(ev.plus)
+    ev.divideBy(sum, ts.length)
+  }
 
   /**
    * Task 11:
    *
    * Make `String` a member of the `NumberLike` type class in Section 21.8, "Type Classes,"
-   * on page 331. The `divBy` method should retain every `n`th letter, so that `average("Hello", World")`
+   * on page 331. The `divBy` method should retain every `n`th letter, so that `average("Hello", "World")`
    * becomes "Hlool".
    */
+  trait NumberLike[T] {
+    def plus(x: T, y: T): T
+    def divideBy(x: T, n: Int): T
+  }
+
+  object NumberLike {
+    implicit object NumberLikeString extends NumberLike[String] {
+      def plus(x: String, y: String): String = x + y
+      def divideBy(x: String, n: Int): String = x.zipWithIndex.collect { case (c, i) if i % n == 0 => c }.mkString("")
+    }
+
+    implicit object NumberLikeDouble extends NumberLike[Double] {
+      def plus(x: Double, y: Double): Double = x + y
+      def divideBy(x: Double, n: Int): Double = x / n
+    }
+
+    implicit object NumberLikeBigDecimal extends NumberLike[BigDecimal] {
+      def plus(x: BigDecimal, y: BigDecimal): BigDecimal = x + y
+      def divideBy(x: BigDecimal, n: Int): BigDecimal = x / n
+    }
+  }
 
   /**
    * Task 12:

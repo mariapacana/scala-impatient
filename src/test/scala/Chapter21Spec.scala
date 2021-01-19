@@ -1,4 +1,4 @@
-import Chapter21.{Fraction, RichFraction, smaller}
+import Chapter21.{Fraction, RichFraction, average, smaller}
 import TestUtils.withOutputAndResult
 import java.awt.{Point => jPoint}
 import java.io.StringReader
@@ -76,5 +76,17 @@ class Chapter21Spec extends FlatSpec with Matchers {
     new jPoint(-2, 1) == (new jPoint(2, 1))
     new jPoint(1, 1) should be < new jPoint(1, 2)
     new jPoint(1, -3) should be > new jPoint(1, 2)
+  }
+
+  "average" should "calculate the average of a sequence of values" in {
+    import Chapter21.{NumberLike, average}
+
+    average(5.0, 2.5, 7.5) shouldEqual 5.0
+    average(BigDecimal(5.0), BigDecimal(2.5), BigDecimal(7.5)) shouldEqual BigDecimal(5.0)
+  }
+
+  "divBy for a NumberLikeString" should "retain every nth letter" in {
+    import Chapter21.{NumberLike, average}
+    average("Hello","World") shouldEqual "Hlool"
   }
 }
